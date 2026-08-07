@@ -1,0 +1,373 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="7540" viewBox="0 0 1440 7540">
+  <title>Cup Flow Coffee POS — US-S1-UI-02 可复用组件与状态</title>
+  <desc>使用 Cup Flow Foundations Token 的可导入 Figma SVG 组件画板，覆盖 Button、Input、Select、Search、Badge、Table、Pagination、Dialog、Toast、EmptyState 与 Loading。</desc>
+  <defs>
+    <style>
+      text { font-family: "PingFang SC", "Microsoft YaHei", sans-serif; fill: #1D2129; }
+      .title { font-size: 30px; font-weight: 600; }
+      .section-title { font-size: 24px; font-weight: 600; }
+      .sub-title { font-size: 16px; font-weight: 600; }
+      .body { font-size: 14px; font-weight: 400; }
+      .body-medium { font-size: 14px; font-weight: 500; }
+      .small { font-size: 12px; font-weight: 400; fill: #6B7785; }
+      .tiny { font-size: 11px; font-weight: 400; fill: #6B7785; }
+      .white { fill: #FFFFFF; }
+      .muted { fill: #6B7785; }
+      .secondary { fill: #4E5969; }
+      .brand { fill: #DD2089; }
+      .action { fill: #2563EB; }
+      .error { fill: #DC2626; }
+      .success { fill: #15803D; }
+      .warning { fill: #B45309; }
+      .info { fill: #2563EB; }
+      .section-bg { fill: #FFFFFF; stroke: #E5E6EB; stroke-width: 1; }
+      .spec-bg { fill: #F7F8FA; stroke: #E5E6EB; stroke-width: 1; }
+      .divider { stroke: #E5E6EB; stroke-width: 1; }
+      .focus-ring { fill: none; stroke: #1D2129; stroke-width: 2; }
+      .dash { stroke-dasharray: 6 6; }
+    </style>
+    <filter id="shadow-subtle" x="-20%" y="-20%" width="140%" height="160%">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#1D2129" flood-opacity="0.10"/>
+    </filter>
+    <filter id="shadow-floating" x="-30%" y="-30%" width="160%" height="190%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#1D2129" flood-opacity="0.16"/>
+    </filter>
+    <symbol id="icon-search" viewBox="0 0 20 20">
+      <circle cx="8.5" cy="8.5" r="5.5" fill="none" stroke="currentColor" stroke-width="1.7"/>
+      <path d="M12.5 12.5L17 17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="icon-chevron-down" viewBox="0 0 20 20">
+      <path d="M5 7.5L10 12.5L15 7.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="icon-check" viewBox="0 0 20 20">
+      <path d="M4.5 10.5L8.3 14L15.5 6.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="icon-x" viewBox="0 0 20 20">
+      <path d="M5 5L15 15M15 5L5 15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="icon-info" viewBox="0 0 20 20">
+      <circle cx="10" cy="10" r="7" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M10 9V14M10 6.2V6.3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="icon-warning" viewBox="0 0 20 20">
+      <path d="M10 3L18 17H2L10 3Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M10 8V12M10 14.5V14.6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="icon-empty" viewBox="0 0 64 64">
+      <rect x="10" y="14" width="44" height="38" rx="8" fill="#FFFFFF" stroke="#A9AEB8" stroke-width="2"/>
+      <path d="M18 25H46M18 33H38" stroke="#A9AEB8" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="46" cy="45" r="10" fill="#DBEAFE" stroke="#2563EB" stroke-width="2"/>
+      <path d="M42 45H50" stroke="#2563EB" stroke-width="2" stroke-linecap="round"/>
+    </symbol>
+  </defs>
+
+  <rect width="1440" height="7540" fill="#F7F8FA"/>
+
+  <g id="cf-section-cover">
+    <rect width="1440" height="152" fill="#1D2129"/>
+    <rect x="64" y="42" width="12" height="64" rx="6" fill="#DD2089"/>
+    <text x="96" y="72" class="title white">Cup Flow Coffee POS</text>
+    <text x="96" y="106" class="body" style="fill:#C9CDD4">US-S1-UI-02 · 可复用组件与状态 · SVG handoff</text>
+    <text x="1376" y="70" class="body-medium" text-anchor="end" style="fill:#FDC2DB">COMPONENTS v1.0</text>
+    <text x="1376" y="100" class="small" text-anchor="end" style="fill:#C9CDD4">Radix-aligned · Light · 2026-08-07</text>
+  </g>
+
+  <g id="cf-section-token-summary" transform="translate(64 184)">
+    <rect width="1312" height="248" rx="16" class="section-bg"/>
+    <text x="24" y="42" class="section-title">设计方向与组件 Token</text>
+    <text x="24" y="72" class="body secondary">中性色构建主体层级；品牌粉只用于品牌身份与品牌说明，不参与主动作、选中和 Focus Visible。</text>
+    <g transform="translate(24 98)">
+      <rect width="124" height="64" rx="10" fill="#DD2089"/><text x="12" y="26" class="body-medium white">Brand</text><text x="12" y="48" class="small" style="fill:#FFFFFF">#DD2089</text>
+      <rect x="140" width="124" height="64" rx="10" fill="#1D2129"/><text x="152" y="26" class="body-medium white">Text</text><text x="152" y="48" class="small" style="fill:#FFFFFF">#1D2129</text>
+      <rect x="280" width="124" height="64" rx="10" fill="#FFFFFF" stroke="#E5E6EB"/><text x="292" y="26" class="body-medium">Surface</text><text x="292" y="48" class="small">#FFFFFF</text>
+      <rect x="420" width="124" height="64" rx="10" fill="#F7F8FA" stroke="#E5E6EB"/><text x="432" y="26" class="body-medium">Canvas</text><text x="432" y="48" class="small">#F7F8FA</text>
+      <rect x="560" width="124" height="64" rx="10" fill="#DCFCE7"/><text x="572" y="26" class="body-medium success">Success</text><text x="572" y="48" class="small">#15803D</text>
+      <rect x="700" width="124" height="64" rx="10" fill="#FEF3C7"/><text x="712" y="26" class="body-medium warning">Warning</text><text x="712" y="48" class="small">#B45309</text>
+      <rect x="840" width="124" height="64" rx="10" fill="#FEE2E2"/><text x="852" y="26" class="body-medium error">Error</text><text x="852" y="48" class="small">#DC2626</text>
+      <rect x="980" width="124" height="64" rx="10" fill="#DBEAFE"/><text x="992" y="26" class="body-medium info">Info</text><text x="992" y="48" class="small">#2563EB</text>
+      <rect x="1120" width="144" height="64" rx="10" fill="#F2F3F5"/><text x="1132" y="26" class="body-medium">Density</text><text x="1132" y="48" class="small">36 / 44 / 52</text>
+    </g>
+    <text x="24" y="208" class="small">Spacing 4 · 8 · 12 · 16 · 24 · 32　|　Radius 4 · 8 · 12 · 16 · Full　|　Font PingFang SC　|　Touch target ≥ 44×44</text>
+  </g>
+
+  <g id="cf-section-button" transform="translate(64 476)">
+    <rect width="1312" height="650" rx="16" class="section-bg"/>
+    <text x="24" y="44" class="section-title">01 · Button</text>
+    <text x="24" y="74" class="body secondary">Custom native button + Radix Slot · Style / Size / State · Primary 使用中性色 #1D2129</text>
+
+    <text x="24" y="122" class="sub-title">Primary · Comfortable 44</text>
+    <g id="cf-component-button-primary" transform="translate(24 146)">
+      <g id="variant--Style-Primary--State-Default"><rect width="176" height="44" rx="8" fill="#1D2129"/><text x="88" y="28" class="body-medium white" text-anchor="middle">确认收款</text><text x="0" y="68" class="tiny">Default</text></g>
+      <g id="variant--Style-Primary--State-Hover" transform="translate(204 0)"><rect width="176" height="44" rx="8" fill="#272E3B"/><text x="88" y="28" class="body-medium white" text-anchor="middle">确认收款</text><text x="0" y="68" class="tiny">Hover</text></g>
+      <g id="variant--Style-Primary--State-Focus" transform="translate(408 0)"><rect x="-4" y="-4" width="184" height="52" rx="12" class="focus-ring"/><rect width="176" height="44" rx="8" fill="#1D2129"/><text x="88" y="28" class="body-medium white" text-anchor="middle">确认收款</text><text x="0" y="68" class="tiny">Focus Visible · 2px ring</text></g>
+      <g id="variant--Style-Primary--State-Pressed" transform="translate(612 0)"><rect width="176" height="44" rx="8" fill="#4E5969"/><text x="88" y="28" class="body-medium white" text-anchor="middle">确认收款</text><text x="0" y="68" class="tiny">Pressed</text></g>
+      <g id="variant--Style-Primary--State-Disabled" transform="translate(816 0)"><rect width="176" height="44" rx="8" fill="#F2F3F5"/><text x="88" y="28" class="body-medium" style="fill:#A9AEB8" text-anchor="middle">确认收款</text><text x="0" y="68" class="tiny">Disabled</text></g>
+      <g id="variant--Style-Primary--State-Loading" transform="translate(1020 0)"><rect width="176" height="44" rx="8" fill="#272E3B" opacity="0.76"/><circle cx="52" cy="22" r="7" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-dasharray="10 5"/><text x="102" y="28" class="body-medium white" text-anchor="middle">处理中</text><text x="0" y="68" class="tiny">Loading · aria-busy</text></g>
+    </g>
+
+    <text x="24" y="270" class="sub-title">Secondary · Comfortable 44</text>
+    <g id="cf-component-button-secondary" transform="translate(24 294)">
+      <g id="variant--Style-Secondary--State-Default"><rect width="176" height="44" rx="8" fill="#FFFFFF" stroke="#C9CDD4"/><text x="88" y="28" class="body-medium" text-anchor="middle">取消</text></g>
+      <g id="variant--Style-Secondary--State-Hover" transform="translate(204 0)"><rect width="176" height="44" rx="8" fill="#F7F8FA" stroke="#A9AEB8"/><text x="88" y="28" class="body-medium" text-anchor="middle">取消</text></g>
+      <g id="variant--Style-Secondary--State-Focus" transform="translate(408 0)"><rect x="-4" y="-4" width="184" height="52" rx="12" class="focus-ring"/><rect width="176" height="44" rx="8" fill="#FFFFFF" stroke="#C9CDD4"/><text x="88" y="28" class="body-medium" text-anchor="middle">取消</text></g>
+      <g id="variant--Style-Secondary--State-Pressed" transform="translate(612 0)"><rect width="176" height="44" rx="8" fill="#F2F3F5" stroke="#86909C"/><text x="88" y="28" class="body-medium" text-anchor="middle">取消</text></g>
+      <g id="variant--Style-Secondary--State-Disabled" transform="translate(816 0)"><rect width="176" height="44" rx="8" fill="#FFFFFF" stroke="#E5E6EB"/><text x="88" y="28" class="body-medium" style="fill:#A9AEB8" text-anchor="middle">取消</text></g>
+      <g id="variant--Style-Secondary--State-Loading" transform="translate(1020 0)"><rect width="176" height="44" rx="8" fill="#FFFFFF" stroke="#C9CDD4"/><circle cx="52" cy="22" r="7" fill="none" stroke="#6B7785" stroke-width="2" stroke-dasharray="10 5"/><text x="102" y="28" class="body-medium secondary" text-anchor="middle">处理中</text></g>
+    </g>
+
+    <text x="24" y="402" class="sub-title">语义与尺寸</text>
+    <g transform="translate(24 426)">
+      <g id="variant--Style-Danger--Size-Comfortable"><rect width="176" height="44" rx="8" fill="#DC2626"/><text x="88" y="28" class="body-medium white" text-anchor="middle">取消订单</text></g>
+      <g id="variant--Style-Ghost--Size-Comfortable" transform="translate(204 0)"><rect width="176" height="44" rx="8" fill="#FFFFFF"/><text x="88" y="28" class="body-medium secondary" text-anchor="middle">稍后处理</text></g>
+      <g id="variant--Style-Primary--Size-Compact" transform="translate(408 4)"><rect width="144" height="36" rx="8" fill="#1D2129"/><text x="72" y="23" class="body-medium white" text-anchor="middle">保存</text><text x="0" y="62" class="tiny">Compact · 36 · mouse dense UI</text></g>
+      <g id="variant--Style-Primary--Size-Large" transform="translate(584 -4)"><rect width="208" height="52" rx="10" fill="#1D2129"/><text x="104" y="32" class="sub-title white" text-anchor="middle">确认收款 ¥32.00</text><text x="0" y="70" class="tiny">Large · 52 · key action</text></g>
+      <g id="variant--Style-Icon--Size-Touch" transform="translate(824 0)"><rect width="44" height="44" rx="8" fill="#FFFFFF" stroke="#C9CDD4"/><use href="#icon-x" x="12" y="12" width="20" height="20" style="color:#4E5969"/><text x="0" y="68" class="tiny">Icon · 44×44 · aria-label</text></g>
+    </g>
+    <rect x="24" y="540" width="1264" height="78" rx="10" fill="#F7F8FA"/>
+    <text x="44" y="570" class="body-medium">Auto Layout</text><text x="160" y="570" class="body secondary">Horizontal / center · Gap 8 · Padding 10×16 · Label Hug · 最小触控 44×44</text>
+    <text x="44" y="598" class="small">Keyboard: Tab → Focus Visible；Enter / Space → Activate；Loading 阻止重复提交且保持按钮宽度。</text>
+  </g>
+
+  <g id="cf-section-field" transform="translate(64 1158)">
+    <rect width="1312" height="790" rx="16" class="section-bg"/>
+    <text x="24" y="44" class="section-title">02 · Input &amp; Search</text>
+    <text x="24" y="74" class="body secondary">Native input/search + Radix Label · Label、Control、Supporting text 分层明确</text>
+
+    <text x="24" y="122" class="sub-title">Input · Comfortable 44</text>
+    <g id="cf-component-input" transform="translate(24 146)">
+      <g id="variant--Input--State-Default"><text y="14" class="small">商品名称</text><rect y="24" width="280" height="44" rx="8" fill="#FFFFFF" stroke="#C9CDD4"/><text x="14" y="52" class="body muted">请输入商品名称</text><text y="92" class="tiny">Default</text></g>
+      <g id="variant--Input--State-Hover" transform="translate(316 0)"><text y="14" class="small">商品名称</text><rect y="24" width="280" height="44" rx="8" fill="#FFFFFF" stroke="#86909C"/><text x="14" y="52" class="body">海盐拿铁</text><text y="92" class="tiny">Hover</text></g>
+      <g id="variant--Input--State-Focus" transform="translate(632 0)"><text y="14" class="small" style="fill:#1D2129">商品名称</text><rect x="-4" y="20" width="288" height="52" rx="12" class="focus-ring"/><rect y="24" width="280" height="44" rx="8" fill="#FFFFFF" stroke="#1D2129"/><text x="14" y="52" class="body">海盐拿铁</text><line x1="84" y1="38" x2="84" y2="57" stroke="#1D2129"/><text y="92" class="tiny">Focus Visible</text></g>
+      <g id="variant--Input--State-Disabled" transform="translate(948 0)"><text y="14" class="small">商品名称</text><rect y="24" width="280" height="44" rx="8" fill="#F2F3F5" stroke="#E5E6EB"/><text x="14" y="52" class="body" style="fill:#A9AEB8">海盐拿铁</text><text y="92" class="tiny">Disabled</text></g>
+
+      <g id="variant--Input--State-Error" transform="translate(0 134)"><text y="14" class="small error">商品名称</text><rect y="24" width="280" height="44" rx="8" fill="#FFFFFF" stroke="#DC2626" stroke-width="1.5"/><text x="14" y="52" class="body">海盐拿铁海盐拿铁海盐拿铁</text><use href="#icon-warning" x="246" y="36" width="20" height="20" style="color:#DC2626"/><text y="92" class="small error">名称最多 20 个字</text></g>
+      <g id="variant--Input--Size-Compact" transform="translate(316 138)"><text y="14" class="small">订单号</text><rect y="24" width="280" height="36" rx="8" fill="#FFFFFF" stroke="#C9CDD4"/><text x="12" y="47" class="body">CF-20260807-018</text><text y="84" class="tiny">Compact · 36 · desktop toolbar only</text></g>
+      <g transform="translate(632 134)"><rect width="596" height="112" rx="10" fill="#F7F8FA"/><text x="20" y="32" class="body-medium">Field semantics</text><text x="20" y="58" class="small">Label → Control → Supporting text；错误时 aria-invalid=true</text><text x="20" y="82" class="small">错误说明由 aria-describedby 关联；禁用使用原生 disabled。</text></g>
+    </g>
+
+    <line x1="24" y1="424" x2="1288" y2="424" class="divider"/>
+    <text x="24" y="470" class="sub-title">Search · Comfortable 44</text>
+    <g id="cf-component-search" transform="translate(24 494)">
+      <g id="variant--Search--State-Empty"><rect width="376" height="44" rx="8" fill="#FFFFFF" stroke="#C9CDD4"/><use href="#icon-search" x="12" y="12" width="20" height="20" style="color:#6B7785"/><text x="44" y="28" class="body muted">搜索商品名称或订单号</text><text y="68" class="tiny">Empty</text></g>
+      <g id="variant--Search--State-Value" transform="translate(412 0)"><rect width="376" height="44" rx="8" fill="#FFFFFF" stroke="#C9CDD4"/><use href="#icon-search" x="12" y="12" width="20" height="20" style="color:#6B7785"/><text x="44" y="28" class="body">拿铁</text><circle cx="350" cy="22" r="12" fill="#F2F3F5"/><use href="#icon-x" x="342" y="14" width="16" height="16" style="color:#4E5969"/><text y="68" class="tiny">Value · clear button 44px hit area</text></g>
+      <g id="variant--Search--State-Focus" transform="translate(824 0)"><rect x="-4" y="-4" width="384" height="52" rx="12" class="focus-ring"/><rect width="376" height="44" rx="8" fill="#FFFFFF" stroke="#1D2129"/><use href="#icon-search" x="12" y="12" width="20" height="20" style="color:#1D2129"/><text x="44" y="28" class="body">拿铁</text><circle cx="350" cy="22" r="12" fill="#F2F3F5"/><use href="#icon-x" x="342" y="14" width="16" height="16" style="color:#1D2129"/><text y="68" class="tiny">Focus Visible</text></g>
+
+      <g id="variant--Search--State-Loading" transform="translate(0 108)"><rect width="376" height="44" rx="8" fill="#FFFFFF" stroke="#C9CDD4"/><circle cx="22" cy="22" r="8" fill="none" stroke="#2563EB" stroke-width="2" stroke-dasharray="12 6"/><text x="44" y="28" class="body">拿铁</text><text y="68" class="tiny">Loading · status=正在搜索</text></g>
+      <g id="variant--Search--State-NoResults" transform="translate(412 108)"><rect width="376" height="44" rx="8" fill="#FFFFFF" stroke="#C9CDD4"/><use href="#icon-search" x="12" y="12" width="20" height="20" style="color:#6B7785"/><text x="44" y="28" class="body">薄荷摩卡</text><text y="68" class="small">未找到“薄荷摩卡”，请更换关键词</text></g>
+      <g id="variant--Search--State-Error" transform="translate(824 108)"><rect width="376" height="44" rx="8" fill="#FFFFFF" stroke="#DC2626"/><use href="#icon-search" x="12" y="12" width="20" height="20" style="color:#DC2626"/><text x="44" y="28" class="body">拿铁</text><use href="#icon-warning" x="342" y="12" width="20" height="20" style="color:#DC2626"/><text y="68" class="small error">搜索失败，请重试</text></g>
+    </g>
+  </g>
+
+  <g id="cf-section-select-badge" transform="translate(64 1980)">
+    <rect width="1312" height="920" rx="16" class="section-bg"/>
+    <text x="24" y="44" class="section-title">03 · Select &amp; Badge</text>
+    <text x="24" y="74" class="body secondary">Radix Select 保留 open/closed 与 item highlighted/selected 语义；Badge 使用中性和语义色</text>
+
+    <text x="24" y="122" class="sub-title">Select Trigger &amp; Content</text>
+    <g id="cf-component-select" transform="translate(24 146)">
+      <g id="variant--Select--State-Closed--Content-Placeholder"><text y="14" class="small">订单状态</text><rect y="24" width="300" height="44" rx="8" fill="#FFFFFF" stroke="#C9CDD4"/><text x="14" y="52" class="body muted">请选择状态</text><use href="#icon-chevron-down" x="266" y="36" width="20" height="20" style="color:#6B7785"/><text y="92" class="tiny">Closed · Placeholder</text></g>
+      <g id="variant--Select--State-Focus--Content-Value" transform="translate(332 0)"><text y="14" class="small" style="fill:#1D2129">订单状态</text><rect x="-4" y="20" width="308" height="52" rx="12" class="focus-ring"/><rect y="24" width="300" height="44" rx="8" fill="#FFFFFF" stroke="#1D2129"/><text x="14" y="52" class="body">已支付</text><use href="#icon-chevron-down" x="266" y="36" width="20" height="20" style="color:#1D2129"/><text y="92" class="tiny">Focus · Value</text></g>
+      <g id="variant--Select--State-Disabled" transform="translate(664 0)"><text y="14" class="small">订单状态</text><rect y="24" width="300" height="44" rx="8" fill="#F2F3F5" stroke="#E5E6EB"/><text x="14" y="52" class="body" style="fill:#A9AEB8">已完成</text><use href="#icon-chevron-down" x="266" y="36" width="20" height="20" style="color:#A9AEB8"/><text y="92" class="tiny">Disabled</text></g>
+      <g id="variant--Select--State-Error" transform="translate(996 0)"><text y="14" class="small error">订单状态</text><rect y="24" width="268" height="44" rx="8" fill="#FFFFFF" stroke="#DC2626"/><text x="14" y="52" class="body muted">请选择状态</text><use href="#icon-chevron-down" x="234" y="36" width="20" height="20" style="color:#DC2626"/><text y="92" class="small error">此项为必选</text></g>
+
+      <g id="variant--Select--State-Open" transform="translate(0 132)">
+        <text y="14" class="small" style="fill:#1D2129">订单状态</text><rect x="-4" y="20" width="308" height="52" rx="12" class="focus-ring"/><rect y="24" width="300" height="44" rx="8" fill="#FFFFFF" stroke="#1D2129"/><text x="14" y="52" class="body">已支付</text><use href="#icon-chevron-down" x="266" y="36" width="20" height="20" transform="rotate(180 276 46)" style="color:#1D2129"/>
+        <rect y="76" width="300" height="190" rx="10" fill="#FFFFFF" stroke="#E5E6EB" filter="url(#shadow-floating)"/>
+        <g id="layer--SelectItem--State-Default"><rect x="8" y="84" width="284" height="40" rx="6" fill="#FFFFFF"/><text x="20" y="110" class="body">全部状态</text></g>
+        <g id="layer--SelectItem--State-Highlighted"><rect x="8" y="128" width="284" height="40" rx="6" fill="#F2F3F5"/><text x="20" y="154" class="body-medium">待支付</text></g>
+        <g id="layer--SelectItem--State-Selected"><rect x="8" y="172" width="284" height="40" rx="6" fill="#F2F3F5"/><rect x="8" y="172" width="3" height="40" rx="1.5" fill="#1D2129"/><text x="24" y="198" class="body-medium">已支付</text><use href="#icon-check" x="264" y="182" width="20" height="20" style="color:#1D2129"/></g>
+        <g id="layer--SelectItem--State-Disabled"><rect x="8" y="216" width="284" height="40" rx="6" fill="#FFFFFF"/><text x="20" y="242" class="body" style="fill:#A9AEB8">已归档（不可用）</text></g>
+      </g>
+      <g transform="translate(356 142)"><rect width="908" height="112" rx="10" fill="#F7F8FA"/><text x="20" y="32" class="body-medium">Keyboard &amp; focus</text><text x="20" y="58" class="small">Enter / Space / ArrowDown 打开；↑↓ 导航；Home / End 跳转；字符检索；Enter / Space 选择。</text><text x="20" y="82" class="small">Esc 关闭并将焦点归还 Trigger；Selected 使用勾选 + 文字高亮，不只依赖背景色。</text></g>
+    </g>
+
+    <line x1="24" y1="594" x2="1288" y2="594" class="divider"/>
+    <text x="24" y="640" class="sub-title">Badge · Subtle / Medium 28</text>
+    <g id="cf-component-badge" transform="translate(24 668)">
+      <g id="variant--Badge--Tone-Neutral"><rect width="104" height="28" rx="14" fill="#F2F3F5"/><circle cx="16" cy="14" r="4" fill="#6B7785"/><text x="28" y="19" class="small secondary">待支付</text></g>
+      <g id="variant--Badge--Tone-Brand" transform="translate(124 0)"><rect width="104" height="28" rx="14" fill="#FFE8F1"/><circle cx="16" cy="14" r="4" fill="#DD2089"/><text x="28" y="19" class="small brand">Cup Flow</text></g>
+      <g id="variant--Badge--Tone-Success" transform="translate(248 0)"><rect width="104" height="28" rx="14" fill="#DCFCE7"/><use href="#icon-check" x="8" y="6" width="16" height="16" style="color:#15803D"/><text x="28" y="19" class="small success">已完成</text></g>
+      <g id="variant--Badge--Tone-Warning" transform="translate(372 0)"><rect width="104" height="28" rx="14" fill="#FEF3C7"/><use href="#icon-warning" x="8" y="6" width="16" height="16" style="color:#B45309"/><text x="28" y="19" class="small warning">需确认</text></g>
+      <g id="variant--Badge--Tone-Error" transform="translate(496 0)"><rect width="104" height="28" rx="14" fill="#FEE2E2"/><use href="#icon-x" x="8" y="6" width="16" height="16" style="color:#DC2626"/><text x="28" y="19" class="small error">已取消</text></g>
+      <g id="variant--Badge--Tone-Info" transform="translate(620 0)"><rect width="104" height="28" rx="14" fill="#DBEAFE"/><use href="#icon-info" x="8" y="6" width="16" height="16" style="color:#2563EB"/><text x="28" y="19" class="small info">已同步</text></g>
+      <g id="variant--Badge--Style-Solid" transform="translate(760 0)"><rect width="104" height="28" rx="14" fill="#1D2129"/><text x="52" y="19" class="small white" text-anchor="middle">管理员</text></g>
+      <g id="variant--Badge--Size-Small" transform="translate(884 2)"><rect width="88" height="24" rx="12" fill="#F2F3F5"/><text x="44" y="17" class="tiny secondary" text-anchor="middle">小号 24</text></g>
+    </g>
+    <rect x="24" y="744" width="1264" height="108" rx="10" fill="#F7F8FA"/>
+    <text x="44" y="774" class="body-medium">Badge 规则</text><text x="148" y="774" class="body secondary">仅表达状态，不承担按钮职责；Tone 与文字/图标同时表达；长文案不截断关键状态。</text>
+    <text x="44" y="802" class="small">Auto Layout: Horizontal / center · Gap 4 · Padding 5×10 · Medium 28；Small 24 仅用于密集表格。</text>
+    <text x="44" y="828" class="small">状态示例仅用于通用组件语义，不代表已执行订单等业务页面 user story。</text>
+  </g>
+
+  <g id="cf-section-table-pagination" transform="translate(64 2932)">
+    <rect width="1312" height="950" rx="16" class="section-bg"/>
+    <text x="24" y="44" class="section-title">04 · Table &amp; Pagination</text>
+    <text x="24" y="74" class="body secondary">原生 table / nav 语义 · 默认以中性色承载，品牌色只标识当前选择</text>
+
+    <g id="cf-component-table" transform="translate(24 112)">
+      <rect width="1264" height="430" rx="12" fill="#FFFFFF" stroke="#E5E6EB"/>
+      <g id="variant--Table--State-Default">
+        <rect width="1264" height="48" rx="12" fill="#F2F3F5"/><rect y="36" width="1264" height="12" fill="#F2F3F5"/>
+        <text x="24" y="30" class="body-medium secondary">订单号</text><text x="290" y="30" class="body-medium secondary">时间</text><text x="506" y="30" class="body-medium secondary">状态</text><text x="706" y="30" class="body-medium secondary">收款方式</text><text x="934" y="30" class="body-medium secondary">金额</text><text x="1180" y="30" class="body-medium secondary">操作</text>
+        <g transform="translate(0 48)"><rect width="1264" height="64" fill="#FFFFFF"/><line y1="64" x2="1264" y2="64" class="divider"/><text x="24" y="38" class="body">CF-20260807-018</text><text x="290" y="38" class="body secondary">14:32</text><rect x="506" y="18" width="88" height="28" rx="14" fill="#DCFCE7"/><use href="#icon-check" x="514" y="24" width="16" height="16" style="color:#15803D"/><text x="536" y="37" class="small success">已完成</text><text x="706" y="38" class="body">微信</text><text x="934" y="38" class="body-medium">¥ 32.00</text><text x="1180" y="38" class="body-medium action">查看</text></g>
+        <g id="layer--TableRow--State-Hover" transform="translate(0 112)"><rect width="1264" height="64" fill="#F7F8FA"/><line y1="64" x2="1264" y2="64" class="divider"/><text x="24" y="38" class="body">CF-20260807-017</text><text x="290" y="38" class="body secondary">14:25</text><rect x="506" y="18" width="88" height="28" rx="14" fill="#DBEAFE"/><use href="#icon-info" x="514" y="24" width="16" height="16" style="color:#2563EB"/><text x="536" y="37" class="small info">已支付</text><text x="706" y="38" class="body">现金</text><text x="934" y="38" class="body-medium">¥ 48.00</text><text x="1180" y="38" class="body-medium action">查看</text></g>
+        <g id="layer--TableRow--State-Selected" transform="translate(0 176)"><rect width="1264" height="64" fill="#F2F3F5"/><rect width="4" height="64" fill="#1D2129"/><line y1="64" x2="1264" y2="64" class="divider"/><text x="24" y="38" class="body-medium">CF-20260807-016</text><text x="290" y="38" class="body secondary">14:12</text><rect x="506" y="18" width="88" height="28" rx="14" fill="#FEF3C7"/><use href="#icon-warning" x="514" y="24" width="16" height="16" style="color:#B45309"/><text x="536" y="37" class="small warning">待支付</text><text x="706" y="38" class="body">—</text><text x="934" y="38" class="body-medium">¥ 26.00</text><circle cx="1148" cy="32" r="10" fill="#FFFFFF" stroke="#1D2129"/><use href="#icon-check" x="1140" y="24" width="16" height="16" style="color:#1D2129"/><text x="1180" y="38" class="body-medium action">继续</text></g>
+      </g>
+      <g id="variant--Table--State-Loading" transform="translate(0 240)">
+        <rect width="1264" height="190" fill="#FFFFFF"/>
+        <rect x="24" y="24" width="178" height="14" rx="7" fill="#E5E6EB"/><rect x="290" y="24" width="94" height="14" rx="7" fill="#E5E6EB"/><rect x="506" y="17" width="88" height="28" rx="14" fill="#F2F3F5"/><rect x="706" y="24" width="72" height="14" rx="7" fill="#E5E6EB"/><rect x="934" y="24" width="80" height="14" rx="7" fill="#E5E6EB"/>
+        <rect x="24" y="88" width="156" height="14" rx="7" fill="#E5E6EB"/><rect x="290" y="88" width="94" height="14" rx="7" fill="#E5E6EB"/><rect x="506" y="81" width="88" height="28" rx="14" fill="#F2F3F5"/><rect x="706" y="88" width="72" height="14" rx="7" fill="#E5E6EB"/><rect x="934" y="88" width="80" height="14" rx="7" fill="#E5E6EB"/>
+        <text x="632" y="156" class="small" text-anchor="middle">正在加载订单…（aria-busy=true）</text>
+      </g>
+    </g>
+
+    <g id="cf-component-table-states" transform="translate(24 574)">
+      <g id="variant--Table--State-Empty"><rect width="396" height="154" rx="12" fill="#F7F8FA"/><use href="#icon-empty" x="28" y="36" width="64" height="64"/><text x="116" y="58" class="body-medium">暂无订单</text><text x="116" y="84" class="small">当前筛选条件下没有数据</text><text x="116" y="114" class="body-medium action">清除筛选</text></g>
+      <g id="variant--Table--State-Error" transform="translate(424 0)"><rect width="396" height="154" rx="12" fill="#FEE2E2"/><use href="#icon-warning" x="28" y="38" width="56" height="56" style="color:#DC2626"/><text x="108" y="58" class="body-medium error">订单加载失败</text><text x="108" y="84" class="small">数据未更新，请检查网络后重试</text><rect x="108" y="102" width="88" height="36" rx="8" fill="#FFFFFF" stroke="#DC2626"/><text x="152" y="125" class="body-medium error" text-anchor="middle">重试</text></g>
+      <g transform="translate(848 0)"><rect width="416" height="154" rx="12" fill="#F7F8FA"/><text x="20" y="34" class="body-medium">Table accessibility</text><text x="20" y="62" class="small">caption / thead / th scope / tbody 保持原生语义</text><text x="20" y="88" class="small">视觉与 DOM 顺序一致；操作名称包含订单号</text><text x="20" y="114" class="small">Mobile 改键值卡片，不按比例缩小桌面表格</text></g>
+    </g>
+
+    <text x="24" y="784" class="sub-title">Pagination · Comfortable 44</text>
+    <g id="cf-component-pagination" transform="translate(24 808)">
+      <g id="variant--Pagination--State-Disabled"><rect width="44" height="44" rx="8" fill="#F2F3F5"/><path d="M25 15L18 22L25 29" fill="none" stroke="#A9AEB8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></g>
+      <g transform="translate(56 0)"><rect width="44" height="44" rx="8" fill="#1D2129"/><text x="22" y="28" class="body-medium white" text-anchor="middle">1</text><text x="22" y="66" class="tiny" text-anchor="middle">Current</text></g>
+      <g transform="translate(108 0)"><rect width="44" height="44" rx="8" fill="#FFFFFF" stroke="#C9CDD4"/><text x="22" y="28" class="body-medium" text-anchor="middle">2</text></g>
+      <g transform="translate(160 0)"><rect x="-4" y="-4" width="52" height="52" rx="12" class="focus-ring"/><rect width="44" height="44" rx="8" fill="#FFFFFF" stroke="#C9CDD4"/><text x="22" y="28" class="body-medium" text-anchor="middle">3</text><text x="22" y="66" class="tiny" text-anchor="middle">Focus</text></g>
+      <text x="238" y="28" class="body secondary">…</text>
+      <g transform="translate(268 0)"><rect width="44" height="44" rx="8" fill="#FFFFFF" stroke="#C9CDD4"/><text x="22" y="28" class="body-medium" text-anchor="middle">12</text></g>
+      <g transform="translate(324 0)"><rect width="44" height="44" rx="8" fill="#FFFFFF" stroke="#C9CDD4"/><path d="M19 15L26 22L19 29" fill="none" stroke="#4E5969" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></g>
+      <text x="400" y="28" class="small">第 1–20 条，共 228 条</text>
+      <text x="760" y="28" class="small">nav aria-label=分页 · 当前页 aria-current=page · disabled 使用真实禁用语义</text>
+    </g>
+  </g>
+
+  <g id="cf-section-dialog" transform="translate(64 3914)">
+    <rect width="1312" height="900" rx="16" class="section-bg"/>
+    <text x="24" y="44" class="section-title">05 · Dialog</text>
+    <text x="24" y="74" class="body secondary">Radix Dialog · 危险确认使用 AlertDialog · Open / Loading / Error</text>
+
+    <g id="cf-component-dialog" transform="translate(24 112)">
+      <g id="variant--Dialog--State-Open--Tone-Default">
+        <rect width="608" height="516" rx="14" fill="#272E3B" opacity="0.42"/>
+        <rect x="64" y="54" width="480" height="408" rx="16" fill="#FFFFFF" filter="url(#shadow-floating)"/>
+        <text x="88" y="94" class="sub-title">编辑商品</text><text x="88" y="124" class="small">修改商品信息，保存后仅影响新订单。</text>
+        <circle cx="516" cy="90" r="18" fill="#F2F3F5"/><use href="#icon-x" x="506" y="80" width="20" height="20" style="color:#4E5969"/>
+        <line x1="88" y1="148" x2="520" y2="148" class="divider"/>
+        <text x="88" y="184" class="small">商品名称</text><rect x="88" y="196" width="432" height="44" rx="8" fill="#FFFFFF" stroke="#C9CDD4"/><text x="102" y="224" class="body">海盐拿铁</text>
+        <text x="88" y="276" class="small">商品描述（可选）</text><rect x="88" y="288" width="432" height="76" rx="8" fill="#FFFFFF" stroke="#C9CDD4"/><text x="102" y="316" class="body muted">请输入描述</text>
+        <line x1="88" y1="388" x2="520" y2="388" class="divider"/>
+        <rect x="340" y="402" width="84" height="44" rx="8" fill="#FFFFFF" stroke="#C9CDD4"/><text x="382" y="430" class="body-medium" text-anchor="middle">取消</text>
+        <rect x="436" y="402" width="84" height="44" rx="8" fill="#1D2129"/><text x="478" y="430" class="body-medium white" text-anchor="middle">保存</text>
+      </g>
+
+      <g id="variant--Dialog--State-Open--Tone-Danger" transform="translate(640 0)">
+        <rect width="608" height="516" rx="14" fill="#272E3B" opacity="0.42"/>
+        <rect x="64" y="88" width="480" height="340" rx="16" fill="#FFFFFF" filter="url(#shadow-floating)"/>
+        <circle cx="112" cy="136" r="24" fill="#FEE2E2"/><use href="#icon-warning" x="98" y="122" width="28" height="28" style="color:#DC2626"/>
+        <text x="152" y="132" class="sub-title">取消已支付订单？</text><text x="152" y="160" class="small">此操作不会自动退款，需在线下完成退款处理。</text>
+        <text x="88" y="212" class="small error">取消原因（必填）</text><rect x="88" y="224" width="432" height="76" rx="8" fill="#FFFFFF" stroke="#DC2626"/><text x="102" y="252" class="body muted">请输入取消原因</text><text x="88" y="324" class="small error">请填写取消原因后继续</text>
+        <rect x="300" y="356" width="104" height="44" rx="8" fill="#FFFFFF" stroke="#C9CDD4"/><text x="352" y="384" class="body-medium" text-anchor="middle">返回</text>
+        <rect x="416" y="356" width="104" height="44" rx="8" fill="#DC2626" opacity="0.42"/><text x="468" y="384" class="body-medium white" text-anchor="middle">确认取消</text>
+      </g>
+    </g>
+
+    <g transform="translate(24 660)">
+      <g id="variant--Dialog--State-Loading"><rect width="396" height="144" rx="12" fill="#F7F8FA"/><circle cx="44" cy="48" r="10" fill="none" stroke="#2563EB" stroke-width="2" stroke-dasharray="16 8"/><text x="68" y="53" class="body-medium">正在保存…</text><text x="24" y="88" class="small">内容保持可见；提交按钮 disabled + aria-busy</text><text x="24" y="114" class="small">不允许重复提交或关闭造成未知结果</text></g>
+      <g id="variant--Dialog--State-Error" transform="translate(424 0)"><rect width="396" height="144" rx="12" fill="#FEE2E2"/><use href="#icon-warning" x="24" y="30" width="36" height="36" style="color:#DC2626"/><text x="76" y="48" class="body-medium error">保存失败</text><text x="76" y="72" class="small">修改尚未保存，请检查后重试</text><rect x="76" y="88" width="88" height="36" rx="8" fill="#FFFFFF" stroke="#DC2626"/><text x="120" y="111" class="body-medium error" text-anchor="middle">重试</text></g>
+      <g transform="translate(848 0)"><rect width="416" height="144" rx="12" fill="#F7F8FA"/><text x="20" y="34" class="body-medium">Focus &amp; close</text><text x="20" y="62" class="small">打开后焦点进入 Content，Tab 在 modal 内循环</text><text x="20" y="88" class="small">Esc / Close / Cancel 关闭；焦点回到 Trigger</text><text x="20" y="114" class="small">危险确认初始焦点落在取消动作</text></g>
+    </g>
+  </g>
+
+  <g id="cf-section-toast" transform="translate(64 4846)">
+    <rect width="1312" height="760" rx="16" class="section-bg"/>
+    <text x="24" y="44" class="section-title">06 · Toast</text>
+    <text x="24" y="74" class="body secondary">Radix Toast · 360px · 语义色只用于图标与边缘提示，主体保持白色</text>
+
+    <g id="cf-component-toast" transform="translate(24 112)">
+      <g id="variant--Toast--Tone-Success"><rect width="592" height="100" rx="12" fill="#FFFFFF" stroke="#E5E6EB" filter="url(#shadow-subtle)"/><rect width="6" height="100" rx="3" fill="#15803D"/><circle cx="48" cy="50" r="20" fill="#DCFCE7"/><use href="#icon-check" x="38" y="40" width="20" height="20" style="color:#15803D"/><text x="84" y="42" class="body-medium">保存成功</text><text x="84" y="68" class="small">商品信息已更新</text><circle cx="558" cy="28" r="16" fill="#F2F3F5"/><use href="#icon-x" x="550" y="20" width="16" height="16" style="color:#4E5969"/></g>
+      <g id="variant--Toast--Tone-Info" transform="translate(624 0)"><rect width="592" height="100" rx="12" fill="#FFFFFF" stroke="#E5E6EB" filter="url(#shadow-subtle)"/><rect width="6" height="100" rx="3" fill="#2563EB"/><circle cx="48" cy="50" r="20" fill="#DBEAFE"/><use href="#icon-info" x="38" y="40" width="20" height="20" style="color:#2563EB"/><text x="84" y="42" class="body-medium">数据已同步</text><text x="84" y="68" class="small">订单列表已更新至最新状态</text><text x="492" y="58" class="body-medium info">查看</text><circle cx="558" cy="28" r="16" fill="#F2F3F5"/><use href="#icon-x" x="550" y="20" width="16" height="16" style="color:#4E5969"/></g>
+
+      <g id="variant--Toast--Tone-Warning" transform="translate(0 132)"><rect width="592" height="100" rx="12" fill="#FFFFFF" stroke="#E5E6EB" filter="url(#shadow-subtle)"/><rect width="6" height="100" rx="3" fill="#B45309"/><circle cx="48" cy="50" r="20" fill="#FEF3C7"/><use href="#icon-warning" x="38" y="40" width="20" height="20" style="color:#B45309"/><text x="84" y="42" class="body-medium">网络不稳定</text><text x="84" y="68" class="small">当前操作可能仍在处理中，请勿重复提交</text><circle cx="558" cy="28" r="16" fill="#F2F3F5"/><use href="#icon-x" x="550" y="20" width="16" height="16" style="color:#4E5969"/></g>
+      <g id="variant--Toast--Tone-Error" transform="translate(624 132)"><rect width="592" height="100" rx="12" fill="#FFFFFF" stroke="#E5E6EB" filter="url(#shadow-subtle)"/><rect width="6" height="100" rx="3" fill="#DC2626"/><circle cx="48" cy="50" r="20" fill="#FEE2E2"/><use href="#icon-x" x="38" y="40" width="20" height="20" style="color:#DC2626"/><text x="84" y="42" class="body-medium">保存失败</text><text x="84" y="68" class="small">修改尚未保存，请重试</text><text x="486" y="58" class="body-medium error">重试</text><circle cx="558" cy="28" r="16" fill="#F2F3F5"/><use href="#icon-x" x="550" y="20" width="16" height="16" style="color:#4E5969"/></g>
+    </g>
+
+    <g transform="translate(24 404)">
+      <rect width="1264" height="280" rx="12" fill="#F7F8FA"/>
+      <text x="24" y="38" class="sub-title">Behavior &amp; accessibility</text>
+      <text x="24" y="74" class="body-medium">Foreground</text><text x="152" y="74" class="body secondary">用户动作结果，立即播报；避免同时堆叠多个。</text>
+      <text x="24" y="106" class="body-medium">Background</text><text x="152" y="106" class="body secondary">后台事件，在读屏空闲时播报。</text>
+      <text x="24" y="138" class="body-medium">Timeout</text><text x="152" y="138" class="body secondary">默认 5 秒；Hover、Focus、窗口失焦时暂停；需要用户响应的内容不可使用 Toast。</text>
+      <text x="24" y="170" class="body-medium">Keyboard</text><text x="152" y="170" class="body secondary">F8 聚焦 Viewport；Tab / Shift+Tab 移动；Esc 关闭当前 Toast。</text>
+      <text x="24" y="202" class="body-medium">Action</text><text x="152" y="202" class="body secondary">必须可安全忽略，并提供 altText；关闭图标提供 aria-label。</text>
+      <text x="24" y="240" class="small">Root: Horizontal / start · Padding 16 · Gap 12 · Width 360 in product; 本画板为便于标注扩展至 592。</text>
+    </g>
+  </g>
+
+  <g id="cf-section-empty-loading" transform="translate(64 5638)">
+    <rect width="1312" height="820" rx="16" class="section-bg"/>
+    <text x="24" y="44" class="section-title">07 · EmptyState &amp; Loading</text>
+    <text x="24" y="74" class="body secondary">项目自定义状态容器；状态说明发生了什么，并提供明确、可恢复动作</text>
+
+    <text x="24" y="122" class="sub-title">EmptyState</text>
+    <g id="cf-component-empty-state" transform="translate(24 146)">
+      <g id="variant--EmptyState--Type-NoData"><rect width="396" height="280" rx="12" fill="#F7F8FA"/><use href="#icon-empty" x="166" y="44" width="64" height="64"/><text x="198" y="142" class="sub-title" text-anchor="middle">暂无数据</text><text x="198" y="172" class="small" text-anchor="middle">创建第一条记录后会显示在这里</text><rect x="126" y="204" width="144" height="44" rx="8" fill="#1D2129"/><text x="198" y="232" class="body-medium white" text-anchor="middle">创建记录</text></g>
+      <g id="variant--EmptyState--Type-NoResults" transform="translate(424 0)"><rect width="396" height="280" rx="12" fill="#F7F8FA"/><use href="#icon-search" x="174" y="48" width="48" height="48" style="color:#86909C"/><text x="198" y="142" class="sub-title" text-anchor="middle">未找到匹配结果</text><text x="198" y="172" class="small" text-anchor="middle">尝试更换关键词或清除筛选条件</text><rect x="126" y="204" width="144" height="44" rx="8" fill="#FFFFFF" stroke="#C9CDD4"/><text x="198" y="232" class="body-medium" text-anchor="middle">清除筛选</text></g>
+      <g id="variant--EmptyState--Type-Error" transform="translate(848 0)"><rect width="416" height="280" rx="12" fill="#FEE2E2"/><circle cx="208" cy="76" r="32" fill="#FFFFFF"/><use href="#icon-warning" x="184" y="52" width="48" height="48" style="color:#DC2626"/><text x="208" y="142" class="sub-title error" text-anchor="middle">加载失败</text><text x="208" y="172" class="small" text-anchor="middle">数据未更新，请检查网络后重试</text><rect x="136" y="204" width="144" height="44" rx="8" fill="#FFFFFF" stroke="#DC2626"/><text x="208" y="232" class="body-medium error" text-anchor="middle">重试</text></g>
+    </g>
+
+    <line x1="24" y1="474" x2="1288" y2="474" class="divider"/>
+    <text x="24" y="520" class="sub-title">Loading</text>
+    <g id="cf-component-loading" transform="translate(24 548)">
+      <g id="variant--Loading--Type-Inline"><rect width="260" height="92" rx="10" fill="#F7F8FA"/><circle cx="40" cy="38" r="10" fill="none" stroke="#2563EB" stroke-width="2" stroke-dasharray="16 8"/><text x="64" y="43" class="body-medium">正在加载…</text><text x="24" y="70" class="tiny">Inline spinner · role=status</text></g>
+      <g id="variant--Loading--Type-Determinate" transform="translate(284 0)"><rect width="396" height="92" rx="10" fill="#F7F8FA"/><text x="20" y="30" class="body-medium">正在导入 68%</text><rect x="20" y="46" width="356" height="8" rx="4" fill="#E5E6EB"/><rect x="20" y="46" width="242" height="8" rx="4" fill="#2563EB"/><text x="20" y="76" class="tiny">Radix Progress · aria-valuenow=68</text></g>
+      <g id="variant--Loading--Type-Skeleton" transform="translate(704 0)"><rect width="560" height="164" rx="10" fill="#F7F8FA"/><circle cx="44" cy="44" r="20" fill="#E5E6EB"/><rect x="80" y="28" width="188" height="14" rx="7" fill="#E5E6EB"/><rect x="80" y="54" width="128" height="12" rx="6" fill="#E5E6EB"/><rect x="24" y="92" width="512" height="12" rx="6" fill="#E5E6EB"/><rect x="24" y="120" width="460" height="12" rx="6" fill="#E5E6EB"/><text x="24" y="154" class="tiny">Skeleton 保留布局；不为每个骨架节点重复播报</text></g>
+    </g>
+    <text x="24" y="776" class="small">EmptyState: Vertical / center · Gap 12/24 · Min height 240；Loading 不遮蔽已加载内容，超时后切换为可恢复错误状态。</text>
+  </g>
+
+  <g id="cf-section-handoff" transform="translate(64 6490)">
+    <rect width="1312" height="980" rx="16" class="section-bg"/>
+    <text x="24" y="44" class="section-title">08 · Radix Mapping &amp; Handoff</text>
+    <text x="24" y="74" class="body secondary">SVG 是视觉与规格交付；导入后需转换为 Figma Component / Variants / Auto Layout 并绑定 Variables。</text>
+
+    <g transform="translate(24 112)">
+      <rect width="1264" height="314" rx="12" fill="#F7F8FA"/>
+      <text x="20" y="34" class="body-medium">Figma component</text><text x="274" y="34" class="body-medium">Radix / Web mapping</text><text x="650" y="34" class="body-medium">State source</text><text x="940" y="34" class="body-medium">Accessibility anchor</text>
+      <line x1="20" y1="50" x2="1244" y2="50" class="divider"/>
+      <text x="20" y="78" class="body">Button</text><text x="274" y="78" class="body secondary">native button + Slot</text><text x="650" y="78" class="small">hover / focus-visible / active / disabled</text><text x="940" y="78" class="small">Enter, Space, aria-busy</text>
+      <text x="20" y="112" class="body">Input / Search</text><text x="274" y="112" class="body secondary">native input + Label</text><text x="650" y="112" class="small">focus / invalid / disabled / busy</text><text x="940" y="112" class="small">label, describedby, invalid</text>
+      <text x="20" y="146" class="body">Select</text><text x="274" y="146" class="body secondary">Radix Select</text><text x="650" y="146" class="small">data-state, data-highlighted, data-disabled</text><text x="940" y="146" class="small">Arrow keys, typeahead, Esc</text>
+      <text x="20" y="180" class="body">Badge / Table / Pagination</text><text x="274" y="180" class="body secondary">custom + native semantics</text><text x="650" y="180" class="small">tone / row / current / disabled</text><text x="940" y="180" class="small">th scope, nav, aria-current</text>
+      <text x="20" y="214" class="body">Dialog</text><text x="274" y="214" class="body secondary">Radix Dialog / AlertDialog</text><text x="650" y="214" class="small">data-state=open|closed</text><text x="940" y="214" class="small">focus trap, Esc, return focus</text>
+      <text x="20" y="248" class="body">Toast</text><text x="274" y="248" class="body secondary">Radix Toast</text><text x="650" y="248" class="small">foreground / background / swipe</text><text x="940" y="248" class="small">aria-live, F8, Esc, altText</text>
+      <text x="20" y="282" class="body">Empty / Loading</text><text x="274" y="282" class="body secondary">custom / Radix Progress</text><text x="650" y="282" class="small">empty type / busy / determinate</text><text x="940" y="282" class="small">status, progress value, recovery action</text>
+    </g>
+
+    <g transform="translate(24 458)">
+      <rect width="612" height="216" rx="12" fill="#FFFFFF" stroke="#E5E6EB"/>
+      <text x="20" y="36" class="sub-title">导入后 Auto Layout</text>
+      <text x="20" y="70" class="body-medium">Button / Trigger</text><text x="176" y="70" class="small">Horizontal · Center · Gap 8 · Height 44</text>
+      <text x="20" y="102" class="body-medium">Field</text><text x="176" y="102" class="small">Vertical · Stretch · Gap 8 · Control Fill</text>
+      <text x="20" y="134" class="body-medium">Dialog</text><text x="176" y="134" class="small">Vertical · Stretch · Padding 24 · Gap 16/24</text>
+      <text x="20" y="166" class="body-medium">Toast</text><text x="176" y="166" class="small">Horizontal · Start · Padding 16 · Gap 12</text>
+      <text x="20" y="194" class="small">文本 Hug；可伸展容器 Fill；不依赖绝对定位维护内部布局。</text>
+      <rect x="652" width="612" height="216" rx="12" fill="#FFFFFF" stroke="#E5E6EB"/>
+      <text x="672" y="36" class="sub-title">响应式与密度</text>
+      <text x="672" y="70" class="body-medium">Mobile</text><text x="800" y="70" class="small">44px；Table → cards；Dialog → bottom panel visual</text>
+      <text x="672" y="102" class="body-medium">Tablet</text><text x="800" y="102" class="small">44px；Table horizontal scroll</text>
+      <text x="672" y="134" class="body-medium">Desktop</text><text x="800" y="134" class="small">36px dense toolbar；关键动作仍 44/52px</text>
+      <text x="672" y="166" class="body-medium">Focus</text><text x="800" y="166" class="small">2px #1D2129 ring + 2px white offset</text>
+      <text x="672" y="194" class="small">主要触控目标 ≥44×44；例外仅限桌面鼠标/键盘密集界面。</text>
+    </g>
+
+    <g transform="translate(24 706)">
+      <rect width="1264" height="214" rx="12" fill="#FFE8F1" stroke="#FDC2DB"/>
+      <text x="20" y="36" class="sub-title brand">Import checklist</text>
+      <g transform="translate(20 58)" style="color:#DD2089"><circle cx="9" cy="9" r="8" fill="#FFFFFF" stroke="#DD2089"/><use href="#icon-check" x="1" y="1" width="16" height="16"/></g><text x="52" y="72" class="body">按 Component Set 整理并使用 `Property=Value` 命名 Variants</text>
+      <g transform="translate(20 92)" style="color:#DD2089"><circle cx="9" cy="9" r="8" fill="#FFFFFF" stroke="#DD2089"/><use href="#icon-check" x="1" y="1" width="16" height="16"/></g><text x="52" y="106" class="body">绑定 foundation Fill / Stroke / Type / Gap / Radius Variables</text>
+      <g transform="translate(20 126)" style="color:#DD2089"><circle cx="9" cy="9" r="8" fill="#FFFFFF" stroke="#DD2089"/><use href="#icon-check" x="1" y="1" width="16" height="16"/></g><text x="52" y="140" class="body">设置核心 Frame Auto Layout，并检查 Hug / Fill / 长文本 / 触控尺寸</text>
+      <g transform="translate(652 58)" style="color:#DD2089"><circle cx="9" cy="9" r="8" fill="#FFFFFF" stroke="#DD2089"/><use href="#icon-check" x="1" y="1" width="16" height="16"/></g><text x="684" y="72" class="body">验证 Tab 顺序、Focus Visible、Enter/Space、方向键、Esc 和焦点归还</text>
+      <g transform="translate(652 92)" style="color:#DD2089"><circle cx="9" cy="9" r="8" fill="#FFFFFF" stroke="#DD2089"/><use href="#icon-check" x="1" y="1" width="16" height="16"/></g><text x="684" y="106" class="body">补齐 Label、ARIA、Dialog Title/Description、Toast live region、Table semantics</text>
+      <g transform="translate(652 126)" style="color:#DD2089"><circle cx="9" cy="9" r="8" fill="#FFFFFF" stroke="#DD2089"/><use href="#icon-check" x="1" y="1" width="16" height="16"/></g><text x="684" y="140" class="body">确认状态不只依赖颜色，并用 README / RADIX_MAPPING.md 完成交接</text>
+      <text x="20" y="184" class="small">详细说明：doc/sprint1/components/RADIX_MAPPING.md · 视觉来源：doc/sprint1/foundations/cup-flow-foundations.svg</text>
+    </g>
+  </g>
+</svg>
