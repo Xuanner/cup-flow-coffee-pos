@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="2180" viewBox="0 0 1440 2180">
+  <defs>
+    <style>
+      text { font-family: "PingFang SC", "Microsoft YaHei", sans-serif; fill: #1D2129; }
+      .h1 { font-size: 30px; font-weight: 500; }
+      .h2 { font-size: 24px; font-weight: 500; }
+      .h3 { font-size: 16px; font-weight: 500; }
+      .body { font-size: 14px; font-weight: 400; }
+      .small { font-size: 12px; font-weight: 400; fill: #6B7785; }
+      .card { fill: #FFFFFF; stroke: #E5E6EB; }
+    </style>
+    <filter id="shadow-subtle" x="-20%" y="-20%" width="140%" height="160%">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#1D2129" flood-opacity="0.10"/>
+    </filter>
+    <filter id="shadow-floating" x="-30%" y="-30%" width="160%" height="190%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#1D2129" flood-opacity="0.16"/>
+    </filter>
+  </defs>
+
+  <rect width="1440" height="2180" fill="#F7F8FA"/>
+  <rect width="1440" height="136" fill="#1D2129"/>
+  <rect x="64" y="42" width="12" height="52" rx="6" fill="#F5319D"/>
+  <text x="96" y="70" class="h1" fill="#FFFFFF">Cup Flow Coffee POS</text>
+  <text x="96" y="102" class="body" fill="#C9CDD4">US-S1-UI-01 · 统一设计基础 · Light mode</text>
+  <text x="1376" y="72" class="body" font-weight="500" fill="#FDC2DB" text-anchor="end">FOUNDATIONS v1.0</text>
+
+  <text x="64" y="196" class="h2">01  品牌色</text>
+  <text x="64" y="226" class="body" fill="#4E5969">鲜粉用于品牌强调；可访问主按钮采用较深 Primary。</text>
+  <g transform="translate(64 258)">
+    <g><rect width="192" height="98" rx="12" fill="#F5319D"/><text x="178" y="30" class="body" font-weight="500" fill="#FFFFFF" text-anchor="end">Aa</text><text x="14" y="124" class="body" font-weight="500">Accent</text><text x="14" y="144" class="small">#F5319D</text></g>
+    <g transform="translate(216)"><rect width="192" height="98" rx="12" fill="#DD2089"/><text x="178" y="30" class="body" font-weight="500" fill="#FFFFFF" text-anchor="end">Aa</text><text x="14" y="124" class="body" font-weight="500">Primary</text><text x="14" y="144" class="small">#DD2089</text></g>
+    <g transform="translate(432)"><rect width="192" height="98" rx="12" fill="#D51C82"/><text x="178" y="30" class="body" font-weight="500" fill="#FFFFFF" text-anchor="end">Aa</text><text x="14" y="124" class="body" font-weight="500">Hover</text><text x="14" y="144" class="small">#D51C82</text></g>
+    <g transform="translate(648)"><rect width="192" height="98" rx="12" fill="#CB1E83"/><text x="178" y="30" class="body" font-weight="500" fill="#FFFFFF" text-anchor="end">Aa</text><text x="14" y="124" class="body" font-weight="500">Active</text><text x="14" y="144" class="small">#CB1E83</text></g>
+    <g transform="translate(864)"><rect width="192" height="98" rx="12" fill="#FDC2DB"/><text x="178" y="30" class="body" font-weight="500" text-anchor="end">Aa</text><text x="14" y="124" class="body" font-weight="500">Light</text><text x="14" y="144" class="small">#FDC2DB</text></g>
+    <g transform="translate(1080)"><rect width="192" height="98" rx="12" fill="#FFE8F1"/><text x="178" y="30" class="body" font-weight="500" text-anchor="end">Aa</text><text x="14" y="124" class="body" font-weight="500">Background</text><text x="14" y="144" class="small">#FFE8F1</text></g>
+  </g>
+  <rect x="64" y="424" width="300" height="56" rx="10" fill="#DD2089"/>
+  <text x="214" y="460" class="h3" fill="#FFFFFF" style="fill:#FFFFFF" text-anchor="middle">确认收款  ¥32.00</text>
+  <text x="384" y="458" class="body" fill="#4E5969">白字对比度 4.52:1 · WCAG AA</text>
+
+  <text x="64" y="548" class="h2">02  中性色</text>
+  <g transform="translate(64 584)">
+    <g><rect width="104" height="64" rx="8" fill="#FFFFFF" stroke="#C9CDD4"/><text x="52" y="90" class="small" text-anchor="middle">#FFFFFF</text></g>
+    <g transform="translate(120)"><rect width="104" height="64" rx="8" fill="#F7F8FA" stroke="#C9CDD4"/><text x="52" y="90" class="small" text-anchor="middle">#F7F8FA</text></g>
+    <g transform="translate(240)"><rect width="104" height="64" rx="8" fill="#F2F3F5" stroke="#C9CDD4"/><text x="52" y="90" class="small" text-anchor="middle">#F2F3F5</text></g>
+    <g transform="translate(360)"><rect width="104" height="64" rx="8" fill="#E5E6EB"/><text x="52" y="90" class="small" text-anchor="middle">#E5E6EB</text></g>
+    <g transform="translate(480)"><rect width="104" height="64" rx="8" fill="#C9CDD4"/><text x="52" y="90" class="small" text-anchor="middle">#C9CDD4</text></g>
+    <g transform="translate(600)"><rect width="104" height="64" rx="8" fill="#A9AEB8"/><text x="52" y="90" class="small" text-anchor="middle">#A9AEB8</text></g>
+    <g transform="translate(720)"><rect width="104" height="64" rx="8" fill="#86909C"/><text x="52" y="90" class="small" text-anchor="middle">#86909C</text></g>
+    <g transform="translate(840)"><rect width="104" height="64" rx="8" fill="#6B7785"/><text x="52" y="90" class="small" text-anchor="middle">#6B7785</text></g>
+    <g transform="translate(960)"><rect width="104" height="64" rx="8" fill="#4E5969"/><text x="52" y="90" class="small" text-anchor="middle">#4E5969</text></g>
+    <g transform="translate(1080)"><rect width="104" height="64" rx="8" fill="#272E3B"/><text x="52" y="90" class="small" text-anchor="middle">#272E3B</text></g>
+    <g transform="translate(1200)"><rect width="104" height="64" rx="8" fill="#1D2129"/><text x="52" y="90" class="small" text-anchor="middle">#1D2129</text></g>
+  </g>
+  <text x="64" y="718" class="small">Surface</text><text x="184" y="718" class="small">Canvas</text><text x="424" y="718" class="small">Border</text><text x="664" y="718" class="small">Disabled</text><text x="904" y="718" class="small">Secondary</text><text x="1264" y="718" class="small">Primary</text>
+
+  <text x="64" y="790" class="h2">03  语义色</text>
+  <g transform="translate(64 826)">
+    <g><rect width="304" height="122" rx="12" class="card"/><rect width="10" height="122" rx="5" fill="#15803D"/><rect x="28" y="20" width="256" height="40" rx="8" fill="#DCFCE7"/><text x="44" y="46" class="body" font-weight="500" fill="#15803D">订单已完成</text><text x="28" y="94" class="small">成功 · #15803D / #DCFCE7</text></g>
+    <g transform="translate(328)"><rect width="304" height="122" rx="12" class="card"/><rect width="10" height="122" rx="5" fill="#B45309"/><rect x="28" y="20" width="256" height="40" rx="8" fill="#FEF3C7"/><text x="44" y="46" class="body" font-weight="500" fill="#B45309">请确认商品状态</text><text x="28" y="94" class="small">警告 · #B45309 / #FEF3C7</text></g>
+    <g transform="translate(656)"><rect width="304" height="122" rx="12" class="card"/><rect width="10" height="122" rx="5" fill="#DC2626"/><rect x="28" y="20" width="256" height="40" rx="8" fill="#FEE2E2"/><text x="44" y="46" class="body" font-weight="500" fill="#DC2626">收款失败，请重试</text><text x="28" y="94" class="small">错误 · #DC2626 / #FEE2E2</text></g>
+    <g transform="translate(984)"><rect width="304" height="122" rx="12" class="card"/><rect width="10" height="122" rx="5" fill="#2563EB"/><rect x="28" y="20" width="256" height="40" rx="8" fill="#DBEAFE"/><text x="44" y="46" class="body" font-weight="500" fill="#2563EB">数据已同步</text><text x="28" y="94" class="small">信息 · #2563EB / #DBEAFE</text></g>
+  </g>
+
+  <text x="64" y="1020" class="h2">04  字体层级</text>
+  <text x="64" y="1050" class="body" fill="#4E5969">Figma：PingFang SC；生产 CSS：Microsoft YaHei, PingFang SC, sans-serif</text>
+  <text x="64" y="1114" font-size="28" font-weight="700">页面标题 · 28/40 Bold · 700</text>
+  <text x="64" y="1166" font-size="20" font-weight="600">模块标题 · 20/28 Semibold · 600</text>
+  <text x="64" y="1210" font-size="16">正文大号 · 16/24 Regular　咖啡点单与收银操作说明</text>
+  <text x="64" y="1248" class="body">正文默认 · 14/22 Regular　拿铁 / 大杯 / 少糖 / 加燕麦奶</text>
+  <text x="64" y="1282" class="small">辅助文字 · 12/20 Regular　订单 CF-20260807-018</text>
+  <text x="760" y="1130" font-size="32" font-weight="500">¥ 1,288.00</text><text x="760" y="1162" class="small">金额大号 · 32/40 Medium · 500</text>
+  <text x="760" y="1220" font-size="20" font-weight="500">¥ 32.00</text><text x="760" y="1252" class="small">金额中号 · 20/28 Medium · 500</text>
+
+  <text x="64" y="1362" class="h2">05  间距、圆角与阴影</text>
+  <g transform="translate(64 1404)">
+    <rect width="8" height="32" rx="4" fill="#F5319D"/><text y="54" class="small">2XS 4</text>
+    <g transform="translate(88)"><rect width="16" height="32" rx="4" fill="#F5319D"/><text y="54" class="small">XS 8</text></g>
+    <g transform="translate(176)"><rect width="24" height="32" rx="4" fill="#F5319D"/><text y="54" class="small">SM 12</text></g>
+    <g transform="translate(264)"><rect width="32" height="32" rx="4" fill="#F5319D"/><text y="54" class="small">MD 16</text></g>
+    <g transform="translate(360)"><rect width="48" height="32" rx="4" fill="#F5319D"/><text y="54" class="small">LG 24</text></g>
+    <g transform="translate(472)"><rect width="64" height="32" rx="4" fill="#F5319D"/><text y="54" class="small">XL 32</text></g>
+    <g transform="translate(600)"><rect width="80" height="32" rx="4" fill="#F5319D"/><text y="54" class="small">2XL 40</text></g>
+    <g transform="translate(744)"><rect width="96" height="32" rx="4" fill="#F5319D"/><text y="54" class="small">3XL 48</text></g>
+    <g transform="translate(904)"><rect width="128" height="32" rx="4" fill="#F5319D"/><text y="54" class="small">4XL 64</text></g>
+  </g>
+  <g transform="translate(64 1512)">
+    <g><rect width="112" height="72" rx="4" fill="#FFE8F1" stroke="#F5319D"/><text x="56" y="98" class="small" text-anchor="middle">SM · 4</text></g>
+    <g transform="translate(150)"><rect width="112" height="72" rx="8" fill="#FFE8F1" stroke="#F5319D"/><text x="56" y="98" class="small" text-anchor="middle">MD · 8</text></g>
+    <g transform="translate(300)"><rect width="112" height="72" rx="12" fill="#FFE8F1" stroke="#F5319D"/><text x="56" y="98" class="small" text-anchor="middle">LG · 12</text></g>
+    <g transform="translate(450)"><rect width="112" height="72" rx="16" fill="#FFE8F1" stroke="#F5319D"/><text x="56" y="98" class="small" text-anchor="middle">XL · 16</text></g>
+    <g transform="translate(600)"><rect width="112" height="72" rx="36" fill="#FFE8F1" stroke="#F5319D"/><text x="56" y="98" class="small" text-anchor="middle">Full · 999</text></g>
+  </g>
+  <rect x="860" y="1504" width="210" height="88" rx="12" fill="#FFFFFF" filter="url(#shadow-subtle)"/>
+  <rect x="1100" y="1504" width="210" height="88" rx="12" fill="#FFFFFF" filter="url(#shadow-floating)"/>
+  <text x="965" y="1610" class="small" text-anchor="middle">Shadow / Subtle</text><text x="1205" y="1610" class="small" text-anchor="middle">Shadow / Floating</text>
+
+  <text x="64" y="1690" class="h2">06  响应式与可访问性规则</text>
+  <g transform="translate(64 1730)">
+    <g><rect width="1312" height="60" rx="10" class="card"/><text x="24" y="36" class="body" font-weight="500">Mobile · 390</text><text x="266" y="36" class="body" fill="#4E5969">单栏；导航折叠；表格改卡片；弹窗改底部面板</text></g>
+    <g transform="translate(0 76)"><rect width="1312" height="60" rx="10" class="card"/><text x="24" y="36" class="body" font-weight="500">Tablet · 1024</text><text x="266" y="36" class="body" fill="#4E5969">8 栅格；POS 可双栏；后台表格允许横向滚动</text></g>
+    <g transform="translate(0 152)"><rect width="1312" height="60" rx="10" class="card"/><text x="24" y="36" class="body" font-weight="500">Desktop · 1280×800</text><text x="266" y="36" class="body" fill="#4E5969">12 栅格；POS 商品区 + 购物车双栏；操作首屏可见</text></g>
+    <g transform="translate(0 228)"><rect width="1312" height="60" rx="10" class="card"/><text x="24" y="36" class="body" font-weight="500">Wide · 1440</text><text x="266" y="36" class="body" fill="#4E5969">内容最大宽 1312；增加留白，不无限拉伸信息密度</text></g>
+  </g>
+  <rect x="64" y="2050" width="1312" height="72" rx="12" fill="#FFE8F1" stroke="#FDC2DB"/>
+  <text x="88" y="2082" class="body" font-weight="500" fill="#CB1E83">可访问性</text>
+  <text x="200" y="2082" class="body" fill="#4E5969">正文对比度 ≥ 4.5:1；控件边界 ≥ 3:1；状态同时使用文字/图标；主要触控目标 ≥ 44×44。</text>
+</svg>
