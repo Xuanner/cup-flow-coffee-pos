@@ -1,0 +1,51 @@
+/* US-S1-UI-03 mapping verification — Button and status Badge. */
+.cf-token-example {
+  color: var(--cf-color-text-primary);
+  font-family: var(--cf-font-family-sans);
+  font-size: var(--cf-font-size-body);
+}
+
+.cf-button {
+  align-items: center;
+  background: var(--cf-component-action-primary-bg);
+  border: 0;
+  border-radius: var(--cf-component-button-radius);
+  color: var(--cf-component-action-primary-text);
+  display: inline-flex;
+  font: inherit;
+  font-weight: var(--cf-font-weight-medium);
+  gap: var(--cf-component-button-gap);
+  height: var(--cf-component-button-height);
+  padding-inline: var(--cf-component-button-padding-inline);
+}
+
+.cf-button:hover {
+  background: var(--cf-component-action-primary-bg-hover);
+}
+
+.cf-button:active {
+  background: var(--cf-component-action-primary-bg-pressed);
+}
+
+.cf-button:focus-visible {
+  outline: 2px solid var(--cf-component-focus-ring);
+  outline-offset: 2px;
+}
+
+.cf-badge {
+  align-items: center;
+  background: var(--cf-component-badge-success-bg);
+  border-radius: var(--cf-component-badge-radius);
+  color: var(--cf-component-badge-success-text);
+  display: inline-flex;
+  font-size: var(--cf-font-size-helper);
+  font-weight: var(--cf-font-weight-medium);
+  gap: var(--cf-spacing-2xs);
+  padding: var(--cf-component-badge-padding-block) var(--cf-component-badge-padding-inline);
+}
+
+.cf-badge::before {
+  color: var(--cf-component-badge-success-icon);
+  content: "✓";
+  font-weight: var(--cf-font-weight-bold);
+}

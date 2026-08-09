@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Cup Flow Token Mapping Verification</title>
+    <link rel="stylesheet" href="./tokens.css" />
+    <link rel="stylesheet" href="./examples.css" />
+    <style>
+      body { background: var(--cf-color-bg-canvas); margin: var(--cf-spacing-xl); }
+      main { background: var(--cf-color-bg-surface); border: 1px solid var(--cf-color-border-subtle); border-radius: var(--cf-radius-lg); display: grid; gap: var(--cf-spacing-lg); max-width: 640px; padding: var(--cf-spacing-xl); }
+      h1 { font-size: var(--cf-font-size-module-title); margin: 0; }
+      section { align-items: center; display: flex; gap: var(--cf-spacing-md); }
+    </style>
+  </head>
+  <body class="cf-token-example">
+    <main>
+      <h1>Figma → Code Token 映射验证</h1>
+      <section aria-label="按钮验证">
+        <span>Button / Primary</span>
+        <button class="cf-button" type="button">确认收款</button>
+      </section>
+      <section aria-label="状态标签验证">
+        <span>Badge / Success</span>
+        <span class="cf-badge">已完成</span>
+      </section>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,1358 @@
+{
+  "generatedFrom": [
+    "color-primitives.json",
+    "color-semantics.json",
+    "dimensions.json",
+    "typography.json"
+  ],
+  "tokenCount": 105,
+  "tokens": [
+    {
+      "sourceFile": "color-primitives.json",
+      "group": "colorPrimitive",
+      "designPath": "white/1000",
+      "cssVariable": "--cf-color-white",
+      "cssValue": "#FFFFFF",
+      "figmaValue": "#FFFFFF",
+      "alias": null,
+      "figmaVariableId": "VariableID:3:2",
+      "scopes": []
+    },
+    {
+      "sourceFile": "color-primitives.json",
+      "group": "colorPrimitive",
+      "designPath": "brand/accent",
+      "cssVariable": "--cf-color-brand-accent",
+      "cssValue": "#F5319D",
+      "figmaValue": "#F5319D",
+      "alias": null,
+      "figmaVariableId": "VariableID:3:3",
+      "scopes": []
+    },
+    {
+      "sourceFile": "color-primitives.json",
+      "group": "colorPrimitive",
+      "designPath": "brand/primary",
+      "cssVariable": "--cf-color-brand-primary",
+      "cssValue": "#DD2089",
+      "figmaValue": "#DD2089",
+      "alias": null,
+      "figmaVariableId": "VariableID:3:4",
+      "scopes": []
+    },
+    {
+      "sourceFile": "color-primitives.json",
+      "group": "colorPrimitive",
+      "designPath": "brand/hover",
+      "cssVariable": "--cf-color-brand-hover",
+      "cssValue": "#D51C82",
+      "figmaValue": "#D51C82",
+      "alias": null,
+      "figmaVariableId": "VariableID:3:5",
+      "scopes": []
+    },
+    {
+      "sourceFile": "color-primitives.json",
+      "group": "colorPrimitive",
+      "designPath": "brand/active",
+      "cssVariable": "--cf-color-brand-active",
+      "cssValue": "#CB1E83",
+      "figmaValue": "#CB1E83",
+      "alias": null,
+      "figmaVariableId": "VariableID:3:6",
+      "scopes": []
+    },
+    {
+      "sourceFile": "color-primitives.json",
+      "group": "colorPrimitive",
+      "designPath": "brand/light",
+      "cssVariable": "--cf-color-brand-light",
+      "cssValue": "#FDC2DB",
+      "figmaValue": "#FDC2DB",
+      "alias": null,
+      "figmaVariableId": "VariableID:3:7",
+      "scopes": []
+    },
+    {
+      "sourceFile": "color-primitives.json",
+      "group": "colorPrimitive",
+      "designPath": "brand/background",
+      "cssVariable": "--cf-color-brand-background",
+      "cssValue": "#FFE8F1",
+      "figmaValue": "#FFE8F1",
+      "alias": null,
+      "figmaVariableId": "VariableID:3:8",
+      "scopes": []
+    },
+    {
+      "sourceFile": "color-primitives.json",
+      "group": "colorPrimitive",
+      "designPath": "neutral/50",
+      "cssVariable": "--cf-color-neutral-50",
+      "cssValue": "#F7F8FA",
+      "figmaValue": "#F7F8FA",
+      "alias": null,
+      "figmaVariableId": "VariableID:3:9",
+      "scopes": []
+    },
+    {
+      "sourceFile": "color-primitives.json",
+      "group": "colorPrimitive",
+      "designPath": "neutral/100",
+      "cssVariable": "--cf-color-neutral-100",
+      "cssValue": "#F2F3F5",
+      "figmaValue": "#F2F3F5",
+      "alias": null,
+      "figmaVariableId": "VariableID:3:10",
+      "scopes": []
+    },
+    {
+      "sourceFile": "color-primitives.json",
+      "group": "colorPrimitive",
+      "designPath": "neutral/200",
+      "cssVariable": "--cf-color-neutral-200",
+      "cssValue": "#E5E6EB",
+      "figmaValue": "#E5E6EB",
+      "alias": null,
+      "figmaVariableId": "VariableID:3:11",
+      "scopes": []
+    },
+    {
+      "sourceFile": "color-primitives.json",
+      "group": "colorPrimitive",
+      "designPath": "neutral/300",
+      "cssVariable": "--cf-color-neutral-300",
+      "cssValue": "#C9CDD4",
+      "figmaValue": "#C9CDD4",
+      "alias": null,
+      "figmaVariableId": "VariableID:3:12",
+      "scopes": []
+    },
+    {
+      "sourceFile": "color-primitives.json",
+      "group": "colorPrimitive",
+      "designPath": "neutral/400",
+      "cssVariable": "--cf-color-neutral-400",
+      "cssValue": "#A9AEB8",
+      "figmaValue": "#A9AEB8",
+      "alias": null,
+      "figmaVariableId": "VariableID:3:13",
+      "scopes": []
+    },
+    {
+      "sourceFile": "color-primitives.json",
+      "group": "colorPrimitive",
+      "designPath": "neutral/500",
+      "cssVariable": "--cf-color-neutral-500",
+      "cssValue": "#86909C",
+      "figmaValue": "#86909C",
+      "alias": null,
+      "figmaVariableId": "VariableID:3:14",
+      "scopes": []
+    },
+    {
+      "sourceFile": "color-primitives.json",
+      "group": "colorPrimitive",
+      "designPath": "neutral/600",
+      "cssVariable": "--cf-color-neutral-600",
+      "cssValue": "#6B7785",
+      "figmaValue": "#6B7785",
+      "alias": null,
+      "figmaVariableId": "VariableID:3:15",
+      "scopes": []
+    },
+    {
+      "sourceFile": "color-primitives.json",
+      "group": "colorPrimitive",
+      "designPath": "neutral/700",
+      "cssVariable": "--cf-color-neutral-700",
+      "cssValue": "#4E5969",
+      "figmaValue": "#4E5969",
+      "alias": null,
+      "figmaVariableId": "VariableID:3:16",
+      "scopes": []
+    },
+    {
+      "sourceFile": "color-primitives.json",
+      "group": "colorPrimitive",
+      "designPath": "neutral/900",
+      "cssVariable": "--cf-color-neutral-900",
+      "cssValue": "#272E3B",
+      "figmaValue": "#272E3B",
+      "alias": null,
+      "figmaVariableId": "VariableID:3:17",
+      "scopes": []
+    },
+    {
+      "sourceFile": "color-primitives.json",
+      "group": "colorPrimitive",
+      "designPath": "neutral/950",
+      "cssVariable": "--cf-color-neutral-950",
+      "cssValue": "#1D2129",
+      "figmaValue": "#1D2129",
+      "alias": null,
+      "figmaVariableId": "VariableID:3:18",
+      "scopes": []
+    },
+    {
+      "sourceFile": "color-primitives.json",
+      "group": "colorPrimitive",
+      "designPath": "success/100",
+      "cssVariable": "--cf-color-success-100",
+      "cssValue": "#DCFCE7",
+      "figmaValue": "#DCFCE7",
+      "alias": null,
+      "figmaVariableId": "VariableID:3:19",
+      "scopes": []
+    },
+    {
+      "sourceFile": "color-primitives.json",
+      "group": "colorPrimitive",
+      "designPath": "success/500",
+      "cssVariable": "--cf-color-success-500",
+      "cssValue": "#22C55E",
+      "figmaValue": "#22C55E",
+      "alias": null,
+      "figmaVariableId": "VariableID:3:20",
+      "scopes": []
+    },
+    {
+      "sourceFile": "color-primitives.json",
+      "group": "colorPrimitive",
+      "designPath": "success/700",
+      "cssVariable": "--cf-color-success-700",
+      "cssValue": "#15803D",
+      "figmaValue": "#15803D",
+      "alias": null,
+      "figmaVariableId": "VariableID:3:21",
+      "scopes": []
+    },
+    {
+      "sourceFile": "color-primitives.json",
+      "group": "colorPrimitive",
+      "designPath": "warning/100",
+      "cssVariable": "--cf-color-warning-100",
+      "cssValue": "#FEF3C7",
+      "figmaValue": "#FEF3C7",
+      "alias": null,
+      "figmaVariableId": "VariableID:3:22",
+      "scopes": []
+    },
+    {
+      "sourceFile": "color-primitives.json",
+      "group": "colorPrimitive",
+      "designPath": "warning/500",
+      "cssVariable": "--cf-color-warning-500",
+      "cssValue": "#F59E0B",
+      "figmaValue": "#F59E0B",
+      "alias": null,
+      "figmaVariableId": "VariableID:3:23",
+      "scopes": []
+    },
+    {
+      "sourceFile": "color-primitives.json",
+      "group": "colorPrimitive",
+      "designPath": "warning/700",
+      "cssVariable": "--cf-color-warning-700",
+      "cssValue": "#B45309",
+      "figmaValue": "#B45309",
+      "alias": null,
+      "figmaVariableId": "VariableID:3:24",
+      "scopes": []
+    },
+    {
+      "sourceFile": "color-primitives.json",
+      "group": "colorPrimitive",
+      "designPath": "error/100",
+      "cssVariable": "--cf-color-error-100",
+      "cssValue": "#FEE2E2",
+      "figmaValue": "#FEE2E2",
+      "alias": null,
+      "figmaVariableId": "VariableID:3:25",
+      "scopes": []
+    },
+    {
+      "sourceFile": "color-primitives.json",
+      "group": "colorPrimitive",
+      "designPath": "error/500",
+      "cssVariable": "--cf-color-error-500",
+      "cssValue": "#EF4444",
+      "figmaValue": "#EF4444",
+      "alias": null,
+      "figmaVariableId": "VariableID:3:26",
+      "scopes": []
+    },
+    {
+      "sourceFile": "color-primitives.json",
+      "group": "colorPrimitive",
+      "designPath": "error/700",
+      "cssVariable": "--cf-color-error-700",
+      "cssValue": "#DC2626",
+      "figmaValue": "#DC2626",
+      "alias": null,
+      "figmaVariableId": "VariableID:3:27",
+      "scopes": []
+    },
+    {
+      "sourceFile": "color-primitives.json",
+      "group": "colorPrimitive",
+      "designPath": "info/100",
+      "cssVariable": "--cf-color-info-100",
+      "cssValue": "#DBEAFE",
+      "figmaValue": "#DBEAFE",
+      "alias": null,
+      "figmaVariableId": "VariableID:3:28",
+      "scopes": []
+    },
+    {
+      "sourceFile": "color-primitives.json",
+      "group": "colorPrimitive",
+      "designPath": "info/500",
+      "cssVariable": "--cf-color-info-500",
+      "cssValue": "#3B82F6",
+      "figmaValue": "#3B82F6",
+      "alias": null,
+      "figmaVariableId": "VariableID:3:29",
+      "scopes": []
+    },
+    {
+      "sourceFile": "color-primitives.json",
+      "group": "colorPrimitive",
+      "designPath": "info/700",
+      "cssVariable": "--cf-color-info-700",
+      "cssValue": "#2563EB",
+      "figmaValue": "#2563EB",
+      "alias": null,
+      "figmaVariableId": "VariableID:3:30",
+      "scopes": []
+    },
+    {
+      "sourceFile": "color-semantics.json",
+      "group": "colorSemantic",
+      "designPath": "color/bg/canvas",
+      "cssVariable": "--cf-color-bg-canvas",
+      "cssValue": "var(--cf-color-neutral-50)",
+      "figmaValue": "#F7F8FA",
+      "alias": "neutral/50",
+      "figmaVariableId": "VariableID:3:31",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ]
+    },
+    {
+      "sourceFile": "color-semantics.json",
+      "group": "colorSemantic",
+      "designPath": "color/bg/surface",
+      "cssVariable": "--cf-color-bg-surface",
+      "cssValue": "var(--cf-color-white)",
+      "figmaValue": "#FFFFFF",
+      "alias": "white/1000",
+      "figmaVariableId": "VariableID:3:32",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ]
+    },
+    {
+      "sourceFile": "color-semantics.json",
+      "group": "colorSemantic",
+      "designPath": "color/bg/subtle",
+      "cssVariable": "--cf-color-bg-subtle",
+      "cssValue": "var(--cf-color-neutral-100)",
+      "figmaValue": "#F2F3F5",
+      "alias": "neutral/100",
+      "figmaVariableId": "VariableID:3:33",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ]
+    },
+    {
+      "sourceFile": "color-semantics.json",
+      "group": "colorSemantic",
+      "designPath": "color/bg/disabled",
+      "cssVariable": "--cf-color-bg-disabled",
+      "cssValue": "var(--cf-color-neutral-100)",
+      "figmaValue": "#F2F3F5",
+      "alias": "neutral/100",
+      "figmaVariableId": "VariableID:3:34",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ]
+    },
+    {
+      "sourceFile": "color-semantics.json",
+      "group": "colorSemantic",
+      "designPath": "color/bg/success",
+      "cssVariable": "--cf-color-bg-success",
+      "cssValue": "var(--cf-color-success-100)",
+      "figmaValue": "#DCFCE7",
+      "alias": "success/100",
+      "figmaVariableId": "VariableID:4:2",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ]
+    },
+    {
+      "sourceFile": "color-semantics.json",
+      "group": "colorSemantic",
+      "designPath": "color/bg/warning",
+      "cssVariable": "--cf-color-bg-warning",
+      "cssValue": "var(--cf-color-warning-100)",
+      "figmaValue": "#FEF3C7",
+      "alias": "warning/100",
+      "figmaVariableId": "VariableID:4:3",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ]
+    },
+    {
+      "sourceFile": "color-semantics.json",
+      "group": "colorSemantic",
+      "designPath": "color/bg/error",
+      "cssVariable": "--cf-color-bg-error",
+      "cssValue": "var(--cf-color-error-100)",
+      "figmaValue": "#FEE2E2",
+      "alias": "error/100",
+      "figmaVariableId": "VariableID:4:4",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ]
+    },
+    {
+      "sourceFile": "color-semantics.json",
+      "group": "colorSemantic",
+      "designPath": "color/bg/info",
+      "cssVariable": "--cf-color-bg-info",
+      "cssValue": "var(--cf-color-info-100)",
+      "figmaValue": "#DBEAFE",
+      "alias": "info/100",
+      "figmaVariableId": "VariableID:4:5",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ]
+    },
+    {
+      "sourceFile": "color-semantics.json",
+      "group": "colorSemantic",
+      "designPath": "color/bg/brand/default",
+      "cssVariable": "--cf-color-bg-brand-default",
+      "cssValue": "var(--cf-color-brand-primary)",
+      "figmaValue": "#DD2089",
+      "alias": "brand/primary",
+      "figmaVariableId": "VariableID:3:35",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ]
+    },
+    {
+      "sourceFile": "color-semantics.json",
+      "group": "colorSemantic",
+      "designPath": "color/bg/brand/hover",
+      "cssVariable": "--cf-color-bg-brand-hover",
+      "cssValue": "var(--cf-color-brand-hover)",
+      "figmaValue": "#D51C82",
+      "alias": "brand/hover",
+      "figmaVariableId": "VariableID:3:36",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ]
+    },
+    {
+      "sourceFile": "color-semantics.json",
+      "group": "colorSemantic",
+      "designPath": "color/bg/brand/active",
+      "cssVariable": "--cf-color-bg-brand-active",
+      "cssValue": "var(--cf-color-brand-active)",
+      "figmaValue": "#CB1E83",
+      "alias": "brand/active",
+      "figmaVariableId": "VariableID:3:37",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ]
+    },
+    {
+      "sourceFile": "color-semantics.json",
+      "group": "colorSemantic",
+      "designPath": "color/bg/brand/soft",
+      "cssVariable": "--cf-color-bg-brand-soft",
+      "cssValue": "var(--cf-color-brand-background)",
+      "figmaValue": "#FFE8F1",
+      "alias": "brand/background",
+      "figmaVariableId": "VariableID:3:38",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ]
+    },
+    {
+      "sourceFile": "color-semantics.json",
+      "group": "colorSemantic",
+      "designPath": "color/bg/brand/subtle",
+      "cssVariable": "--cf-color-bg-brand-subtle",
+      "cssValue": "var(--cf-color-brand-light)",
+      "figmaValue": "#FDC2DB",
+      "alias": "brand/light",
+      "figmaVariableId": "VariableID:3:39",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ]
+    },
+    {
+      "sourceFile": "color-semantics.json",
+      "group": "colorSemantic",
+      "designPath": "color/text/primary",
+      "cssVariable": "--cf-color-text-primary",
+      "cssValue": "var(--cf-color-neutral-950)",
+      "figmaValue": "#1D2129",
+      "alias": "neutral/950",
+      "figmaVariableId": "VariableID:5:2",
+      "scopes": [
+        "TEXT_FILL"
+      ]
+    },
+    {
+      "sourceFile": "color-semantics.json",
+      "group": "colorSemantic",
+      "designPath": "color/text/secondary",
+      "cssVariable": "--cf-color-text-secondary",
+      "cssValue": "var(--cf-color-neutral-700)",
+      "figmaValue": "#4E5969",
+      "alias": "neutral/700",
+      "figmaVariableId": "VariableID:5:3",
+      "scopes": [
+        "TEXT_FILL"
+      ]
+    },
+    {
+      "sourceFile": "color-semantics.json",
+      "group": "colorSemantic",
+      "designPath": "color/text/tertiary",
+      "cssVariable": "--cf-color-text-tertiary",
+      "cssValue": "var(--cf-color-neutral-600)",
+      "figmaValue": "#6B7785",
+      "alias": "neutral/600",
+      "figmaVariableId": "VariableID:5:4",
+      "scopes": [
+        "TEXT_FILL"
+      ]
+    },
+    {
+      "sourceFile": "color-semantics.json",
+      "group": "colorSemantic",
+      "designPath": "color/text/disabled",
+      "cssVariable": "--cf-color-text-disabled",
+      "cssValue": "var(--cf-color-neutral-400)",
+      "figmaValue": "#A9AEB8",
+      "alias": "neutral/400",
+      "figmaVariableId": "VariableID:5:5",
+      "scopes": [
+        "TEXT_FILL"
+      ]
+    },
+    {
+      "sourceFile": "color-semantics.json",
+      "group": "colorSemantic",
+      "designPath": "color/text/inverse",
+      "cssVariable": "--cf-color-text-inverse",
+      "cssValue": "var(--cf-color-white)",
+      "figmaValue": "#FFFFFF",
+      "alias": "white/1000",
+      "figmaVariableId": "VariableID:5:6",
+      "scopes": [
+        "TEXT_FILL"
+      ]
+    },
+    {
+      "sourceFile": "color-semantics.json",
+      "group": "colorSemantic",
+      "designPath": "color/text/brand",
+      "cssVariable": "--cf-color-text-brand",
+      "cssValue": "var(--cf-color-brand-primary)",
+      "figmaValue": "#DD2089",
+      "alias": "brand/primary",
+      "figmaVariableId": "VariableID:5:7",
+      "scopes": [
+        "TEXT_FILL"
+      ]
+    },
+    {
+      "sourceFile": "color-semantics.json",
+      "group": "colorSemantic",
+      "designPath": "color/text/success",
+      "cssVariable": "--cf-color-text-success",
+      "cssValue": "var(--cf-color-success-700)",
+      "figmaValue": "#15803D",
+      "alias": "success/700",
+      "figmaVariableId": "VariableID:5:8",
+      "scopes": [
+        "TEXT_FILL"
+      ]
+    },
+    {
+      "sourceFile": "color-semantics.json",
+      "group": "colorSemantic",
+      "designPath": "color/text/warning",
+      "cssVariable": "--cf-color-text-warning",
+      "cssValue": "var(--cf-color-warning-700)",
+      "figmaValue": "#B45309",
+      "alias": "warning/700",
+      "figmaVariableId": "VariableID:5:9",
+      "scopes": [
+        "TEXT_FILL"
+      ]
+    },
+    {
+      "sourceFile": "color-semantics.json",
+      "group": "colorSemantic",
+      "designPath": "color/text/error",
+      "cssVariable": "--cf-color-text-error",
+      "cssValue": "var(--cf-color-error-700)",
+      "figmaValue": "#DC2626",
+      "alias": "error/700",
+      "figmaVariableId": "VariableID:5:10",
+      "scopes": [
+        "TEXT_FILL"
+      ]
+    },
+    {
+      "sourceFile": "color-semantics.json",
+      "group": "colorSemantic",
+      "designPath": "color/text/info",
+      "cssVariable": "--cf-color-text-info",
+      "cssValue": "var(--cf-color-info-700)",
+      "figmaValue": "#2563EB",
+      "alias": "info/700",
+      "figmaVariableId": "VariableID:5:11",
+      "scopes": [
+        "TEXT_FILL"
+      ]
+    },
+    {
+      "sourceFile": "color-semantics.json",
+      "group": "colorSemantic",
+      "designPath": "color/border/subtle",
+      "cssVariable": "--cf-color-border-subtle",
+      "cssValue": "var(--cf-color-neutral-200)",
+      "figmaValue": "#E5E6EB",
+      "alias": "neutral/200",
+      "figmaVariableId": "VariableID:5:12",
+      "scopes": [
+        "STROKE"
+      ]
+    },
+    {
+      "sourceFile": "color-semantics.json",
+      "group": "colorSemantic",
+      "designPath": "color/border/default",
+      "cssVariable": "--cf-color-border-default",
+      "cssValue": "var(--cf-color-neutral-300)",
+      "figmaValue": "#C9CDD4",
+      "alias": "neutral/300",
+      "figmaVariableId": "VariableID:5:13",
+      "scopes": [
+        "STROKE"
+      ]
+    },
+    {
+      "sourceFile": "color-semantics.json",
+      "group": "colorSemantic",
+      "designPath": "color/border/strong",
+      "cssVariable": "--cf-color-border-strong",
+      "cssValue": "var(--cf-color-neutral-500)",
+      "figmaValue": "#86909C",
+      "alias": "neutral/500",
+      "figmaVariableId": "VariableID:5:14",
+      "scopes": [
+        "STROKE"
+      ]
+    },
+    {
+      "sourceFile": "color-semantics.json",
+      "group": "colorSemantic",
+      "designPath": "color/border/focus",
+      "cssVariable": "--cf-color-border-focus",
+      "cssValue": "var(--cf-color-brand-accent)",
+      "figmaValue": "#F5319D",
+      "alias": "brand/accent",
+      "figmaVariableId": "VariableID:5:15",
+      "scopes": [
+        "STROKE"
+      ]
+    },
+    {
+      "sourceFile": "color-semantics.json",
+      "group": "colorSemantic",
+      "designPath": "color/border/success",
+      "cssVariable": "--cf-color-border-success",
+      "cssValue": "var(--cf-color-success-500)",
+      "figmaValue": "#22C55E",
+      "alias": "success/500",
+      "figmaVariableId": "VariableID:5:16",
+      "scopes": [
+        "STROKE"
+      ]
+    },
+    {
+      "sourceFile": "color-semantics.json",
+      "group": "colorSemantic",
+      "designPath": "color/border/warning",
+      "cssVariable": "--cf-color-border-warning",
+      "cssValue": "var(--cf-color-warning-500)",
+      "figmaValue": "#F59E0B",
+      "alias": "warning/500",
+      "figmaVariableId": "VariableID:5:17",
+      "scopes": [
+        "STROKE"
+      ]
+    },
+    {
+      "sourceFile": "color-semantics.json",
+      "group": "colorSemantic",
+      "designPath": "color/border/error",
+      "cssVariable": "--cf-color-border-error",
+      "cssValue": "var(--cf-color-error-500)",
+      "figmaValue": "#EF4444",
+      "alias": "error/500",
+      "figmaVariableId": "VariableID:5:18",
+      "scopes": [
+        "STROKE"
+      ]
+    },
+    {
+      "sourceFile": "color-semantics.json",
+      "group": "colorSemantic",
+      "designPath": "color/border/info",
+      "cssVariable": "--cf-color-border-info",
+      "cssValue": "var(--cf-color-info-500)",
+      "figmaValue": "#3B82F6",
+      "alias": "info/500",
+      "figmaVariableId": "VariableID:5:19",
+      "scopes": [
+        "STROKE"
+      ]
+    },
+    {
+      "sourceFile": "color-semantics.json",
+      "group": "colorSemantic",
+      "designPath": "color/icon/primary",
+      "cssVariable": "--cf-color-icon-primary",
+      "cssValue": "var(--cf-color-neutral-950)",
+      "figmaValue": "#1D2129",
+      "alias": "neutral/950",
+      "figmaVariableId": "VariableID:5:20",
+      "scopes": [
+        "SHAPE_FILL",
+        "STROKE"
+      ]
+    },
+    {
+      "sourceFile": "color-semantics.json",
+      "group": "colorSemantic",
+      "designPath": "color/icon/secondary",
+      "cssVariable": "--cf-color-icon-secondary",
+      "cssValue": "var(--cf-color-neutral-700)",
+      "figmaValue": "#4E5969",
+      "alias": "neutral/700",
+      "figmaVariableId": "VariableID:5:21",
+      "scopes": [
+        "SHAPE_FILL",
+        "STROKE"
+      ]
+    },
+    {
+      "sourceFile": "color-semantics.json",
+      "group": "colorSemantic",
+      "designPath": "color/icon/disabled",
+      "cssVariable": "--cf-color-icon-disabled",
+      "cssValue": "var(--cf-color-neutral-400)",
+      "figmaValue": "#A9AEB8",
+      "alias": "neutral/400",
+      "figmaVariableId": "VariableID:5:22",
+      "scopes": [
+        "SHAPE_FILL",
+        "STROKE"
+      ]
+    },
+    {
+      "sourceFile": "color-semantics.json",
+      "group": "colorSemantic",
+      "designPath": "color/icon/brand",
+      "cssVariable": "--cf-color-icon-brand",
+      "cssValue": "var(--cf-color-brand-primary)",
+      "figmaValue": "#DD2089",
+      "alias": "brand/primary",
+      "figmaVariableId": "VariableID:5:23",
+      "scopes": [
+        "SHAPE_FILL",
+        "STROKE"
+      ]
+    },
+    {
+      "sourceFile": "color-semantics.json",
+      "group": "colorSemantic",
+      "designPath": "color/icon/success",
+      "cssVariable": "--cf-color-icon-success",
+      "cssValue": "var(--cf-color-success-700)",
+      "figmaValue": "#15803D",
+      "alias": "success/700",
+      "figmaVariableId": "VariableID:5:24",
+      "scopes": [
+        "SHAPE_FILL",
+        "STROKE"
+      ]
+    },
+    {
+      "sourceFile": "color-semantics.json",
+      "group": "colorSemantic",
+      "designPath": "color/icon/warning",
+      "cssVariable": "--cf-color-icon-warning",
+      "cssValue": "var(--cf-color-warning-700)",
+      "figmaValue": "#B45309",
+      "alias": "warning/700",
+      "figmaVariableId": "VariableID:5:25",
+      "scopes": [
+        "SHAPE_FILL",
+        "STROKE"
+      ]
+    },
+    {
+      "sourceFile": "color-semantics.json",
+      "group": "colorSemantic",
+      "designPath": "color/icon/error",
+      "cssVariable": "--cf-color-icon-error",
+      "cssValue": "var(--cf-color-error-700)",
+      "figmaValue": "#DC2626",
+      "alias": "error/700",
+      "figmaVariableId": "VariableID:5:26",
+      "scopes": [
+        "SHAPE_FILL",
+        "STROKE"
+      ]
+    },
+    {
+      "sourceFile": "color-semantics.json",
+      "group": "colorSemantic",
+      "designPath": "color/icon/info",
+      "cssVariable": "--cf-color-icon-info",
+      "cssValue": "var(--cf-color-info-700)",
+      "figmaValue": "#2563EB",
+      "alias": "info/700",
+      "figmaVariableId": "VariableID:5:27",
+      "scopes": [
+        "SHAPE_FILL",
+        "STROKE"
+      ]
+    },
+    {
+      "sourceFile": "dimensions.json",
+      "group": "dimension",
+      "designPath": "spacing/0",
+      "cssVariable": "--cf-spacing-0",
+      "cssValue": "0px",
+      "figmaValue": 0,
+      "alias": null,
+      "figmaVariableId": "VariableID:5:28",
+      "scopes": [
+        "GAP"
+      ]
+    },
+    {
+      "sourceFile": "dimensions.json",
+      "group": "dimension",
+      "designPath": "spacing/2xs",
+      "cssVariable": "--cf-spacing-2xs",
+      "cssValue": "4px",
+      "figmaValue": 4,
+      "alias": null,
+      "figmaVariableId": "VariableID:5:29",
+      "scopes": [
+        "GAP"
+      ]
+    },
+    {
+      "sourceFile": "dimensions.json",
+      "group": "dimension",
+      "designPath": "spacing/xs",
+      "cssVariable": "--cf-spacing-xs",
+      "cssValue": "8px",
+      "figmaValue": 8,
+      "alias": null,
+      "figmaVariableId": "VariableID:5:30",
+      "scopes": [
+        "GAP"
+      ]
+    },
+    {
+      "sourceFile": "dimensions.json",
+      "group": "dimension",
+      "designPath": "spacing/sm",
+      "cssVariable": "--cf-spacing-sm",
+      "cssValue": "12px",
+      "figmaValue": 12,
+      "alias": null,
+      "figmaVariableId": "VariableID:5:31",
+      "scopes": [
+        "GAP"
+      ]
+    },
+    {
+      "sourceFile": "dimensions.json",
+      "group": "dimension",
+      "designPath": "spacing/md",
+      "cssVariable": "--cf-spacing-md",
+      "cssValue": "16px",
+      "figmaValue": 16,
+      "alias": null,
+      "figmaVariableId": "VariableID:5:32",
+      "scopes": [
+        "GAP"
+      ]
+    },
+    {
+      "sourceFile": "dimensions.json",
+      "group": "dimension",
+      "designPath": "spacing/lg",
+      "cssVariable": "--cf-spacing-lg",
+      "cssValue": "24px",
+      "figmaValue": 24,
+      "alias": null,
+      "figmaVariableId": "VariableID:5:33",
+      "scopes": [
+        "GAP"
+      ]
+    },
+    {
+      "sourceFile": "dimensions.json",
+      "group": "dimension",
+      "designPath": "spacing/xl",
+      "cssVariable": "--cf-spacing-xl",
+      "cssValue": "32px",
+      "figmaValue": 32,
+      "alias": null,
+      "figmaVariableId": "VariableID:5:34",
+      "scopes": [
+        "GAP"
+      ]
+    },
+    {
+      "sourceFile": "dimensions.json",
+      "group": "dimension",
+      "designPath": "spacing/2xl",
+      "cssVariable": "--cf-spacing-2xl",
+      "cssValue": "40px",
+      "figmaValue": 40,
+      "alias": null,
+      "figmaVariableId": "VariableID:5:35",
+      "scopes": [
+        "GAP"
+      ]
+    },
+    {
+      "sourceFile": "dimensions.json",
+      "group": "dimension",
+      "designPath": "spacing/3xl",
+      "cssVariable": "--cf-spacing-3xl",
+      "cssValue": "48px",
+      "figmaValue": 48,
+      "alias": null,
+      "figmaVariableId": "VariableID:5:36",
+      "scopes": [
+        "GAP"
+      ]
+    },
+    {
+      "sourceFile": "dimensions.json",
+      "group": "dimension",
+      "designPath": "spacing/4xl",
+      "cssVariable": "--cf-spacing-4xl",
+      "cssValue": "64px",
+      "figmaValue": 64,
+      "alias": null,
+      "figmaVariableId": "VariableID:5:37",
+      "scopes": [
+        "GAP"
+      ]
+    },
+    {
+      "sourceFile": "dimensions.json",
+      "group": "dimension",
+      "designPath": "radius/none",
+      "cssVariable": "--cf-radius-none",
+      "cssValue": "0px",
+      "figmaValue": 0,
+      "alias": null,
+      "figmaVariableId": "VariableID:5:38",
+      "scopes": [
+        "CORNER_RADIUS"
+      ]
+    },
+    {
+      "sourceFile": "dimensions.json",
+      "group": "dimension",
+      "designPath": "radius/sm",
+      "cssVariable": "--cf-radius-sm",
+      "cssValue": "4px",
+      "figmaValue": 4,
+      "alias": null,
+      "figmaVariableId": "VariableID:5:39",
+      "scopes": [
+        "CORNER_RADIUS"
+      ]
+    },
+    {
+      "sourceFile": "dimensions.json",
+      "group": "dimension",
+      "designPath": "radius/md",
+      "cssVariable": "--cf-radius-md",
+      "cssValue": "8px",
+      "figmaValue": 8,
+      "alias": null,
+      "figmaVariableId": "VariableID:5:40",
+      "scopes": [
+        "CORNER_RADIUS"
+      ]
+    },
+    {
+      "sourceFile": "dimensions.json",
+      "group": "dimension",
+      "designPath": "radius/lg",
+      "cssVariable": "--cf-radius-lg",
+      "cssValue": "12px",
+      "figmaValue": 12,
+      "alias": null,
+      "figmaVariableId": "VariableID:5:41",
+      "scopes": [
+        "CORNER_RADIUS"
+      ]
+    },
+    {
+      "sourceFile": "dimensions.json",
+      "group": "dimension",
+      "designPath": "radius/xl",
+      "cssVariable": "--cf-radius-xl",
+      "cssValue": "16px",
+      "figmaValue": 16,
+      "alias": null,
+      "figmaVariableId": "VariableID:5:42",
+      "scopes": [
+        "CORNER_RADIUS"
+      ]
+    },
+    {
+      "sourceFile": "dimensions.json",
+      "group": "dimension",
+      "designPath": "radius/full",
+      "cssVariable": "--cf-radius-full",
+      "cssValue": "999px",
+      "figmaValue": 999,
+      "alias": null,
+      "figmaVariableId": "VariableID:5:43",
+      "scopes": [
+        "CORNER_RADIUS"
+      ]
+    },
+    {
+      "sourceFile": "dimensions.json",
+      "group": "dimension",
+      "designPath": "size/touch-target",
+      "cssVariable": "--cf-size-touch-target",
+      "cssValue": "44px",
+      "figmaValue": 44,
+      "alias": null,
+      "figmaVariableId": "VariableID:5:44",
+      "scopes": [
+        "WIDTH_HEIGHT"
+      ]
+    },
+    {
+      "sourceFile": "dimensions.json",
+      "group": "dimension",
+      "designPath": "size/icon/sm",
+      "cssVariable": "--cf-size-icon-sm",
+      "cssValue": "16px",
+      "figmaValue": 16,
+      "alias": null,
+      "figmaVariableId": "VariableID:5:45",
+      "scopes": [
+        "WIDTH_HEIGHT"
+      ]
+    },
+    {
+      "sourceFile": "dimensions.json",
+      "group": "dimension",
+      "designPath": "size/icon/md",
+      "cssVariable": "--cf-size-icon-md",
+      "cssValue": "20px",
+      "figmaValue": 20,
+      "alias": null,
+      "figmaVariableId": "VariableID:5:46",
+      "scopes": [
+        "WIDTH_HEIGHT"
+      ]
+    },
+    {
+      "sourceFile": "dimensions.json",
+      "group": "dimension",
+      "designPath": "size/icon/lg",
+      "cssVariable": "--cf-size-icon-lg",
+      "cssValue": "24px",
+      "figmaValue": 24,
+      "alias": null,
+      "figmaVariableId": "VariableID:5:47",
+      "scopes": [
+        "WIDTH_HEIGHT"
+      ]
+    },
+    {
+      "sourceFile": "dimensions.json",
+      "group": "dimension",
+      "designPath": "container/mobile",
+      "cssVariable": "--cf-container-mobile",
+      "cssValue": "390px",
+      "figmaValue": 390,
+      "alias": null,
+      "figmaVariableId": "VariableID:5:48",
+      "scopes": [
+        "WIDTH_HEIGHT"
+      ]
+    },
+    {
+      "sourceFile": "dimensions.json",
+      "group": "dimension",
+      "designPath": "container/tablet",
+      "cssVariable": "--cf-container-tablet",
+      "cssValue": "1024px",
+      "figmaValue": 1024,
+      "alias": null,
+      "figmaVariableId": "VariableID:5:49",
+      "scopes": [
+        "WIDTH_HEIGHT"
+      ]
+    },
+    {
+      "sourceFile": "dimensions.json",
+      "group": "dimension",
+      "designPath": "container/desktop",
+      "cssVariable": "--cf-container-desktop",
+      "cssValue": "1280px",
+      "figmaValue": 1280,
+      "alias": null,
+      "figmaVariableId": "VariableID:5:50",
+      "scopes": [
+        "WIDTH_HEIGHT"
+      ]
+    },
+    {
+      "sourceFile": "dimensions.json",
+      "group": "dimension",
+      "designPath": "container/wide",
+      "cssVariable": "--cf-container-wide",
+      "cssValue": "1440px",
+      "figmaValue": 1440,
+      "alias": null,
+      "figmaVariableId": "VariableID:5:51",
+      "scopes": [
+        "WIDTH_HEIGHT"
+      ]
+    },
+    {
+      "sourceFile": "typography.json",
+      "group": "typography",
+      "designPath": "family/sans",
+      "cssVariable": "--cf-font-family-sans",
+      "cssValue": "\"Microsoft YaHei\", \"PingFang SC\", sans-serif",
+      "figmaValue": "Noto Sans SC",
+      "alias": null,
+      "figmaVariableId": "VariableID:6:2",
+      "scopes": [
+        "FONT_FAMILY"
+      ]
+    },
+    {
+      "sourceFile": "typography.json",
+      "group": "typography",
+      "designPath": "weight/regular",
+      "cssVariable": "--cf-font-weight-regular",
+      "cssValue": "400",
+      "figmaValue": 400,
+      "alias": null,
+      "figmaVariableId": "VariableID:11:385",
+      "scopes": [
+        "ALL_SCOPES"
+      ]
+    },
+    {
+      "sourceFile": "typography.json",
+      "group": "typography",
+      "designPath": "weight/medium",
+      "cssVariable": "--cf-font-weight-medium",
+      "cssValue": "500",
+      "figmaValue": 500,
+      "alias": null,
+      "figmaVariableId": "VariableID:11:384",
+      "scopes": [
+        "ALL_SCOPES"
+      ]
+    },
+    {
+      "sourceFile": "typography.json",
+      "group": "typography",
+      "designPath": "weight/semibold",
+      "cssVariable": "--cf-font-weight-semibold",
+      "cssValue": "600",
+      "figmaValue": 600,
+      "alias": null,
+      "figmaVariableId": "VariableID:11:382",
+      "scopes": [
+        "ALL_SCOPES"
+      ]
+    },
+    {
+      "sourceFile": "typography.json",
+      "group": "typography",
+      "designPath": "weight/bold",
+      "cssVariable": "--cf-font-weight-bold",
+      "cssValue": "700",
+      "figmaValue": 700,
+      "alias": null,
+      "figmaVariableId": "VariableID:11:383",
+      "scopes": [
+        "ALL_SCOPES"
+      ]
+    },
+    {
+      "sourceFile": "typography.json",
+      "group": "typography",
+      "designPath": "font-size/page-title",
+      "cssVariable": "--cf-font-size-page-title",
+      "cssValue": "28px",
+      "figmaValue": 28,
+      "alias": null,
+      "figmaVariableId": "VariableID:6:5",
+      "scopes": [
+        "FONT_SIZE"
+      ]
+    },
+    {
+      "sourceFile": "typography.json",
+      "group": "typography",
+      "designPath": "font-size/module-title",
+      "cssVariable": "--cf-font-size-module-title",
+      "cssValue": "20px",
+      "figmaValue": 20,
+      "alias": null,
+      "figmaVariableId": "VariableID:6:6",
+      "scopes": [
+        "FONT_SIZE"
+      ]
+    },
+    {
+      "sourceFile": "typography.json",
+      "group": "typography",
+      "designPath": "font-size/body-large",
+      "cssVariable": "--cf-font-size-body-large",
+      "cssValue": "16px",
+      "figmaValue": 16,
+      "alias": null,
+      "figmaVariableId": "VariableID:6:7",
+      "scopes": [
+        "FONT_SIZE"
+      ]
+    },
+    {
+      "sourceFile": "typography.json",
+      "group": "typography",
+      "designPath": "font-size/body",
+      "cssVariable": "--cf-font-size-body",
+      "cssValue": "14px",
+      "figmaValue": 14,
+      "alias": null,
+      "figmaVariableId": "VariableID:6:8",
+      "scopes": [
+        "FONT_SIZE"
+      ]
+    },
+    {
+      "sourceFile": "typography.json",
+      "group": "typography",
+      "designPath": "font-size/helper",
+      "cssVariable": "--cf-font-size-helper",
+      "cssValue": "12px",
+      "figmaValue": 12,
+      "alias": null,
+      "figmaVariableId": "VariableID:6:9",
+      "scopes": [
+        "FONT_SIZE"
+      ]
+    },
+    {
+      "sourceFile": "typography.json",
+      "group": "typography",
+      "designPath": "font-size/amount-large",
+      "cssVariable": "--cf-font-size-amount-large",
+      "cssValue": "32px",
+      "figmaValue": 32,
+      "alias": null,
+      "figmaVariableId": "VariableID:6:10",
+      "scopes": [
+        "FONT_SIZE"
+      ]
+    },
+    {
+      "sourceFile": "typography.json",
+      "group": "typography",
+      "designPath": "font-size/amount-medium",
+      "cssVariable": "--cf-font-size-amount-medium",
+      "cssValue": "20px",
+      "figmaValue": 20,
+      "alias": null,
+      "figmaVariableId": "VariableID:6:11",
+      "scopes": [
+        "FONT_SIZE"
+      ]
+    },
+    {
+      "sourceFile": "typography.json",
+      "group": "typography",
+      "designPath": "font-size/table",
+      "cssVariable": "--cf-font-size-table",
+      "cssValue": "14px",
+      "figmaValue": 14,
+      "alias": null,
+      "figmaVariableId": "VariableID:6:12",
+      "scopes": [
+        "FONT_SIZE"
+      ]
+    }
+  ],
+  "componentTokens": {
+    "--cf-component-action-primary-bg": "var(--cf-color-neutral-950)",
+    "--cf-component-action-primary-bg-hover": "var(--cf-color-neutral-900)",
+    "--cf-component-action-primary-bg-pressed": "var(--cf-color-neutral-700)",
+    "--cf-component-action-primary-text": "var(--cf-color-text-inverse)",
+    "--cf-component-focus-ring": "var(--cf-color-neutral-950)",
+    "--cf-component-selected-bg": "var(--cf-color-neutral-100)",
+    "--cf-component-selected-indicator": "var(--cf-color-neutral-950)",
+    "--cf-component-button-radius": "var(--cf-radius-md)",
+    "--cf-component-button-height": "var(--cf-size-touch-target)",
+    "--cf-component-button-padding-inline": "var(--cf-spacing-md)",
+    "--cf-component-button-gap": "var(--cf-spacing-xs)",
+    "--cf-component-badge-success-bg": "var(--cf-color-bg-success)",
+    "--cf-component-badge-success-text": "var(--cf-color-text-success)",
+    "--cf-component-badge-success-icon": "var(--cf-color-icon-success)",
+    "--cf-component-badge-radius": "var(--cf-radius-full)",
+    "--cf-component-badge-padding-block": "var(--cf-spacing-2xs)",
+    "--cf-component-badge-padding-inline": "var(--cf-spacing-xs)"
+  }
+}
