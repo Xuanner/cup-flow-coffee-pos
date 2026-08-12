@@ -1,0 +1,134 @@
+/* GENERATED FILE — edit Figma exports or generate-tokens.mjs, then regenerate. */
+:root {
+  /* Color primitives */
+  --cf-color-white: #ffffff;
+  --cf-color-brand-accent: #f5319d;
+  --cf-color-brand-primary: #dd2089;
+  --cf-color-brand-hover: #d51c82;
+  --cf-color-brand-active: #cb1e83;
+  --cf-color-brand-light: #fdc2db;
+  --cf-color-brand-background: #ffe8f1;
+  --cf-color-neutral-50: #f7f8fa;
+  --cf-color-neutral-100: #f2f3f5;
+  --cf-color-neutral-200: #e5e6eb;
+  --cf-color-neutral-300: #c9cdd4;
+  --cf-color-neutral-400: #a9aeb8;
+  --cf-color-neutral-500: #86909c;
+  --cf-color-neutral-600: #6b7785;
+  --cf-color-neutral-700: #4e5969;
+  --cf-color-neutral-900: #272e3b;
+  --cf-color-neutral-950: #1d2129;
+  --cf-color-success-100: #dcfce7;
+  --cf-color-success-500: #22c55e;
+  --cf-color-success-700: #15803d;
+  --cf-color-warning-100: #fef3c7;
+  --cf-color-warning-500: #f59e0b;
+  --cf-color-warning-700: #b45309;
+  --cf-color-error-100: #fee2e2;
+  --cf-color-error-500: #ef4444;
+  --cf-color-error-700: #dc2626;
+  --cf-color-info-100: #dbeafe;
+  --cf-color-info-500: #3b82f6;
+  --cf-color-info-700: #2563eb;
+
+  /* Semantic colors */
+  --cf-color-bg-canvas: var(--cf-color-neutral-50);
+  --cf-color-bg-surface: var(--cf-color-white);
+  --cf-color-bg-subtle: var(--cf-color-neutral-100);
+  --cf-color-bg-disabled: var(--cf-color-neutral-100);
+  --cf-color-bg-success: var(--cf-color-success-100);
+  --cf-color-bg-warning: var(--cf-color-warning-100);
+  --cf-color-bg-error: var(--cf-color-error-100);
+  --cf-color-bg-info: var(--cf-color-info-100);
+  --cf-color-bg-brand-default: var(--cf-color-brand-primary);
+  --cf-color-bg-brand-hover: var(--cf-color-brand-hover);
+  --cf-color-bg-brand-active: var(--cf-color-brand-active);
+  --cf-color-bg-brand-soft: var(--cf-color-brand-background);
+  --cf-color-bg-brand-subtle: var(--cf-color-brand-light);
+  --cf-color-text-primary: var(--cf-color-neutral-950);
+  --cf-color-text-secondary: var(--cf-color-neutral-700);
+  --cf-color-text-tertiary: var(--cf-color-neutral-600);
+  --cf-color-text-disabled: var(--cf-color-neutral-400);
+  --cf-color-text-inverse: var(--cf-color-white);
+  --cf-color-text-brand: var(--cf-color-brand-primary);
+  --cf-color-text-success: var(--cf-color-success-700);
+  --cf-color-text-warning: var(--cf-color-warning-700);
+  --cf-color-text-error: var(--cf-color-error-700);
+  --cf-color-text-info: var(--cf-color-info-700);
+  --cf-color-border-subtle: var(--cf-color-neutral-200);
+  --cf-color-border-default: var(--cf-color-neutral-300);
+  --cf-color-border-strong: var(--cf-color-neutral-500);
+  --cf-color-border-focus: var(--cf-color-brand-accent);
+  --cf-color-border-success: var(--cf-color-success-500);
+  --cf-color-border-warning: var(--cf-color-warning-500);
+  --cf-color-border-error: var(--cf-color-error-500);
+  --cf-color-border-info: var(--cf-color-info-500);
+  --cf-color-icon-primary: var(--cf-color-neutral-950);
+  --cf-color-icon-secondary: var(--cf-color-neutral-700);
+  --cf-color-icon-disabled: var(--cf-color-neutral-400);
+  --cf-color-icon-brand: var(--cf-color-brand-primary);
+  --cf-color-icon-success: var(--cf-color-success-700);
+  --cf-color-icon-warning: var(--cf-color-warning-700);
+  --cf-color-icon-error: var(--cf-color-error-700);
+  --cf-color-icon-info: var(--cf-color-info-700);
+
+  /* Dimensions */
+  --cf-spacing-0: 0px;
+  --cf-spacing-2xs: 4px;
+  --cf-spacing-xs: 8px;
+  --cf-spacing-sm: 12px;
+  --cf-spacing-md: 16px;
+  --cf-spacing-lg: 24px;
+  --cf-spacing-xl: 32px;
+  --cf-spacing-2xl: 40px;
+  --cf-spacing-3xl: 48px;
+  --cf-spacing-4xl: 64px;
+  --cf-radius-none: 0px;
+  --cf-radius-sm: 4px;
+  --cf-radius-md: 8px;
+  --cf-radius-lg: 12px;
+  --cf-radius-xl: 16px;
+  --cf-radius-full: 999px;
+  --cf-size-touch-target: 44px;
+  --cf-size-icon-sm: 16px;
+  --cf-size-icon-md: 20px;
+  --cf-size-icon-lg: 24px;
+  --cf-container-mobile: 390px;
+  --cf-container-tablet: 1024px;
+  --cf-container-desktop: 1280px;
+  --cf-container-wide: 1440px;
+
+  /* Typography */
+  --cf-font-family-sans: "Microsoft YaHei", "PingFang SC", sans-serif;
+  --cf-font-weight-regular: 400;
+  --cf-font-weight-medium: 500;
+  --cf-font-weight-semibold: 600;
+  --cf-font-weight-bold: 700;
+  --cf-font-size-page-title: 28px;
+  --cf-font-size-module-title: 20px;
+  --cf-font-size-body-large: 16px;
+  --cf-font-size-body: 14px;
+  --cf-font-size-helper: 12px;
+  --cf-font-size-amount-large: 32px;
+  --cf-font-size-amount-medium: 20px;
+  --cf-font-size-table: 14px;
+
+  /* Project component contracts — approved by US-S1-UI-02. */
+  --cf-component-action-primary-bg: var(--cf-color-neutral-950);
+  --cf-component-action-primary-bg-hover: var(--cf-color-neutral-900);
+  --cf-component-action-primary-bg-pressed: var(--cf-color-neutral-700);
+  --cf-component-action-primary-text: var(--cf-color-text-inverse);
+  --cf-component-focus-ring: var(--cf-color-neutral-950);
+  --cf-component-selected-bg: var(--cf-color-neutral-100);
+  --cf-component-selected-indicator: var(--cf-color-neutral-950);
+  --cf-component-button-radius: var(--cf-radius-md);
+  --cf-component-button-height: var(--cf-size-touch-target);
+  --cf-component-button-padding-inline: var(--cf-spacing-md);
+  --cf-component-button-gap: var(--cf-spacing-xs);
+  --cf-component-badge-success-bg: var(--cf-color-bg-success);
+  --cf-component-badge-success-text: var(--cf-color-text-success);
+  --cf-component-badge-success-icon: var(--cf-color-icon-success);
+  --cf-component-badge-radius: var(--cf-radius-full);
+  --cf-component-badge-padding-block: var(--cf-spacing-2xs);
+  --cf-component-badge-padding-inline: var(--cf-spacing-xs);
+}

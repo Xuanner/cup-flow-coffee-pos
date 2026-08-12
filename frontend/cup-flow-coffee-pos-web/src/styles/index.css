@@ -1,0 +1,60 @@
+@import "tailwindcss";
+@import "./tokens.css";
+
+@theme inline {
+  --color-canvas: var(--cf-color-bg-canvas);
+  --color-surface: var(--cf-color-bg-surface);
+  --color-subtle: var(--cf-color-bg-subtle);
+  --color-selected: var(--cf-component-selected-bg);
+  --color-brand: var(--cf-color-text-brand);
+  --color-brand-soft: var(--cf-color-bg-brand-soft);
+  --color-primary: var(--cf-color-text-primary);
+  --color-secondary: var(--cf-color-text-secondary);
+  --color-tertiary: var(--cf-color-text-tertiary);
+  --color-on-action: var(--cf-component-action-primary-text);
+  --color-action-primary: var(--cf-component-action-primary-bg);
+  --color-action-primary-hover: var(--cf-component-action-primary-bg-hover);
+  --color-action-primary-pressed: var(--cf-component-action-primary-bg-pressed);
+  --color-default: var(--cf-color-border-default);
+  --color-subtle-border: var(--cf-color-border-subtle);
+  --color-focus: var(--cf-component-focus-ring);
+  --color-success: var(--cf-color-text-success);
+  --color-warning: var(--cf-color-text-warning);
+  --color-error: var(--cf-color-text-error);
+  --font-sans: var(--cf-font-family-sans);
+  --radius-control: var(--cf-radius-md);
+  --radius-panel: var(--cf-radius-lg);
+  --spacing-touch: var(--cf-size-touch-target);
+}
+
+@layer base {
+  *,
+  ::before,
+  ::after {
+    border-color: var(--cf-color-border-default);
+  }
+
+  html {
+    font-family: var(--cf-font-family-sans);
+    background: var(--cf-color-bg-canvas);
+  }
+
+  body {
+    margin: 0;
+    min-width: 320px;
+    min-height: 100vh;
+    background: var(--cf-color-bg-canvas);
+    color: var(--cf-color-text-primary);
+    font-size: var(--cf-font-size-body);
+    line-height: var(--cf-line-height-body);
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+  }
+}
