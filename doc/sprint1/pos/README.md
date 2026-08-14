@@ -2,11 +2,12 @@
 
 ## 交付范围
 
-本目录只覆盖 `US-S1-POS-01 快速点单设计`，不包含商品定制、收款设计、业务代码或其他 Sprint 1 User Story。
+本目录包含两个彼此独立的 POS 设计交付：`US-S1-POS-01 快速点单设计` 与 `US-S1-POS-02 商品定制设计`。不包含收款设计、业务代码或其他 Sprint 1 User Story。
 
 | 文件 | 用途 |
 | --- | --- |
 | `cup-flow-pos-quick-order.svg` | 可导入 Figma 的快速点单页面、关键状态与交接画板 |
+| `cup-flow-pos-product-customization.svg` | 可导入 Figma 的商品定制 Drawer、状态与交接画板 |
 
 ## SVG 覆盖内容
 
@@ -43,3 +44,14 @@
 5. 按画板末尾的验收表走查售罄、空状态、购物车、清空确认和焦点顺序。
 
 SVG 导入不会自动创建 Figma Component、Variable、Auto Layout 或 Prototype 连接，这些需要导入后完成。
+
+## US-S1-POS-02 覆盖内容
+
+- 杯型、温度、糖度、加料、数量和商品备注。
+- 必选/可选、单选/多选、默认值、选中、Focus Visible 和不可用状态。
+- 基础价、规格差价、加料价、商品单价、数量与合计实时联动。
+- 缺少必选项时的错误摘要、字段级提示、阻止提交和首错聚焦。
+- 从商品卡新增时使用“加入购物车”；从已有订单项进入时使用“保存修改”。
+- Desktop Drawer、Tablet Drawer 和 Mobile 全屏 Dialog 的响应式规则。
+
+商品定制 SVG 导入后，应使用 RadioGroup、Checkbox、Button、Textarea 与 Dialog/Drawer 等现有组件替换静态矢量，并按画板说明补充焦点限制和错误关联。

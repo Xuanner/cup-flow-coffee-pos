@@ -1,0 +1,305 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="5260" viewBox="0 0 1440 5260">
+  <title>Cup Flow Coffee POS — US-S1-POS-02 商品定制设计</title>
+  <desc>可导入 Figma 的商品定制设计画板，覆盖杯型、温度、糖度、加料、数量、备注、必选校验、价格联动和编辑订单项。</desc>
+  <defs>
+    <style>
+      text { font-family: "PingFang SC", "Microsoft YaHei", sans-serif; fill: #1D2129; }
+      .h1 { font-size: 30px; font-weight: 600; }
+      .h2 { font-size: 24px; font-weight: 600; }
+      .h3 { font-size: 18px; font-weight: 600; }
+      .title { font-size: 24px; font-weight: 700; }
+      .body-lg { font-size: 16px; font-weight: 400; }
+      .body { font-size: 14px; font-weight: 400; }
+      .medium { font-size: 14px; font-weight: 500; }
+      .small { font-size: 12px; font-weight: 400; fill: #6B7785; }
+      .tiny { font-size: 11px; font-weight: 400; fill: #6B7785; }
+      .white { fill: #FFFFFF; }
+      .secondary { fill: #4E5969; }
+      .muted { fill: #6B7785; }
+      .error { fill: #DC2626; }
+      .success { fill: #15803D; }
+      .section { fill: #FFFFFF; stroke: #E5E6EB; stroke-width: 1; }
+      .card { fill: #FFFFFF; stroke: #E5E6EB; stroke-width: 1; }
+      .divider { stroke: #E5E6EB; stroke-width: 1; }
+    </style>
+    <filter id="shadow-drawer" x="-30%" y="-20%" width="160%" height="150%">
+      <feDropShadow dx="-8" dy="0" stdDeviation="18" flood-color="#1D2129" flood-opacity="0.18"/>
+    </filter>
+    <filter id="shadow-card" x="-20%" y="-20%" width="140%" height="160%">
+      <feDropShadow dx="0" dy="4" stdDeviation="10" flood-color="#1D2129" flood-opacity="0.10"/>
+    </filter>
+    <symbol id="icon-check" viewBox="0 0 20 20"><path d="M4.5 10.5L8.3 14L15.5 6.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-x" viewBox="0 0 20 20"><path d="M5 5L15 15M15 5L5 15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+    <symbol id="icon-coffee" viewBox="0 0 32 32"><path d="M7 10H23V20C23 25 19.5 28 15 28S7 25 7 20V10Z" fill="none" stroke="currentColor" stroke-width="2"/><path d="M23 13H26C30 13 30 20 26 20H23" fill="none" stroke="currentColor" stroke-width="2"/><path d="M11 7C11 4 14 4 14 2M18 7C18 4 21 4 21 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="icon-edit" viewBox="0 0 20 20"><path d="M4 14.5V17H6.5L15.5 8L12 4.5L4 14.5ZM10.8 5.7L14.3 9.2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-warning" viewBox="0 0 20 20"><path d="M10 3L18 17H2L10 3Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M10 8V12M10 14.5V14.6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+  </defs>
+
+  <rect width="1440" height="5260" fill="#F7F8FA"/>
+
+  <g id="cf-pos02-cover">
+    <rect width="1440" height="152" fill="#1D2129"/>
+    <rect x="64" y="42" width="12" height="64" rx="6" fill="#DD2089"/>
+    <text x="96" y="72" class="h1 white">Cup Flow Coffee POS</text>
+    <text x="96" y="106" class="body" style="fill:#C9CDD4">US-S1-POS-02 · 商品定制设计 · SVG handoff</text>
+    <text x="1376" y="70" class="medium" text-anchor="end" style="fill:#FDC2DB">PRODUCT CUSTOMIZATION v1.0</text>
+    <text x="1376" y="100" class="small" text-anchor="end" style="fill:#C9CDD4">Desktop baseline 1280×800 · 2026-08-12</text>
+  </g>
+
+  <g id="cf-pos02-principles" transform="translate(64 184)">
+    <rect width="1312" height="232" rx="16" class="section"/>
+    <text x="24" y="42" class="h2">定制体验目标</text>
+    <text x="24" y="72" class="body secondary">收银员在一个连续表单中完成必选规格和可选加料，随时看到单价、数量与合计变化。</text>
+    <g transform="translate(24 98)">
+      <rect width="300" height="78" rx="12" fill="#F2F3F5"/><circle cx="36" cy="39" r="18" fill="#1D2129"/><text x="36" y="44" class="medium white" text-anchor="middle">01</text><text x="66" y="32" class="medium">规则可见</text><text x="66" y="55" class="small">必选、单选、多选、默认值明确</text>
+      <rect x="316" width="300" height="78" rx="12" fill="#F2F3F5"/><circle cx="352" cy="39" r="18" fill="#1D2129"/><text x="352" y="44" class="medium white" text-anchor="middle">02</text><text x="382" y="32" class="medium">选择可信</text><text x="382" y="55" class="small">勾选、深色边框、字重共同表达</text>
+      <rect x="632" width="300" height="78" rx="12" fill="#F2F3F5"/><circle cx="668" cy="39" r="18" fill="#1D2129"/><text x="668" y="44" class="medium white" text-anchor="middle">03</text><text x="698" y="32" class="medium">价格即时</text><text x="698" y="55" class="small">加价写在选项旁，并更新计价摘要</text>
+      <rect x="948" width="316" height="78" rx="12" fill="#F2F3F5"/><circle cx="984" cy="39" r="18" fill="#DD2089"/><text x="984" y="44" class="medium white" text-anchor="middle">04</text><text x="1014" y="32" class="medium">错误可恢复</text><text x="1014" y="55" class="small">阻止提交并定位首个缺失必选项</text>
+    </g>
+    <text x="24" y="208" class="small">品牌粉仅用于品牌标识；选中、焦点与主动作均使用 #1D2129。</text>
+  </g>
+
+  <!-- Default customization drawer -->
+  <g id="cf-pos02-frame-add-default">
+    <text x="64" y="474" class="h2">01  Add product / Defaults and price linkage</text>
+    <text x="1376" y="474" class="small" text-anchor="end">Frame 1280×800 · Drawer 560 · 默认值已选择 · 底部动作固定</text>
+    <g transform="translate(80 504)">
+      <rect width="1280" height="800" rx="16" fill="#F7F8FA" stroke="#E5E6EB"/>
+      <!-- dimmed POS context -->
+      <g id="layer-pos-context">
+        <rect width="184" height="800" rx="16" fill="#FFFFFF"/><rect x="184" width="1096" height="72" fill="#FFFFFF"/>
+        <circle cx="36" cy="36" r="20" fill="#FFE8F1"/><g transform="translate(21 20)" style="color:#DD2089"><use href="#icon-coffee" width="30" height="30"/></g><text x="64" y="34" class="medium">Cup Flow</text><text x="64" y="52" class="tiny">Coffee POS</text>
+        <rect x="12" y="92" width="160" height="48" rx="10" fill="#F2F3F5"/><rect x="12" y="92" width="4" height="48" rx="2" fill="#1D2129"/><text x="60" y="122" class="medium">收银台</text>
+        <text x="208" y="42" class="h3">收银台</text><text x="208" y="60" class="tiny">选择商品并完成定制</text>
+        <rect x="200" y="88" width="644" height="696" rx="14" fill="#FFFFFF"/>
+        <rect x="216" y="104" width="420" height="44" rx="10" fill="#F7F8FA" stroke="#C9CDD4"/><text x="260" y="132" class="body muted">搜索商品名称</text>
+        <rect x="216" y="180" width="194" height="222" rx="12" class="card"/><rect x="425" y="180" width="194" height="222" rx="12" class="card"/><rect x="634" y="180" width="194" height="222" rx="12" class="card"/>
+        <text x="230" y="350" class="medium">经典美式</text><text x="439" y="350" class="medium">拿铁</text><text x="648" y="350" class="medium">澳白</text>
+      </g>
+      <rect width="1280" height="800" rx="16" fill="#1D2129" opacity="0.38"/>
+
+      <g id="component-customization-drawer" transform="translate(720)">
+        <path d="M0 0H544Q560 0 560 16V784Q560 800 544 800H0Z" fill="#FFFFFF" filter="url(#shadow-drawer)"/>
+        <g id="drawer-header">
+          <text x="24" y="38" class="title">定制拿铁</text><text x="24" y="62" class="small">基础价 ¥22.00 · 仅显示当前商品可用选项</text>
+          <circle cx="516" cy="36" r="20" fill="#F2F3F5"/><g transform="translate(506 26)" style="color:#4E5969"><use href="#icon-x" width="20" height="20"/></g>
+          <line y1="80" x2="560" y2="80" class="divider"/>
+        </g>
+
+        <g id="drawer-scroll-content" transform="translate(24 100)">
+          <!-- cup size -->
+          <g id="option-group-size">
+            <text y="18" class="h3">杯型</text><rect x="48" y="1" width="42" height="24" rx="12" fill="#F2F3F5"/><text x="69" y="18" class="tiny" text-anchor="middle">必选</text><text x="496" y="18" class="small" text-anchor="end">单选</text>
+            <g transform="translate(0 34)">
+              <rect width="154" height="62" rx="10" fill="#FFFFFF" stroke="#C9CDD4"/><text x="14" y="28" class="medium">中杯</text><text x="14" y="48" class="small">默认 · +¥0.00</text>
+              <rect x="166" width="154" height="62" rx="10" fill="#F2F3F5" stroke="#1D2129" stroke-width="2"/><circle cx="298" cy="18" r="10" fill="#1D2129"/><g transform="translate(291 11)" style="color:#FFFFFF"><use href="#icon-check" width="14" height="14"/></g><text x="180" y="28" class="medium">大杯</text><text x="180" y="48" class="small">+¥3.00</text>
+              <rect x="332" width="164" height="62" rx="10" fill="#F2F3F5" stroke="#E5E6EB"/><text x="346" y="28" class="medium" style="fill:#86909C">超大杯</text><text x="346" y="48" class="small">当前不可用</text>
+            </g>
+          </g>
+
+          <!-- temperature -->
+          <g id="option-group-temperature" transform="translate(0 122)">
+            <text y="18" class="h3">温度</text><rect x="48" y="1" width="42" height="24" rx="12" fill="#F2F3F5"/><text x="69" y="18" class="tiny" text-anchor="middle">必选</text><text x="496" y="18" class="small" text-anchor="end">单选</text>
+            <g transform="translate(0 34)">
+              <rect width="238" height="52" rx="10" fill="#F2F3F5" stroke="#1D2129" stroke-width="2"/><circle cx="216" cy="16" r="10" fill="#1D2129"/><g transform="translate(209 9)" style="color:#FFFFFF"><use href="#icon-check" width="14" height="14"/></g><text x="16" y="32" class="medium">热 · 默认</text>
+              <rect x="250" width="246" height="52" rx="10" fill="#FFFFFF" stroke="#C9CDD4"/><text x="266" y="32" class="medium">冰</text>
+            </g>
+          </g>
+
+          <!-- sugar -->
+          <g id="option-group-sugar" transform="translate(0 230)">
+            <text y="18" class="h3">糖度</text><rect x="48" y="1" width="42" height="24" rx="12" fill="#F2F3F5"/><text x="69" y="18" class="tiny" text-anchor="middle">必选</text><text x="496" y="18" class="small" text-anchor="end">单选</text>
+            <g transform="translate(0 34)">
+              <rect width="112" height="48" rx="10" fill="#FFFFFF" stroke="#C9CDD4"/><text x="56" y="30" class="medium" text-anchor="middle">无糖</text>
+              <rect x="124" width="112" height="48" rx="10" fill="#F2F3F5" stroke="#1D2129" stroke-width="2"/><text x="180" y="30" class="medium" text-anchor="middle">少糖</text>
+              <rect x="248" width="112" height="48" rx="10" fill="#FFFFFF" stroke="#C9CDD4"/><text x="304" y="30" class="medium" text-anchor="middle">标准糖</text>
+              <rect x="372" width="124" height="48" rx="10" fill="#F2F3F5" stroke="#E5E6EB"/><text x="434" y="30" class="medium" style="fill:#86909C" text-anchor="middle">多糖 · 不可用</text>
+            </g>
+          </g>
+
+          <!-- addons -->
+          <g id="option-group-addons" transform="translate(0 332)">
+            <text y="18" class="h3">加料</text><rect x="48" y="1" width="42" height="24" rx="12" fill="#F2F3F5"/><text x="69" y="18" class="tiny" text-anchor="middle">可选</text><text x="496" y="18" class="small" text-anchor="end">多选 · 最多 3 项</text>
+            <g transform="translate(0 34)">
+              <rect width="238" height="56" rx="10" fill="#F2F3F5" stroke="#1D2129" stroke-width="2"/><rect x="16" y="18" width="20" height="20" rx="5" fill="#1D2129"/><g transform="translate(19 21)" style="color:#FFFFFF"><use href="#icon-check" width="14" height="14"/></g><text x="48" y="25" class="medium">燕麦奶</text><text x="222" y="34" class="small" text-anchor="end">+¥2.00</text>
+              <rect x="250" width="246" height="56" rx="10" fill="#FFFFFF" stroke="#C9CDD4"/><rect x="266" y="18" width="20" height="20" rx="5" fill="#FFFFFF" stroke="#86909C"/><text x="298" y="25" class="medium">加浓缩</text><text x="480" y="34" class="small" text-anchor="end">+¥4.00</text>
+              <rect y="68" width="238" height="56" rx="10" fill="#FFFFFF" stroke="#C9CDD4"/><rect x="16" y="86" width="20" height="20" rx="5" fill="#FFFFFF" stroke="#86909C"/><text x="48" y="93" class="medium">香草糖浆</text><text x="222" y="102" class="small" text-anchor="end">+¥2.00</text>
+              <rect x="250" y="68" width="246" height="56" rx="10" fill="#F2F3F5" stroke="#E5E6EB"/><rect x="266" y="86" width="20" height="20" rx="5" fill="#E5E6EB"/><text x="298" y="93" class="medium" style="fill:#86909C">奶油顶</text><text x="480" y="102" class="small" text-anchor="end">已用完</text>
+            </g>
+          </g>
+
+          <!-- quantity & note -->
+          <g id="quantity-note" transform="translate(0 486)">
+            <text y="18" class="h3">数量</text>
+            <rect y="32" width="156" height="44" rx="10" fill="#F7F8FA" stroke="#E5E6EB"/><text x="24" y="61" class="h3" text-anchor="middle">−</text><text x="78" y="60" class="medium" text-anchor="middle">2</text><text x="132" y="61" class="h3" text-anchor="middle">＋</text>
+            <text x="180" y="18" class="h3">商品备注</text><text x="496" y="18" class="small" text-anchor="end">最多 50 字</text>
+            <rect x="180" y="32" width="316" height="64" rx="10" fill="#FFFFFF" stroke="#C9CDD4"/><text x="192" y="58" class="body">奶泡少一些</text><text x="484" y="84" class="tiny" text-anchor="end">6 / 50</text>
+          </g>
+        </g>
+
+        <g id="drawer-footer" transform="translate(0 704)">
+          <rect width="560" height="96" fill="#FFFFFF"/><line x2="560" class="divider"/>
+          <text x="24" y="30" class="small">单价 ¥27.00 × 2</text><text x="24" y="62" font-size="20" font-weight="600">合计 ¥54.00</text>
+          <rect x="320" y="22" width="216" height="52" rx="10" fill="#1D2129"/><text x="428" y="54" class="medium white" text-anchor="middle">加入购物车 · ¥54.00</text>
+        </g>
+      </g>
+    </g>
+  </g>
+
+  <!-- Variant semantics -->
+  <g id="cf-pos02-option-semantics">
+    <text x="64" y="1384" class="h2">02  选项语义与状态</text>
+    <text x="1376" y="1384" class="small" text-anchor="end">选中不依赖品牌色；不可用项保留名称与原因，不能获得焦点</text>
+    <rect x="64" y="1420" width="1312" height="500" rx="16" class="section"/>
+    <g transform="translate(88 1452)">
+      <g id="option-state-default">
+        <text class="h3" y="22">Default</text><rect y="52" width="280" height="72" rx="10" fill="#FFFFFF" stroke="#C9CDD4"/><text x="16" y="82" class="medium">中杯</text><text x="16" y="104" class="small">+¥0.00</text><text y="154" class="small">可选择 · 普通字重 · 默认边框</text>
+      </g>
+      <g id="option-state-selected" transform="translate(328)">
+        <text class="h3" y="22">Selected</text><rect y="52" width="280" height="72" rx="10" fill="#F2F3F5" stroke="#1D2129" stroke-width="2"/><circle cx="254" cy="72" r="11" fill="#1D2129"/><g transform="translate(247 65)" style="color:#FFFFFF"><use href="#icon-check" width="14" height="14"/></g><text x="16" y="82" class="medium">大杯</text><text x="16" y="104" class="small">+¥3.00</text><text y="154" class="small">浅中性底 + 深边框 + 勾选 + 中等字重</text>
+      </g>
+      <g id="option-state-focus" transform="translate(656)">
+        <text class="h3" y="22">Focus Visible</text><rect x="-4" y="48" width="288" height="80" rx="14" fill="#FFFFFF" stroke="#1D2129" stroke-width="2"/><rect y="52" width="280" height="72" rx="10" fill="#FFFFFF" stroke="#C9CDD4"/><text x="16" y="82" class="medium">加浓缩</text><text x="16" y="104" class="small">+¥4.00</text><text y="154" class="small">2px #1D2129 外环 + 2px 白色间隔</text>
+      </g>
+      <g id="option-state-disabled" transform="translate(984)">
+        <text class="h3" y="22">Unavailable</text><rect y="52" width="280" height="72" rx="10" fill="#F2F3F5" stroke="#E5E6EB"/><text x="16" y="82" class="medium" style="fill:#86909C">奶油顶</text><text x="16" y="104" class="small">已用完</text><text y="154" class="small">真实 disabled · 保留不可用原因</text>
+      </g>
+      <line y1="190" x2="1264" y2="190" class="divider"/>
+      <g transform="translate(0 222)">
+        <text class="h3" y="22">选择模式</text>
+        <rect y="48" width="384" height="116" rx="10" fill="#F7F8FA"/><text x="16" y="78" class="medium">单选 · RadioGroup</text><text x="16" y="104" class="small">杯型、温度、糖度；方向键移动并选择。</text><text x="16" y="130" class="small">每个必选组最多一个默认值。</text>
+        <rect x="416" y="48" width="384" height="116" rx="10" fill="#F7F8FA"/><text x="432" y="78" class="medium">多选 · Checkbox group</text><text x="432" y="104" class="small">加料；Space 独立切换，可限制最大数量。</text><text x="432" y="130" class="small">达到上限后其余选项禁用并说明原因。</text>
+        <rect x="832" y="48" width="432" height="116" rx="10" fill="#F7F8FA"/><text x="848" y="78" class="medium">默认值</text><text x="848" y="104" class="small">打开 Drawer 时自动应用，但仍允许收银员更改。</text><text x="848" y="130" class="small">默认值必须计入初始单价和合计。</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Validation -->
+  <g id="cf-pos02-validation">
+    <text x="64" y="1992" class="h2">03  缺少必选项 / 阻止加入购物车</text>
+    <text x="1376" y="1992" class="small" text-anchor="end">提交后滚动并聚焦首个缺失组「杯型」；错误摘要与字段错误同步</text>
+    <g id="cf-pos02-frame-required-error" transform="translate(80 2028)">
+      <rect width="1280" height="800" rx="16" fill="#F7F8FA" stroke="#E5E6EB"/>
+      <rect width="720" height="800" rx="16" fill="#1D2129" opacity="0.22"/>
+      <g transform="translate(720)">
+        <path d="M0 0H544Q560 0 560 16V784Q560 800 544 800H0Z" fill="#FFFFFF" filter="url(#shadow-drawer)"/>
+        <text x="24" y="38" class="title">定制拿铁</text><text x="24" y="62" class="small">请完成所有必选项</text><circle cx="516" cy="36" r="20" fill="#F2F3F5"/><g transform="translate(506 26)" style="color:#4E5969"><use href="#icon-x" width="20" height="20"/></g><line y1="80" x2="560" y2="80" class="divider"/>
+        <g transform="translate(24 100)">
+          <rect width="512" height="72" rx="10" fill="#FEE2E2"/><circle cx="24" cy="24" r="10" fill="#DC2626"/><text x="24" y="28" font-size="12" font-weight="700" class="white" text-anchor="middle">!</text><text x="44" y="28" class="medium error">还有 2 个必选项未完成</text><text x="16" y="54" class="small" style="fill:#7A271A">请选择杯型和糖度后再加入购物车。</text>
+          <g id="error-group-size" transform="translate(0 96)">
+            <rect x="-4" y="-4" width="520" height="128" rx="14" fill="#FFFFFF" stroke="#1D2129" stroke-width="2"/>
+            <rect width="512" height="120" rx="12" fill="#FFFFFF" stroke="#DC2626" stroke-width="1.5"/>
+            <text x="16" y="30" class="h3">杯型</text><rect x="64" y="12" width="42" height="24" rx="12" fill="#FEE2E2"/><text x="85" y="29" class="tiny error" text-anchor="middle">必选</text>
+            <rect x="16" y="48" width="146" height="48" rx="9" fill="#FFFFFF" stroke="#C9CDD4"/><text x="89" y="78" class="medium" text-anchor="middle">中杯</text><rect x="174" y="48" width="146" height="48" rx="9" fill="#FFFFFF" stroke="#C9CDD4"/><text x="247" y="78" class="medium" text-anchor="middle">大杯 +¥3</text><rect x="332" y="48" width="164" height="48" rx="9" fill="#F2F3F5" stroke="#E5E6EB"/><text x="414" y="78" class="medium" style="fill:#86909C" text-anchor="middle">超大杯 · 不可用</text>
+            <text x="16" y="114" class="small error">请选择杯型</text>
+          </g>
+          <g transform="translate(0 244)">
+            <text y="22" class="h3">温度</text><rect y="38" width="250" height="48" rx="9" fill="#F2F3F5" stroke="#1D2129" stroke-width="2"/><text x="125" y="68" class="medium" text-anchor="middle">热 · 默认</text><rect x="262" y="38" width="250" height="48" rx="9" fill="#FFFFFF" stroke="#C9CDD4"/><text x="387" y="68" class="medium" text-anchor="middle">冰</text>
+          </g>
+          <g id="error-group-sugar" transform="translate(0 354)">
+            <rect width="512" height="116" rx="12" fill="#FFFFFF" stroke="#DC2626" stroke-width="1.5"/><text x="16" y="30" class="h3">糖度</text><rect x="64" y="12" width="42" height="24" rx="12" fill="#FEE2E2"/><text x="85" y="29" class="tiny error" text-anchor="middle">必选</text>
+            <rect x="16" y="48" width="104" height="44" rx="9" fill="#FFFFFF" stroke="#C9CDD4"/><text x="68" y="76" class="medium" text-anchor="middle">无糖</text><rect x="132" y="48" width="104" height="44" rx="9" fill="#FFFFFF" stroke="#C9CDD4"/><text x="184" y="76" class="medium" text-anchor="middle">少糖</text><rect x="248" y="48" width="120" height="44" rx="9" fill="#FFFFFF" stroke="#C9CDD4"/><text x="308" y="76" class="medium" text-anchor="middle">标准糖</text><text x="16" y="108" class="small error">请选择糖度</text>
+          </g>
+          <rect y="500" width="512" height="70" rx="10" fill="#F7F8FA"/><text x="16" y="528" class="medium">焦点行为</text><text x="16" y="552" class="small">滚动至杯型组，Focus Visible 使用 #1D2129；错误仍由红色表达。</text>
+        </g>
+        <g transform="translate(0 704)"><rect width="560" height="96" fill="#FFFFFF"/><line x2="560" class="divider"/><text x="24" y="34" class="medium">合计 ¥22.00</text><rect x="320" y="20" width="216" height="52" rx="10" fill="#F2F3F5"/><text x="428" y="52" class="medium" style="fill:#A9AEB8" text-anchor="middle">完成必选项后添加</text></g>
+      </g>
+    </g>
+  </g>
+
+  <!-- Add vs edit -->
+  <g id="cf-pos02-add-edit">
+    <text x="64" y="2900" class="h2">04  新增商品与编辑订单项</text>
+    <text x="1376" y="2900" class="small" text-anchor="end">模式由入口和订单项 ID 决定；编辑时不得创建重复订单项</text>
+    <g id="cf-pos02-frame-add-edit-comparison" transform="translate(64 2936)">
+      <rect width="640" height="650" rx="16" class="section"/>
+      <rect width="640" height="72" rx="16" fill="#1D2129"/><rect y="56" width="640" height="16" fill="#1D2129"/><text x="24" y="32" class="medium white">Mode / Add new product</text><text x="24" y="54" class="tiny" style="fill:#C9CDD4">从商品卡进入</text>
+      <g transform="translate(32 106)">
+        <text class="title" y="28">定制拿铁</text><rect x="452" y="4" width="124" height="32" rx="16" fill="#F2F3F5"/><text x="514" y="25" class="small" text-anchor="middle">新增商品</text>
+        <text y="62" class="small">基础价 ¥22.00 · 使用商品默认选项</text>
+        <rect y="96" width="576" height="80" rx="10" fill="#F7F8FA"/><text x="16" y="126" class="medium">当前配置</text><text x="16" y="152" class="small">大杯 · 热 · 少糖 · 加燕麦奶 × 2</text><text x="560" y="143" class="medium" text-anchor="end">¥54.00</text>
+        <text y="222" class="medium">提交结果</text><text y="248" class="body secondary">在购物车末尾创建一个新的订单项。</text>
+        <rect y="286" width="576" height="52" rx="10" fill="#1D2129"/><text x="288" y="318" class="medium white" text-anchor="middle">加入购物车 · ¥54.00</text>
+        <rect y="374" width="576" height="96" rx="10" fill="#F2F3F5"/><text x="16" y="404" class="medium">关闭 / 取消</text><text x="16" y="430" class="small">关闭后不创建商品；未提交选择不保留。</text><text x="16" y="452" class="small">Esc 或关闭按钮返回触发的商品卡。</text>
+      </g>
+    </g>
+    <g transform="translate(736 2936)">
+      <rect width="640" height="650" rx="16" class="section"/>
+      <rect width="640" height="72" rx="16" fill="#1D2129"/><rect y="56" width="640" height="16" fill="#1D2129"/><text x="24" y="32" class="medium white">Mode / Edit cart item</text><text x="24" y="54" class="tiny" style="fill:#C9CDD4">从购物车「编辑」进入</text>
+      <g transform="translate(32 106)">
+        <g transform="translate(0 3)" style="color:#1D2129"><use href="#icon-edit" width="24" height="24"/></g><text x="34" class="title" y="28">编辑拿铁</text><rect x="452" y="4" width="124" height="32" rx="16" fill="#F2F3F5"/><text x="514" y="25" class="small" text-anchor="middle">订单项 #1</text>
+        <text y="62" class="small">载入该订单项已保存的配置和数量</text>
+        <rect y="96" width="576" height="80" rx="10" fill="#F7F8FA"/><text x="16" y="126" class="medium">修改前</text><text x="16" y="152" class="small">中杯 · 热 · 标准糖 × 1</text><text x="560" y="143" class="medium" text-anchor="end">¥22.00</text>
+        <rect y="188" width="576" height="80" rx="10" fill="#F2F3F5" stroke="#1D2129"/><text x="16" y="218" class="medium">修改后</text><text x="16" y="244" class="small">大杯 · 热 · 少糖 · 加燕麦奶 × 2</text><text x="560" y="235" class="medium" text-anchor="end">¥54.00</text>
+        <text y="310" class="medium">提交结果</text><text y="336" class="body secondary">替换订单项 #1 的配置，不新增或合并其他项。</text>
+        <rect y="374" width="576" height="52" rx="10" fill="#1D2129"/><text x="288" y="406" class="medium white" text-anchor="middle">保存修改 · ¥54.00</text>
+        <text x="288" y="458" class="small" text-anchor="middle">取消则保留修改前的订单项内容</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Pricing -->
+  <g id="cf-pos02-pricing">
+    <text x="64" y="3660" class="h2">05  实时计价与数量</text>
+    <rect x="64" y="3696" width="1312" height="474" rx="16" class="section"/>
+    <g transform="translate(88 3730)">
+      <text class="h3" y="22">价格公式</text><text x="1264" y="22" class="small" text-anchor="end">展示价用于操作反馈；最终价格仍由后端校验</text>
+      <g transform="translate(0 56)">
+        <rect width="226" height="94" rx="12" fill="#F7F8FA"/><text x="16" y="32" class="small">商品基础价</text><text x="16" y="68" font-size="22" font-weight="600">¥22.00</text>
+        <text x="246" y="57" class="h2">＋</text>
+        <rect x="282" width="226" height="94" rx="12" fill="#F7F8FA"/><text x="298" y="32" class="small">大杯差价</text><text x="298" y="68" font-size="22" font-weight="600">¥3.00</text>
+        <text x="528" y="57" class="h2">＋</text>
+        <rect x="564" width="226" height="94" rx="12" fill="#F7F8FA"/><text x="580" y="32" class="small">燕麦奶</text><text x="580" y="68" font-size="22" font-weight="600">¥2.00</text>
+        <text x="810" y="57" class="h2">＝</text>
+        <rect x="846" width="194" height="94" rx="12" fill="#F2F3F5" stroke="#1D2129"/><text x="862" y="32" class="small">商品单价</text><text x="862" y="68" font-size="22" font-weight="600">¥27.00</text>
+        <text x="1060" y="57" class="h2">× 2 ＝</text>
+        <rect x="1142" width="122" height="94" rx="12" fill="#1D2129"/><text x="1203" y="32" class="small white" text-anchor="middle">合计</text><text x="1203" y="68" font-size="22" font-weight="600" class="white" text-anchor="middle">¥54</text>
+      </g>
+      <line y1="182" x2="1264" y2="182" class="divider"/>
+      <g transform="translate(0 214)">
+        <text class="medium" y="20">触发变化</text><text x="248" class="medium" y="20">界面更新</text><text x="740" class="medium" y="20">辅助反馈</text>
+        <text y="62" class="body">选择/取消加价项</text><text x="248" y="62" class="body secondary">选项状态、计价明细、单价与合计同步</text><text x="740" y="62" class="body secondary">使用 polite status 公告新合计</text>
+        <text y="104" class="body">修改数量</text><text x="248" y="104" class="body secondary">单价不变，只更新数量和合计</text><text x="740" y="104" class="body secondary">数量最小为 1，减号 disabled</text>
+        <text y="146" class="body">选择无加价项</text><text x="248" y="146" class="body secondary">配置摘要更新，价格保持不变</text><text x="740" y="146" class="body secondary">不显示误导性的价格动画</text>
+        <rect y="174" width="1264" height="52" rx="10" fill="#F7F8FA"/><text x="16" y="206" class="small">金额使用人民币符号并保留两位小数；动画只用于短暂强调变化，不得阻塞下一步选择。</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Responsive and handoff -->
+  <g id="cf-pos02-responsive">
+    <text x="64" y="4242" class="h2">06  响应式、键盘与交接</text>
+    <rect x="64" y="4278" width="1312" height="844" rx="16" class="section"/>
+    <g transform="translate(88 4310)">
+      <text class="h3" y="22">布局变化</text>
+      <rect y="52" width="392" height="124" rx="10" fill="#F7F8FA"/><text x="16" y="82" class="medium">Desktop ≥ 1024</text><text x="16" y="108" class="small">右侧 Drawer 560px，保留 POS 上下文。</text><text x="16" y="132" class="small">内容区滚动，标题与底部价格动作固定。</text><text x="16" y="156" class="small">打开后焦点进入标题后的首个控件。</text>
+      <rect x="420" y="52" width="392" height="124" rx="10" fill="#F7F8FA"/><text x="436" y="82" class="medium">Tablet 768–1023</text><text x="436" y="108" class="small">Drawer 宽度 min(560px, 80vw)。</text><text x="436" y="132" class="small">选项两列；长名称允许换行但高度一致。</text><text x="436" y="156" class="small">背景不可操作，焦点限制在 Drawer 内。</text>
+      <rect x="840" y="52" width="424" height="124" rx="10" fill="#F7F8FA"/><text x="856" y="82" class="medium">Mobile 360–767</text><text x="856" y="108" class="small">全屏 Dialog；选项一至两列，底部动作固定。</text><text x="856" y="132" class="small">安全区内边距 16–24，触控目标 ≥44。</text><text x="856" y="156" class="small">返回前提示是否放弃尚未提交的修改。</text>
+      <line y1="210" x2="1264" y2="210" class="divider"/>
+      <text y="252" class="h3">键盘与 ARIA</text>
+      <g transform="translate(0 280)">
+        <rect width="240" height="48" rx="10" fill="#F2F3F5"/><text x="120" y="30" class="medium" text-anchor="middle">1 杯型 RadioGroup</text><path d="M250 24H282" stroke="#A9AEB8"/><path d="M276 19L282 24L276 29" fill="none" stroke="#A9AEB8"/>
+        <rect x="292" width="200" height="48" rx="10" fill="#F2F3F5"/><text x="392" y="30" class="medium" text-anchor="middle">2 温度</text><path d="M502 24H534" stroke="#A9AEB8"/><path d="M528 19L534 24L528 29" fill="none" stroke="#A9AEB8"/>
+        <rect x="544" width="200" height="48" rx="10" fill="#F2F3F5"/><text x="644" y="30" class="medium" text-anchor="middle">3 糖度</text><path d="M754 24H786" stroke="#A9AEB8"/><path d="M780 19L786 24L780 29" fill="none" stroke="#A9AEB8"/>
+        <rect x="796" width="200" height="48" rx="10" fill="#F2F3F5"/><text x="896" y="30" class="medium" text-anchor="middle">4 加料</text><path d="M1006 24H1038" stroke="#A9AEB8"/><path d="M1032 19L1038 24L1032 29" fill="none" stroke="#A9AEB8"/>
+        <rect x="1048" width="216" height="48" rx="10" fill="#1D2129"/><text x="1156" y="30" class="medium white" text-anchor="middle">5 数量 / 备注 / 提交</text>
+      </g>
+      <text y="364" class="small">RadioGroup 使用方向键；Checkbox 使用 Space；Esc 关闭并返回商品卡或编辑按钮；错误信息通过 aria-describedby 关联选项组。</text>
+      <text y="390" class="small">提交错误后：先更新错误摘要，再滚动和聚焦首个缺失组。不可用选项使用 disabled，不进入 Tab 顺序。</text>
+      <line y1="424" x2="1264" y2="424" class="divider"/>
+      <text y="466" class="h3">验收证据</text>
+      <g transform="translate(0 492)">
+        <text class="medium" y="20">验收项</text><text x="300" class="medium" y="20">设计证据</text><text x="820" class="medium" y="20">实现约束</text>
+        <line y1="36" x2="1264" y2="36" class="divider"/>
+        <text y="68" class="body">配置完整</text><text x="300" y="68" class="body secondary">杯型、温度、糖度、加料、数量、备注</text><text x="820" y="68" class="body secondary">只渲染当前商品支持且启用的选项</text>
+        <text y="110" class="body">状态语义</text><text x="300" y="110" class="body secondary">必选/可选、单选/多选、默认、不可用</text><text x="820" y="110" class="body secondary">状态不只依赖颜色</text>
+        <text y="152" class="body">价格联动</text><text x="300" y="152" class="body secondary">基础价 + 规格差价 + 加料 × 数量</text><text x="820" y="152" class="body secondary">每次选择即时更新并公告</text>
+        <text y="194" class="body">缺失必选</text><text x="300" y="194" class="body secondary">错误摘要、字段错误、禁用添加、首错聚焦</text><text x="820" y="194" class="body secondary">不得提交不完整配置</text>
+        <text y="236" class="body">新增与编辑</text><text x="300" y="236" class="body secondary">「加入购物车」与「保存修改」明确区分</text><text x="820" y="236" class="body secondary">编辑保留订单项 ID，不创建重复项</text>
+      </g>
+      <rect y="754" width="1264" height="54" rx="10" fill="#F2F3F5"/><text x="16" y="787" class="small">Token：Selected #F2F3F5/#1D2129 · Focus #1D2129 · Error #DC2626/#FEE2E2 · Disabled #E5E6EB/#86909C · Radius 10/16</text>
+    </g>
+  </g>
+
+  <text x="720" y="5230" class="tiny" text-anchor="middle">Cup Flow Coffee POS · US-S1-POS-02 · Import SVG to Figma, then convert cf-pos02-frame-* groups to Frames</text>
+</svg>
