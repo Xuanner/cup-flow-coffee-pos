@@ -1,0 +1,24 @@
+name: cup-flow-coffee-pos
+
+services:
+  postgres:
+    image: postgres:18.4
+    environment:
+      POSTGRES_DB: cup_flow
+      POSTGRES_USER: cup_flow
+      POSTGRES_PASSWORD: cup_flow_local
+      TZ: Asia/Shanghai
+    ports:
+      - "5432:5432"
+    volumes:
+      - cup-flow-postgres-data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cup_flow -d cup_flow"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+    restart: unless-stopped
+
+volumes:
+  cup-flow-postgres-data:
