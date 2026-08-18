@@ -1,17 +1,8 @@
 import { environment } from "../../app/env";
+import { apiErrorFromCaughtValue, apiErrorFromResponse } from "./api-error";
+import { type ApiResponse, parseApiResponse } from "./api-response";
 
 const DEFAULT_TIMEOUT_MS = 10_000;
-
-export class HttpError extends Error {
-  constructor(
-    message: string,
-    public readonly status: number,
-    public readonly body: unknown,
-  ) {
-    super(message);
-    this.name = "HttpError";
-  }
-}
 
 function apiUrl(path: string): string {
   const baseUrl = environment.VITE_API_BASE_URL;
@@ -30,7 +21,7 @@ export async function apiRequest<T>(
   path: string,
   init: RequestInit = {},
   timeoutMs = DEFAULT_TIMEOUT_MS,
-): Promise<T> {
+): Promise<ApiResponse<T>> {
   const timeoutController = new AbortController();
   const timeoutId = window.setTimeout(
     () => timeoutController.abort(),
@@ -53,14 +44,15 @@ export async function apiRequest<T>(
     const body = await responseBody(response);
 
     if (!response.ok) {
-      throw new HttpError(
-        `请求失败（${response.status}）`,
-        response.status,
-        body,
-      );
+      throw apiErrorFromResponse(response.status, body);
     }
 
-    return body as T;
+    return parseApiResponse<T>(body);
+  } catch (error) {
+    throw apiErrorFromCaughtValue(error, {
+      externallyAborted: init.signal?.aborted ?? false,
+      timedOut: timeoutController.signal.aborted,
+    });
   } finally {
     window.clearTimeout(timeoutId);
   }

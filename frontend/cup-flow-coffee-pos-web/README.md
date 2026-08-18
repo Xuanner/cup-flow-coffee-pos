@@ -35,7 +35,7 @@ npm run check        # 执行全部质量门禁
 复制 `.env.example` 为 `.env.local`，按本地后端环境设置：
 
 ```dotenv
-VITE_API_BASE_URL=/api
+VITE_API_BASE_URL=/api/v1
 ```
 
 只允许将非敏感的前端配置暴露为 `VITE_*`。生产地址、Token 和凭证不得提交仓库。
@@ -72,6 +72,38 @@ src/
 - React Hook Form + Zod：在首个真实表单故事中接入。
 
 当前 Zod 同时校验前端环境配置；表单能力将在首个真实表单故事中接入。
+
+## 请求与错误基础
+
+`apiRequest` 将 HTTP、网络与超时失败统一转换为 `ApiError`：
+
+| 来源                          | `ApiError.category` |
+| ----------------------------- | ------------------- |
+| HTTP 400 / 422                | `validation`        |
+| HTTP 401                      | `unauthenticated`   |
+| HTTP 403                      | `forbidden`         |
+| HTTP 409                      | `conflict`          |
+| HTTP 5xx                      | `server`            |
+| `fetch` 网络失败              | `network`           |
+| 请求超过内部超时时间          | `timeout`           |
+| 调用方通过 `AbortSignal` 取消 | `cancelled`         |
+
+本地后端地址为 `http://localhost:8080/api/v1/health`。开发服务器将前端请求 `GET /api/v1/health` 代理到该地址，生产环境通过 `VITE_API_BASE_URL` 覆盖。当前约定最小成功响应为：
+
+```json
+{
+  "code": "SUCCESS",
+  "message": "操作成功",
+  "data": {
+    "application": "UP",
+    "database": "UP"
+  },
+  "traceId": "dfacef6b5eb74be28854c0c46ae610ce",
+  "timestamp": "2026-08-18T03:37:47.291437Z"
+}
+```
+
+前端公共请求层统一解析 `code`、`message`、`data`、`traceId` 和 `timestamp`；健康模块再校验 `data.application` 与 `data.database`。任一状态为 `DOWN`、非 2xx 或响应格式无效都会进入失败状态，并允许用户手动重新检查。
 
 ## 样式职责
 
