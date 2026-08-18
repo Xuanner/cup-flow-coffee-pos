@@ -1,6 +1,6 @@
 # Cup Flow Coffee POS Web
 
-`US-S1-FE-01 可运行的前端骨架`交付。工程位于全栈仓库的 `frontend/cup-flow-coffee-pos-web/`，当前只提供应用入口、全局布局和六个核心模块边界，不包含真实业务功能。
+Sprint 1 前端基础交付。工程位于全栈仓库的 `frontend/cup-flow-coffee-pos-web/`，包含可运行骨架、统一请求与状态基础，以及设计系统通用组件；暂不包含真实业务功能。
 
 ## 环境基线
 
@@ -119,6 +119,12 @@ node doc/sprint1/handoff/tokens/generate-tokens.mjs
 node doc/sprint1/handoff/tokens/verify-token-map.mjs
 cp doc/sprint1/handoff/tokens/tokens.css frontend/cup-flow-coffee-pos-web/src/styles/tokens.css
 ```
+
+## 通用组件
+
+`src/components/ui/` 提供 Button、Input、Search、Select、Badge、Table、Pagination、Dialog、Toast、EmptyState、Spinner、Skeleton 和 Progress。组件遵循 `doc/sprint1/components/cup-flow-components.svg` 及 `RADIX_MAPPING.md`，包含统一的 Focus Visible、禁用、加载和错误状态。
+
+开发环境访问 `/system/components` 可查看全部组件及状态。交互测试覆盖键盘焦点、加载防重复提交、字段错误关联、禁用语义、Dialog Esc 关闭与焦点归还、分页当前页和 Toast 动作播报。
 
 ## 依赖升级
 

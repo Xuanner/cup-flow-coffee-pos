@@ -2,29 +2,98 @@
 @import "./tokens.css";
 
 @theme inline {
+  /* Foundation colors: every exported color token has a Tailwind alias. */
+  --color-white: var(--cf-color-white);
+  --color-brand-accent: var(--cf-color-brand-accent);
+  --color-brand-primary: var(--cf-color-brand-primary);
+  --color-brand-hover: var(--cf-color-brand-hover);
+  --color-brand-active: var(--cf-color-brand-active);
+  --color-brand-light: var(--cf-color-brand-light);
+  --color-neutral-50: var(--cf-color-neutral-50);
+  --color-neutral-100: var(--cf-color-neutral-100);
+  --color-neutral-200: var(--cf-color-neutral-200);
+  --color-neutral-300: var(--cf-color-neutral-300);
+  --color-neutral-400: var(--cf-color-neutral-400);
+  --color-neutral-500: var(--cf-color-neutral-500);
+  --color-neutral-600: var(--cf-color-neutral-600);
+  --color-neutral-700: var(--cf-color-neutral-700);
+  --color-neutral-900: var(--cf-color-neutral-900);
+  --color-neutral-950: var(--cf-color-neutral-950);
   --color-canvas: var(--cf-color-bg-canvas);
   --color-surface: var(--cf-color-bg-surface);
   --color-subtle: var(--cf-color-bg-subtle);
+  --color-disabled: var(--cf-color-bg-disabled);
   --color-selected: var(--cf-component-selected-bg);
   --color-brand: var(--cf-color-text-brand);
   --color-brand-soft: var(--cf-color-bg-brand-soft);
+  --color-brand-subtle: var(--cf-color-bg-brand-subtle);
   --color-primary: var(--cf-color-text-primary);
   --color-secondary: var(--cf-color-text-secondary);
   --color-tertiary: var(--cf-color-text-tertiary);
+  --color-disabled-text: var(--cf-color-text-disabled);
   --color-on-action: var(--cf-component-action-primary-text);
   --color-action-primary: var(--cf-component-action-primary-bg);
   --color-action-primary-hover: var(--cf-component-action-primary-bg-hover);
   --color-action-primary-pressed: var(--cf-component-action-primary-bg-pressed);
   --color-default: var(--cf-color-border-default);
   --color-subtle-border: var(--cf-color-border-subtle);
+  --color-strong-border: var(--cf-color-border-strong);
   --color-focus: var(--cf-component-focus-ring);
   --color-success: var(--cf-color-text-success);
+  --color-success-bg: var(--cf-color-bg-success);
+  --color-success-border: var(--cf-color-border-success);
   --color-warning: var(--cf-color-text-warning);
+  --color-warning-bg: var(--cf-color-bg-warning);
+  --color-warning-border: var(--cf-color-border-warning);
   --color-error: var(--cf-color-text-error);
+  --color-error-bg: var(--cf-color-bg-error);
+  --color-error-border: var(--cf-color-border-error);
+  --color-info: var(--cf-color-text-info);
+  --color-info-bg: var(--cf-color-bg-info);
+  --color-info-border: var(--cf-color-border-info);
+
+  /* Typography roles. */
   --font-sans: var(--cf-font-family-sans);
+  --font-weight-normal: var(--cf-font-weight-regular);
+  --font-weight-medium: var(--cf-font-weight-medium);
+  --font-weight-semibold: var(--cf-font-weight-semibold);
+  --font-weight-bold: var(--cf-font-weight-bold);
+  --text-page-title: var(--cf-font-size-page-title);
+  --text-module-title: var(--cf-font-size-module-title);
+  --text-body-large: var(--cf-font-size-body-large);
+  --text-body: var(--cf-font-size-body);
+  --text-helper: var(--cf-font-size-helper);
+  --text-amount-large: var(--cf-font-size-amount-large);
+  --text-amount-medium: var(--cf-font-size-amount-medium);
+  --text-table: var(--cf-font-size-table);
+
+  /* Radius, spacing, size and container roles. */
+  --radius-none: var(--cf-radius-none);
+  --radius-sm: var(--cf-radius-sm);
+  --radius-md: var(--cf-radius-md);
+  --radius-lg: var(--cf-radius-lg);
+  --radius-xl: var(--cf-radius-xl);
+  --radius-full: var(--cf-radius-full);
   --radius-control: var(--cf-radius-md);
   --radius-panel: var(--cf-radius-lg);
+  /* `cf-` avoids collisions with Tailwind's max-w-sm…max-w-4xl scale. */
+  --spacing-cf-2xs: var(--cf-spacing-2xs);
+  --spacing-cf-xs: var(--cf-spacing-xs);
+  --spacing-cf-sm: var(--cf-spacing-sm);
+  --spacing-cf-md: var(--cf-spacing-md);
+  --spacing-cf-lg: var(--cf-spacing-lg);
+  --spacing-cf-xl: var(--cf-spacing-xl);
+  --spacing-cf-2xl: var(--cf-spacing-2xl);
+  --spacing-cf-3xl: var(--cf-spacing-3xl);
+  --spacing-cf-4xl: var(--cf-spacing-4xl);
   --spacing-touch: var(--cf-size-touch-target);
+  --spacing-icon-sm: var(--cf-size-icon-sm);
+  --spacing-icon-md: var(--cf-size-icon-md);
+  --spacing-icon-lg: var(--cf-size-icon-lg);
+  --container-mobile: var(--cf-container-mobile);
+  --container-tablet: var(--cf-container-tablet);
+  --container-desktop: var(--cf-container-desktop);
+  --container-wide: var(--cf-container-wide);
 }
 
 @layer base {
@@ -46,7 +115,7 @@
     background: var(--cf-color-bg-canvas);
     color: var(--cf-color-text-primary);
     font-size: var(--cf-font-size-body);
-    line-height: var(--cf-line-height-body);
+    line-height: 1.5;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
   }

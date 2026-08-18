@@ -10,6 +10,7 @@ import { DashboardPage } from "../features/dashboard/DashboardPage";
 import { OrdersPage } from "../features/orders/OrdersPage";
 import { PosPage } from "../features/pos/PosPage";
 import { ProductsPage } from "../features/products/ProductsPage";
+import { ComponentsPage } from "../features/system/ComponentsPage";
 import { NotFoundPage } from "../features/system/NotFoundPage";
 import { SystemPage } from "../features/system/SystemPage";
 
@@ -28,6 +29,7 @@ export const appRoutes = [
       { path: "products", Component: ProductsPage },
       { path: "dashboard", Component: DashboardPage },
       { path: "system", Component: SystemPage },
+      { path: "system/components", Component: ComponentsPage },
       { path: "*", Component: NotFoundPage },
     ],
   },
