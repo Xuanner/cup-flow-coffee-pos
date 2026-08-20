@@ -146,6 +146,23 @@ cd backend/cup-flow-coffee-pos-java
 也可分别执行 `./mvnw test` 和 `./mvnw spotless:check`。数据库集成测试使用 Testcontainers，
 不依赖 Compose 中的数据库，但 Docker Engine 必须运行。
 
+## 持续集成
+
+GitHub Actions 工作流位于 [`.github/workflows/ci.yml`](.github/workflows/ci.yml)，在以下事件触发：
+
+- 所有 Pull Request 的创建与后续提交。
+- 推送到 `main` 分支。
+- GitHub Actions 页面手动触发。
+
+前端和后端并行检查，每个阶段显示为独立步骤，失败时可直接定位到依赖安装、类型检查、Lint、
+格式检查、测试或构建。前端先安装 `packageManager` 对应的固定 npm 版本，再用 `npm ci` 和已提交
+的 `package-lock.json` 安装；后端始终使用已提交且固定 Maven 版本的 `mvnw`。Actions 缓存只保存
+npm/Maven 下载缓存，不能跳过 lockfile、Wrapper 或完整检查。
+
+工作流使用只读仓库权限，不注入业务环境变量或个人凭证，也不得新增打印密码、Token、数据库
+密钥或完整敏感连接信息的步骤。GitHub 仓库应将 `Frontend` 和 `Backend` 检查设为 `main` 分支
+合并前的必需状态检查。
+
 ## 停止与清理
 
 前端和后端在各自终端按 `Ctrl+C` 停止。保留本地数据并停止 PostgreSQL：

@@ -1,0 +1,106 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  frontend:
+    name: Frontend
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        shell: bash
+        working-directory: frontend/cup-flow-coffee-pos-web
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: frontend/cup-flow-coffee-pos-web/.node-version
+          cache: npm
+          cache-dependency-path: frontend/cup-flow-coffee-pos-web/package-lock.json
+
+      - name: Install pinned npm version
+        run: npm install --global npm@11.17.0
+
+      - name: Verify pinned toolchain and lockfile
+        run: |
+          node --version
+          npm --version
+          test -f package-lock.json
+          test "$(node --print "require('./package.json').packageManager")" = "npm@$(npm --version)"
+
+      - name: Install dependencies from lockfile
+        run: npm ci
+
+      - name: Type check
+        run: npm run typecheck
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Format check
+        run: npm run format:check
+
+      - name: Test
+        run: npm run test
+
+      - name: Build
+        run: npm run build
+
+  backend:
+    name: Backend
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        shell: bash
+        working-directory: backend/cup-flow-coffee-pos-java
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version-file: backend/cup-flow-coffee-pos-java/.java-version
+          cache: maven
+          cache-dependency-path: backend/cup-flow-coffee-pos-java/pom.xml
+
+      - name: Verify Maven Wrapper toolchain
+        run: |
+          java -version
+          test -x ./mvnw
+          test -f .mvn/wrapper/maven-wrapper.properties
+          ./mvnw --batch-mode --no-transfer-progress --version
+
+      - name: Resolve dependencies through Maven Wrapper
+        run: ./mvnw --batch-mode --no-transfer-progress dependency:go-offline
+
+      - name: Format check
+        run: ./mvnw --batch-mode --no-transfer-progress spotless:check
+
+      - name: Test
+        run: ./mvnw --batch-mode --no-transfer-progress test
+
+      - name: Build
+        run: ./mvnw --batch-mode --no-transfer-progress package -DskipTests
