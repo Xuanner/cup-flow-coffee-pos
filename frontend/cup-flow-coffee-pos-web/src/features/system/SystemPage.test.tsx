@@ -18,7 +18,7 @@ function renderSystemPage() {
 }
 
 describe("SystemPage 健康检查", () => {
-  it("请求期间显示加载状态", () => {
+  it("TC-S1-HEALTH-201 请求期间显示加载状态", () => {
     vi.spyOn(globalThis, "fetch").mockImplementationOnce(
       () => new Promise(() => undefined),
     );
@@ -28,7 +28,7 @@ describe("SystemPage 健康检查", () => {
     expect(screen.getByRole("status")).toHaveTextContent("正在检查后端服务");
   });
 
-  it("显示健康检查成功状态", async () => {
+  it("TC-S1-HEALTH-202 显示健康检查成功状态", async () => {
     vi.spyOn(globalThis, "fetch").mockResolvedValueOnce(
       apiSuccessResponse({ application: "UP", database: "UP" }),
     );
@@ -42,7 +42,7 @@ describe("SystemPage 健康检查", () => {
     expect(screen.getAllByText("UP")).toHaveLength(2);
   });
 
-  it("显示失败状态并允许重新检查", async () => {
+  it("TC-S1-HEALTH-203 显示失败状态并允许重新检查", async () => {
     const user = userEvent.setup();
     vi.spyOn(globalThis, "fetch")
       .mockResolvedValueOnce(

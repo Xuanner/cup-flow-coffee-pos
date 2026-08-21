@@ -6,7 +6,7 @@ import {
 import { getHealth } from "./health-api";
 
 describe("getHealth", () => {
-  it("解析 UP 健康响应", async () => {
+  it("TC-S1-HEALTH-101 解析 UP 健康响应", async () => {
     vi.spyOn(globalThis, "fetch").mockResolvedValueOnce(
       apiSuccessResponse({ application: "UP", database: "UP" }),
     );
@@ -23,7 +23,7 @@ describe("getHealth", () => {
     );
   });
 
-  it("拒绝无效的健康响应", async () => {
+  it("TC-S1-HEALTH-102 拒绝无效的健康响应", async () => {
     vi.spyOn(globalThis, "fetch").mockResolvedValueOnce(
       apiSuccessResponse({ application: "UNKNOWN", database: "UP" }),
     );
@@ -34,7 +34,7 @@ describe("getHealth", () => {
     });
   });
 
-  it("将 DOWN 状态视为服务异常", async () => {
+  it("TC-S1-HEALTH-103 将 DOWN 状态视为服务异常", async () => {
     vi.spyOn(globalThis, "fetch").mockResolvedValueOnce(
       apiSuccessResponse({ application: "UP", database: "DOWN" }),
     );

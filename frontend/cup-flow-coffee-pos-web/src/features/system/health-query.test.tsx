@@ -9,7 +9,7 @@ import { createQueryWrapper } from "../../test/query-wrapper";
 import { useHealthQuery } from "./health-query";
 
 describe("useHealthQuery", () => {
-  it("通过 TanStack Query 获取健康状态", async () => {
+  it("TC-S1-HEALTH-301 通过 TanStack Query 获取健康状态", async () => {
     vi.spyOn(globalThis, "fetch").mockResolvedValueOnce(
       apiSuccessResponse({ application: "UP", database: "UP" }),
     );

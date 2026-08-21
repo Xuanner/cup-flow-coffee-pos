@@ -10,6 +10,7 @@
 | [Sprint 1 PRD](./sprint1/PRD.md) | Figma UI 设计与基础工程搭建的目标、需求、交付和 DoD |
 | [Sprint 1 User Stories](./sprint1/USER_STORIES.md) | Sprint 1 设计、工程、质量与验收故事 |
 | [Sprint 1 Scope](./sprint1/SCOPE.md) | Sprint 1 范围内、范围外、交付边界与变更规则 |
+| [Sprint 1 Test Strategy](./sprint1/TEST_STRATEGY.md) | 测试分层、自动化重点、需求追踪与基础链路验收清单 |
 
 ## 第一阶段范围
 

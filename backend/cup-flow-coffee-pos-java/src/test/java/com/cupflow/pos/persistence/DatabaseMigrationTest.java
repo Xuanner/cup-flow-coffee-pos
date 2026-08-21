@@ -3,6 +3,7 @@ package com.cupflow.pos.persistence;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.cupflow.pos.TestcontainersConfiguration;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,6 +18,7 @@ class DatabaseMigrationTest {
     private JdbcClient jdbcClient;
 
     @Test
+    @DisplayName("TC-S1-DATA-001 从空 PostgreSQL 初始化身份基础")
     void initializesIdentityFoundationFromAnEmptyPostgresDatabase() {
         Integer migrationCount = jdbcClient
                 .sql("SELECT count(*) FROM flyway_schema_history WHERE success")
