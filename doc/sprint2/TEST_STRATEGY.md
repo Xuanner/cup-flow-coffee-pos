@@ -1,0 +1,216 @@
+# Cup Flow Coffee POS — Sprint 2 登录体系测试策略与追踪
+
+| 项目 | 内容 |
+| --- | --- |
+| 文档版本 | v1.0 |
+| 状态 | 已批准，测试用例已规划；实现证据待开发阶段补充 |
+| 关联任务 | TASK-S2-PLAN-03 |
+| 生效日期 | 2026-08-24 |
+
+## 1. 测试目标
+
+Sprint 2 测试证明：只有合法、启用的员工能建立登录态；会话可恢复、可过期、可撤销；收银员与管理员的页面和接口权限均符合矩阵；失败、限流和安全事件不泄露账号或凭证。
+
+本文件冻结测试编号、层级和预期。代码证据在相应实现 Task 完成时登记，当前“待实现”不代表用例已经通过。
+
+## 2. 测试分层
+
+| 层级 | 责任 | 工具/入口 | 不负责 |
+| --- | --- | --- | --- |
+| 后端单元 | 密码验证、会话时间、角色继承、返回地址、限流状态机 | JUnit、可控 `Clock` | HTTP、真实数据库 |
+| 后端接口 | 请求校验、Cookie/CSRF、HTTP/业务码、认证上下文、拒绝前不执行业务 | MockMvc、Spring 测试 | 浏览器交互 |
+| 数据库 | V2+ 迁移、会话约束/索引、初始化账号幂等、Repository | PostgreSQL 18.4、Testcontainers、Flyway | 共享本地数据库 |
+| 前端单元/组件/路由 | 登录表单、状态恢复、并发 401、菜单、403/404、焦点与 ARIA | Vitest、Testing Library、Memory Router、MSW/Fetch mock | 重新验证后端密码/权限规则 |
+| E2E | 少量真实浏览器跨端旅程 | 开发阶段选定并接入；专用可重置环境 | 穷举所有安全边界 |
+| 人工安全检查 | Cookie 浏览器属性、日志脱敏、返回地址、网络面板与异常恢复 | 浏览器开发工具、日志抽查 | 替代自动化回归 |
+
+原则：
+
+- P0：后端权限矩阵、会话失效、密码与凭证保护、CSRF、初始化账号。
+- P1：前端状态/可访问性、限流提示、审计可追踪性。
+- 时间相关测试注入可控 `Clock`，不得真实等待 30 分钟或 8 小时。
+- 每个测试使用独立账号、会话和限流键，不依赖顺序或共享状态。
+- 测试显示名称或说明包含稳定 `TC-S2-*`；废弃编号不复用。
+- 自动化和证据不得输出真实密码、摘要、Session Cookie 或 CSRF Token。
+
+## 3. 后端与数据测试用例
+
+### 3.1 密码和初始化账号
+
+| ID | 层级 | 场景 | 预期 | 关联 Story / Task |
+| --- | --- | --- | --- | --- |
+| TC-S2-PASS-001 | 单元 | 正确密码验证 | 验证成功，不暴露摘要 | US-S2-SEC-01 / SEC-01-01 |
+| TC-S2-PASS-002 | 单元 | 错误密码验证 | 验证失败，返回统一内部结果 | US-S2-SEC-01 / SEC-01-01 |
+| TC-S2-PASS-003 | 单元 | 相同密码生成两次摘要 | 摘要不同且均可验证 | US-S2-SEC-01 / SEC-01-01 |
+| TC-S2-PASS-004 | 单元 | 未知账号验证 | 走等价安全校验路径，不生成会话 | US-S2-AUTH-02、US-S2-SEC-01 / SEC-01-01 |
+| TC-S2-PASS-005 | 单元 | 无效/损坏摘要 | 安全失败，不回显摘要或产生 500 泄露 | US-S2-SEC-01 / SEC-01-01 |
+| TC-S2-DATA-001 | 数据库 | 空库执行全部迁移 | V1 身份表和 Sprint 2 会话结构成功建立 | US-S2-ACCOUNT-01 / ACCOUNT-01-01 |
+| TC-S2-DATA-002 | 数据库 | 从已执行 V1 升级 | 不改写 V1，新增迁移成功 | US-S2-ACCOUNT-01 / ACCOUNT-01-01 |
+| TC-S2-DATA-003 | 数据库 | 重复启动 Flyway | 不重复创建对象或基础数据 | US-S2-ACCOUNT-01 / ACCOUNT-01-01 |
+| TC-S2-DATA-004 | 数据库 | 会话原始凭证检查 | 数据库仅保存不可反推摘要 | US-S2-SESSION-01 / ACCOUNT-01-01 |
+| TC-S2-DATA-005 | 数据库 | 首次启用账号初始化 | 创建一个 CASHIER 和一个 ADMIN，角色正确 | US-S2-ACCOUNT-01 / ACCOUNT-01-03 |
+| TC-S2-DATA-006 | 数据库 | 重复执行初始化 | 不重复、不覆盖已有密码/状态/展示名/角色 | US-S2-ACCOUNT-01 / ACCOUNT-01-03 |
+| TC-S2-DATA-007 | 配置 | 生产启用初始化但 Secret 缺失 | 应用启动失败，不创建弱默认账号 | US-S2-ACCOUNT-01 / ACCOUNT-01-03 |
+| TC-S2-DATA-008 | 数据库 | 初始化账号停用后登录 | 登录失败，用户反馈不暴露停用状态 | US-S2-ACCOUNT-01、US-S2-AUTH-02 / ACCOUNT-01-03 |
+
+### 3.2 登录与限流
+
+| ID | 层级 | 场景 | 预期 | 关联 Story / Task |
+| --- | --- | --- | --- | --- |
+| TC-S2-AUTH-001 | 接口 | 有效 CASHIER 登录 | 200、CurrentUser、全新安全 Cookie | US-S2-AUTH-01 / AUTH-01-01、02 |
+| TC-S2-AUTH-002 | 接口 | 有效 ADMIN 登录 | 200、ADMIN、默认 `/dashboard` | US-S2-AUTH-01 / AUTH-01-01、02 |
+| TC-S2-AUTH-003 | 接口 | username 首尾空白 | 去空白后正常校验 | US-S2-AUTH-01 / AUTH-01-01 |
+| TC-S2-AUTH-004 | 接口 | password 含首尾空白 | 不去空白，按原值校验 | US-S2-AUTH-01 / AUTH-01-01 |
+| TC-S2-AUTH-005 | 接口 | 空字段或超长字段 | 400、字段错误、不累计登录失败 | US-S2-AUTH-01 / AUTH-01-02 |
+| TC-S2-AUTH-006 | 接口 | 账号不存在 | 401、AUTH-401-002、无会话 | US-S2-AUTH-02 / AUTH-01-01 |
+| TC-S2-AUTH-007 | 接口 | 密码错误 | 与不存在账号相同状态、码和消息 | US-S2-AUTH-02 / AUTH-01-01 |
+| TC-S2-AUTH-008 | 接口 | 停用账号 | 与不存在账号相同状态、码和消息 | US-S2-AUTH-02 / AUTH-01-01 |
+| TC-S2-AUTH-009 | 接口 | 登录前提供旧会话 ID | 成功后轮换，不发生会话固定 | US-S2-AUTH-01 / AUTH-01-02 |
+| TC-S2-AUTH-010 | 接口 | 缺失/错误 CSRF 登录 | 403、AUTH-403-002、不验证密码 | US-S2-AUTH-01 / SEC-02-01 |
+| TC-S2-RATE-001 | 单元/接口 | 同组合前 4 次失败 | 每次 401，不返回剩余次数 | US-S2-AUTH-02 / AUTH-02-01 |
+| TC-S2-RATE-002 | 单元/接口 | 同组合第 5 次失败 | 429、AUTH-429-001、Retry-After | US-S2-AUTH-02 / AUTH-02-01 |
+| TC-S2-RATE-003 | 单元/接口 | 限制期间继续尝试 | 429，限制截止时间不延长 | US-S2-AUTH-02 / AUTH-02-01 |
+| TC-S2-RATE-004 | 单元/接口 | 15 分钟限制期结束 | 可重新尝试，无需管理员操作 | US-S2-AUTH-02 / AUTH-02-01 |
+| TC-S2-RATE-005 | 单元/接口 | 不同来源或账号标识 | 限流键相互隔离 | US-S2-AUTH-02 / AUTH-02-01 |
+| TC-S2-RATE-006 | 单元/接口 | 成功登录 | 清除对应失败状态 | US-S2-AUTH-02 / AUTH-02-01 |
+
+### 3.3 会话与退出
+
+| ID | 层级 | 场景 | 预期 | 关联 Story / Task |
+| --- | --- | --- | --- | --- |
+| TC-S2-SESS-001 | 接口 | 有效 Cookie 查询 `/auth/me` | 200、最小 CurrentUser | US-S2-SESSION-01 / SESSION-01-01 |
+| TC-S2-SESS-002 | 接口 | 无 Cookie 查询当前身份 | 401、AUTH-401-001，不新建会话 | US-S2-SESSION-01 / SESSION-01-01 |
+| TC-S2-SESS-003 | 接口 | 伪造 Cookie | 401、清除 Cookie、不泄露内部原因 | US-S2-SESSION-01 / SESSION-01-01 |
+| TC-S2-SESS-004 | 单元/接口 | 空闲 30 分钟边界前 | 会话有效 | US-S2-SESSION-02 / SESSION-02-01 |
+| TC-S2-SESS-005 | 单元/接口 | 达到空闲 30 分钟 | 401、撤销并清除 Cookie | US-S2-SESSION-02 / SESSION-02-01 |
+| TC-S2-SESS-006 | 单元/接口 | 绝对 8 小时边界前 | 会话有效 | US-S2-SESSION-02 / SESSION-02-01 |
+| TC-S2-SESS-007 | 单元/接口 | 达到绝对 8 小时 | 401，即使持续活跃也失效 | US-S2-SESSION-02 / SESSION-02-01 |
+| TC-S2-SESS-008 | 接口 | 登录后账号被停用 | 下一请求 401、撤销会话 | US-S2-SESSION-02 / SESSION-02-01 |
+| TC-S2-SESS-009 | 接口 | 当前会话退出 | 200、撤销并清除 Cookie | US-S2-SESSION-03 / SESSION-03-01 |
+| TC-S2-SESS-010 | 接口 | 重复退出 | 200、幂等、不生成会话 | US-S2-SESSION-03 / SESSION-03-01 |
+| TC-S2-SESS-011 | 接口 | 退出缺失/错误 CSRF | 403，不把有效会话误撤销 | US-S2-SESSION-03 / SEC-02-01 |
+| TC-S2-SESS-012 | 接口 | 退出后重放旧 Cookie | 401、不可访问资源 | US-S2-SESSION-03 / SESSION-03-01 |
+| TC-S2-SESS-013 | 数据库 | 两个并发会话 | 均可用；退出一个不撤销另一个 | US-S2-SESSION-03 / SESSION-03-01 |
+| TC-S2-SESS-014 | 接口 | 合法 Origin + CSRF | 状态变更通过 | US-S2-SESSION-01 / SEC-02-01 |
+| TC-S2-SESS-015 | 接口 | 恶意 Origin/跨站请求 | 403、AUTH-403-002 | US-S2-SESSION-01 / SEC-02-01 |
+
+### 3.4 后端权限矩阵
+
+| ID | 场景 | 预期 | 关联 Story / Task |
+| --- | --- | --- | --- |
+| TC-S2-AUTHZ-001 | 未登录访问 POS/订单接口 | 401，服务与数据库操作未执行 | US-S2-AUTHZ-03 / AUTHZ-03-02、TEST-02 |
+| TC-S2-AUTHZ-002 | CASHIER 访问 POS/订单接口 | 允许 | US-S2-AUTHZ-03 / TEST-02 |
+| TC-S2-AUTHZ-003 | ADMIN 访问 POS/订单接口 | 允许，验证角色继承 | US-S2-AUTHZ-03 / TEST-02 |
+| TC-S2-AUTHZ-004 | CASHIER 访问商品/看板接口 | 403，服务与数据库操作未执行 | US-S2-AUTHZ-03 / TEST-02 |
+| TC-S2-AUTHZ-005 | ADMIN 访问商品/看板接口 | 允许 | US-S2-AUTHZ-03 / TEST-02 |
+| TC-S2-AUTHZ-006 | 任意角色访问未声明业务接口 | 403，默认拒绝 | US-S2-AUTHZ-03 / AUTHZ-03-02、03 |
+| TC-S2-AUTHZ-007 | 客户端伪造角色字段 | 不提升权限，以服务端会话角色为准 | US-S2-AUTHZ-03 / TEST-02 |
+| TC-S2-AUTHZ-008 | 无效/过期会话访问管理员接口 | 401 而非 403 | US-S2-AUTHZ-03 / TEST-02 |
+| TC-S2-AUTHZ-009 | 已登录角色不足 | 403 而非 401，不清除会话 | US-S2-AUTHZ-03 / TEST-02 |
+| TC-S2-AUTHZ-010 | 公开 CSRF/登录/健康检查 | 无登录态可按契约访问 | US-S2-AUTHZ-03 / AUTHZ-03-02 |
+
+## 4. 前端测试用例
+
+### 4.1 登录表单
+
+| ID | 场景 | 预期 | 关联 Story / Task |
+| --- | --- | --- | --- |
+| TC-S2-FE-AUTH-001 | 登录页初始状态 | 密码隐藏，字段与按钮语义正确 | US-S2-AUTH-01 / FE-AUTH-02 |
+| TC-S2-FE-AUTH-002 | 显示/隐藏密码 | 键盘可操作，无障碍名称随状态变化 | US-S2-AUTH-01 / FE-AUTH-02 |
+| TC-S2-FE-AUTH-003 | 空字段提交 | 不发请求，聚焦首个错误并可被辅助技术感知 | US-S2-AUTH-01 / FE-AUTH-02 |
+| TC-S2-FE-AUTH-004 | 提交中重复点击 | 只发送一次请求，显示加载状态 | US-S2-AUTH-01 / FE-AUTH-02 |
+| TC-S2-FE-AUTH-005 | CASHIER 登录成功 | 进入 `/pos` | US-S2-AUTH-01 / FE-AUTH-02 |
+| TC-S2-FE-AUTH-006 | ADMIN 登录成功 | 进入 `/dashboard` | US-S2-AUTH-01 / FE-AUTH-02 |
+| TC-S2-FE-AUTH-007 | AUTH-401-002 | 保留账号、清空密码、焦点回密码、统一提示 | US-S2-AUTH-02 / FE-AUTH-02 |
+| TC-S2-FE-AUTH-008 | AUTH-429-001 | 显示稍后重试，与认证失败区分 | US-S2-AUTH-02 / FE-AUTH-02 |
+| TC-S2-FE-AUTH-009 | 网络/超时/500 | 使用各自可恢复提示，不显示凭证错误 | US-S2-AUTH-02 / FE-AUTH-02 |
+| TC-S2-FE-AUTH-010 | 浏览器存储与 URL | 不包含 Session/CSRF Token | US-S2-SESSION-01 / FE-AUTH-01 |
+
+### 4.2 会话、路由与菜单
+
+| ID | 场景 | 预期 | 关联 Story / Task |
+| --- | --- | --- | --- |
+| TC-S2-FE-SESS-001 | 应用启动查询中 | 显示加载，不闪现 Shell/菜单 | US-S2-SESSION-01 / FE-SESSION-01 |
+| TC-S2-FE-SESS-002 | 刷新有效会话页面 | 恢复用户和当前授权地址 | US-S2-SESSION-01 / FE-SESSION-01 |
+| TC-S2-FE-SESS-003 | 启动时无会话 | 进入登录页，不显示过期提示 | US-S2-SESSION-01 / FE-SESSION-01 |
+| TC-S2-FE-SESS-004 | 运行中收到 AUTH-401-001 | 清理身份、进入登录页、显示一次过期提示 | US-S2-SESSION-02 / FE-SESSION-01 |
+| TC-S2-FE-SESS-005 | 多请求并发 401 | 只执行一次退出流程和提示 | US-S2-SESSION-02 / FE-SESSION-01 |
+| TC-S2-FE-SESS-006 | 当前身份网络失败 | 不误报密码错误，提供重试 | US-S2-SESSION-02 / FE-SESSION-01 |
+| TC-S2-FE-SESS-007 | 退出成功 | 清理身份、进入登录页 | US-S2-SESSION-03 / FE-SESSION-02 |
+| TC-S2-FE-SESS-008 | 退出失败 | 不假装成功，保留状态并允许重试 | US-S2-SESSION-03 / FE-SESSION-02 |
+| TC-S2-FE-ROUTE-001 | 未登录直达受保护页面 | 进入登录页，不渲染页面内容 | US-S2-AUTHZ-01 / FE-AUTHZ-01 |
+| TC-S2-FE-ROUTE-002 | 有权站内返回地址 | 登录后恢复目标 | US-S2-AUTHZ-01 / FE-AUTHZ-01 |
+| TC-S2-FE-ROUTE-003 | 外部、`//`、畸形返回地址 | 拒绝并进入角色默认页 | US-S2-AUTHZ-01 / FE-AUTHZ-01 |
+| TC-S2-FE-ROUTE-004 | 无权或不存在返回地址 | 分别进入默认页；不开放重定向 | US-S2-AUTHZ-01 / FE-AUTHZ-01 |
+| TC-S2-FE-ROUTE-005 | 已登录访问 `/login` | 进入角色默认页 | US-S2-AUTH-01 / FE-AUTHZ-01 |
+| TC-S2-FE-ROUTE-006 | CASHIER 导航 | 只显示 POS、订单 | US-S2-AUTHZ-02 / FE-AUTHZ-02 |
+| TC-S2-FE-ROUTE-007 | ADMIN 导航 | 显示四个业务模块 | US-S2-AUTHZ-02 / FE-AUTHZ-02 |
+| TC-S2-FE-ROUTE-008 | CASHIER 直达商品/看板 | 显示 403 和返回 `/pos`，不渲染业务页 | US-S2-AUTHZ-02 / FE-AUTHZ-02 |
+| TC-S2-FE-ROUTE-009 | 不存在路由 | 已登录时显示 404，不误显示 403 | US-S2-AUTHZ-01 / FE-AUTHZ-01 |
+| TC-S2-FE-ROUTE-010 | 权限恢复中 | 不短暂显示无权菜单 | US-S2-AUTHZ-02 / FE-AUTHZ-02 |
+
+## 5. 安全事件与脱敏测试
+
+| ID | 场景 | 预期 | 关联 Story / Task |
+| --- | --- | --- | --- |
+| TC-S2-AUDIT-001 | 登录成功 | 记录成功事件、accountId、traceId，无凭证 | US-S2-AUDIT-01 / AUDIT-01-01 |
+| TC-S2-AUDIT-002 | 不存在/错误密码/停用登录 | 记录统一失败事件，不通过日志泄露账号状态 | US-S2-AUDIT-01 / AUDIT-01-01 |
+| TC-S2-AUDIT-003 | 限流 | 记录 rate-limited 事件，可关联 429 traceId | US-S2-AUDIT-01 / AUDIT-01-01 |
+| TC-S2-AUDIT-004 | 空闲/绝对过期 | 记录过期事件，可关联 401 traceId | US-S2-AUDIT-01 / AUDIT-01-01 |
+| TC-S2-AUDIT-005 | 账号停用导致失效 | 记录内部停用事件，响应不暴露状态 | US-S2-AUDIT-01 / AUDIT-01-01 |
+| TC-S2-AUDIT-006 | 退出 | 记录退出事件，不含 Session/CSRF Token | US-S2-AUDIT-01 / AUDIT-01-01 |
+| TC-S2-AUDIT-007 | 权限拒绝 | 记录 accountId、目标与 traceId，不含内部规则明细 | US-S2-AUDIT-01 / AUDIT-01-01 |
+| TC-S2-AUDIT-008 | CSRF 拒绝 | 记录最小事件，不输出 Header/Cookie 全文 | US-S2-AUDIT-01 / AUDIT-01-01 |
+| TC-S2-AUDIT-009 | 认证异常/响应/测试报告扫描 | 无密码、摘要、Session Cookie、CSRF Token | US-S2-SEC-01、US-S2-AUDIT-01 / AUDIT-01-02 |
+| TC-S2-AUDIT-010 | 注入测试假敏感值 | 自动脱敏检查失败，证明检查有效 | US-S2-AUDIT-01 / AUDIT-01-02 |
+
+## 6. E2E 与人工验收
+
+| ID | 旅程 | 预期 | 优先级 |
+| --- | --- | --- | --- |
+| TC-S2-E2E-001 | CASHIER 登录 → POS → 刷新 → 订单 → 退出 → 后退 | 授权页面可用；刷新恢复；退出后不可恢复 | P0 |
+| TC-S2-E2E-002 | CASHIER 直接访问商品/看板 | 菜单隐藏，直达 403，接口同样拒绝 | P0 |
+| TC-S2-E2E-003 | ADMIN 登录 → 四模块切换 → 退出 | 默认看板，四入口可用，退出失效 | P0 |
+| TC-S2-E2E-004 | 错误/停用账号与第 5 次失败 | 统一认证失败；第 5 次起 429；无账号枚举提示 | P0 |
+| TC-S2-E2E-005 | 可控过期与账号停用 | 下一请求进入登录页，只提示一次且无数据访问 | P0 |
+| TC-S2-E2E-006 | 后端不可用后恢复 | 不误报凭证错误或放行；恢复后可重试 | P1 |
+
+人工安全复核：
+
+- [ ] 生产构建/HTTPS 环境中 `CUP_FLOW_SESSION` 为 `HttpOnly; Secure; SameSite=Lax; Path=/` 且无 Domain。
+- [ ] 浏览器关闭后会话 Cookie 消失；同一浏览器会话刷新和新标签页可恢复。
+- [ ] localStorage、sessionStorage、URL、Console 和 Network 响应体无 Session ID。
+- [ ] 外部及双斜杠返回地址不能跳出应用 Origin。
+- [ ] 401、403、429 的页面反馈与登录态处理符合契约。
+- [ ] 日志抽查覆盖九类认证事件，使用 `traceId` 可定位且无敏感字段。
+- [ ] 初始化配置和 CI Secret 不出现在仓库、构建日志或测试报告。
+
+证据命名：`EVID-S2-AUTH-{YYYYMMDD}.md`，记录版本、环境、执行人、用例结果和非敏感证据位置。
+
+## 7. Story—Task—Test 追踪矩阵
+
+Task ID 在表中省略统一前缀 `TASK-S2-`。
+
+| User Story | 主要 Task | 测试用例 |
+| --- | --- | --- |
+| US-S2-AUTH-01 | SEC-01-01、AUTH-01-01/02、FE-AUTH-01/02 | PASS-001、AUTH-001 至 005、009/010、FE-AUTH-001 至 006、FE-ROUTE-005、E2E-001/003 |
+| US-S2-AUTH-02 | SEC-01-01、AUTH-01-01、AUTH-02-01、FE-AUTH-02 | PASS-004、AUTH-006 至 008、RATE-001 至 006、FE-AUTH-007 至 009、E2E-004 |
+| US-S2-SEC-01 | SEC-01-01、AUDIT-01-02 | PASS-001 至 005、AUDIT-009/010 |
+| US-S2-SESSION-01 | ACCOUNT-01-01/02、SESSION-01-01、SEC-02-01、FE-SESSION-01 | DATA-004、SESS-001 至 003、014/015、FE-AUTH-010、FE-SESS-001 至 003、E2E-001 |
+| US-S2-SESSION-02 | SESSION-01-01、SESSION-02-01、FE-SESSION-01 | SESS-004 至 008、FE-SESS-004 至 006、E2E-005 |
+| US-S2-SESSION-03 | SESSION-03-01、FE-SESSION-02 | SESS-009 至 013、FE-SESS-007/008、E2E-001/003 |
+| US-S2-AUTHZ-01 | FE-AUTHZ-01 | FE-ROUTE-001 至 005、009、E2E-001 |
+| US-S2-AUTHZ-02 | FE-AUTHZ-01/02 | FE-ROUTE-006 至 008、010、E2E-002/003 |
+| US-S2-AUTHZ-03 | AUTHZ-03-01 至 03、TEST-02 | AUTHZ-001 至 010、E2E-002/003 |
+| US-S2-ACCOUNT-01 | ACCOUNT-01-01 至 03、SEC-01-01 | DATA-001 至 008、E2E-004 |
+| US-S2-AUDIT-01 | AUDIT-01-01/02 | AUDIT-001 至 010、E2E-004/005 |
+
+## 8. CI 与验收门禁
+
+- 每个实现 Task 先运行针对性测试；合并前执行前端 `npm run check` 和后端 `./mvnw clean verify`。
+- P0 单元、接口、数据库和前端测试必须进入现有 `Frontend`/`Backend` CI，失败阻止合并。
+- E2E 工具接入后使用专用可重置环境；`TC-S2-E2E-001` 至 `005` 失败阻止 Sprint 验收。
+- 不稳定用例必须有缺陷编号、负责人和修复期限，禁止通过无限重试或永久跳过掩盖。
+- Story 验收前将测试矩阵中的“待实现”更新为实际类/文件/运行记录；没有证据不算通过。
+- Sprint 2 最终验收必须确认 11 条 Must Story、完整权限矩阵和敏感信息检查全部通过。
+

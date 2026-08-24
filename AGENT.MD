@@ -18,7 +18,11 @@ Cup Flow Coffee POS 是面向单品牌、单门店的简体中文 Web POS。
 开始工作前优先阅读：
 
 - `README.md`：环境、启动、质量门禁和故障排查。
-- `doc/sprint1/PRD.md` 与 `doc/sprint1/USER_STORIES.md`：当前需求和验收标准。
+- `doc/sprint2/PRD.md`、`doc/sprint2/FEATURES.md` 与 `doc/sprint2/USER_STORIES.md`：已批准的
+  Sprint 2 登录体系需求、Feature 和验收标准。
+- `doc/sprint2/API_CONTRACT.md`、`doc/sprint2/TEST_STRATEGY.md` 与 `doc/sprint2/TASKS.md`：认证
+  契约、测试追踪、任务依赖和 Ready/Done 标准。
+- `doc/sprint1/PRD.md` 与 `doc/sprint1/USER_STORIES.md`：工程基础需求和已交付基线。
 - `doc/sprint1/TEST_STRATEGY.md`：测试分层、稳定编号和验收追踪。
 - `backend/cup-flow-coffee-pos-java/docs/backend-conventions.md`：后端、数据和日志约定。
 - 前后端子项目中的 `README.md`。

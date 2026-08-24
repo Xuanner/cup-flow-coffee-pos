@@ -11,6 +11,12 @@
 | [Sprint 1 User Stories](./sprint1/USER_STORIES.md) | Sprint 1 设计、工程、质量与验收故事 |
 | [Sprint 1 Scope](./sprint1/SCOPE.md) | Sprint 1 范围内、范围外、交付边界与变更规则 |
 | [Sprint 1 Test Strategy](./sprint1/TEST_STRATEGY.md) | 测试分层、自动化重点、需求追踪与基础链路验收清单 |
+| [Sprint 2 PRD](./sprint2/PRD.md) | 登录、会话、角色权限、安全基线与评审待决事项 |
+| [Sprint 2 Features](./sprint2/FEATURES.md) | Sprint 2 用户可感知能力、边界、依赖与完成条件 |
+| [Sprint 2 User Stories](./sprint2/USER_STORIES.md) | 登录体系用户故事、验收标准、依赖与需求覆盖矩阵 |
+| [Sprint 2 Tasks](./sprint2/TASKS.md) | 已批准开发 Task、依赖批次、追踪矩阵和 Ready/Done 标准 |
+| [Sprint 2 API Contract](./sprint2/API_CONTRACT.md) | 登录、当前身份、退出、Cookie、CSRF 与错误码契约 |
+| [Sprint 2 Test Strategy](./sprint2/TEST_STRATEGY.md) | 测试分层、稳定用例编号及 Story—Task—Test 追踪 |
 
 ## 第一阶段范围
 
@@ -27,4 +33,5 @@
 
 第一阶段 Sprint 0 基线版本为 `v0.2`；Sprint 1 文档初稿版本为 `v0.1`。需求使用统一编号关联 PRD、用户故事、开发任务和测试用例；评审通过后方可作为实施基线。
 
-> 当前仓库仅包含规划文档。Sprint 1 Figma 设计和工程搭建尚未执行。
+Sprint 2 登录体系需求、接口和测试基线已于 2026-08-24 升级为 v1.0；开发按 `TASKS.md` 的依赖
+和 Ready 状态执行，需求变化先更新文档与追踪关系。
