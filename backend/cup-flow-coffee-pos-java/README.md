@@ -56,9 +56,21 @@ docker compose down --volumes
 | `DB_USERNAME` | `cup_flow` | 本地数据库用户 |
 | `DB_PASSWORD` | `cup_flow_local` | 仅限本地的示例密码 |
 | `SERVER_PORT` | `8080` | HTTP 端口 |
+| `AUTH_BOOTSTRAP_ENABLED` | `false` | 显式启用收银员和管理员账号初始化 |
+| `AUTH_BOOTSTRAP_CASHIER_USERNAME` | 无 | 收银员账号，去首尾空白后 1–64 字符 |
+| `AUTH_BOOTSTRAP_CASHIER_PASSWORD` | 无 | 仅由 Secret 注入，12–128 字符 |
+| `AUTH_BOOTSTRAP_CASHIER_DISPLAY_NAME` | 无 | 收银员展示名，1–64 字符 |
+| `AUTH_BOOTSTRAP_ADMIN_USERNAME` | 无 | 管理员账号，规则同上 |
+| `AUTH_BOOTSTRAP_ADMIN_PASSWORD` | 无 | 仅由 Secret 注入，12–128 字符 |
+| `AUTH_BOOTSTRAP_ADMIN_DISPLAY_NAME` | 无 | 管理员展示名，1–64 字符 |
 
 `.env.example` 仅用于说明变量；Spring Boot 不会自动读取 `.env`。可由 IDE、Shell 或部署平台注入。
 真实密码、Token 和个人地址不得提交。
+
+账号初始化默认关闭。启用时必须同时提供两个账号的全部配置，应用会在启动阶段先完整校验配置，再在
+单个事务内创建缺失账号并绑定 `CASHIER` 或 `ADMIN`。已有 username 会被完整保留，不修改密码、
+状态、展示名或角色。配置缺失或无效时应用失败关闭，不创建部分账号或弱默认账号。初始化密码使用
+带独立随机盐的 PBKDF2-HMAC-SHA256 摘要，环境变量中的明文不得写入仓库、日志或命令记录。
 
 ## 常用命令
 

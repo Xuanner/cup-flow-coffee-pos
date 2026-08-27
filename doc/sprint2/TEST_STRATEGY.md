@@ -54,7 +54,7 @@ Sprint 2 测试证明：只有合法、启用的员工能建立登录态；会�
 | TC-S2-DATA-007 | 配置 | 生产启用初始化但 Secret 缺失 | 应用启动失败，不创建弱默认账号 | US-S2-ACCOUNT-01 / ACCOUNT-01-03 |
 | TC-S2-DATA-008 | 数据库 | 初始化账号停用后登录 | 登录失败，用户反馈不暴露停用状态 | US-S2-ACCOUNT-01、US-S2-AUTH-02 / ACCOUNT-01-03 |
 
-`TC-S2-DATA-001` 至 `004` 已由 `DatabaseMigrationTest` 实现，覆盖最新空库结构、V1→V2 升级、重复执行、摘要字段与生命周期约束；其余初始化账号用例在 `TASK-S2-ACCOUNT-01-03` 实现。
+`TC-S2-DATA-001` 至 `004` 已由 `DatabaseMigrationTest` 实现，覆盖最新空库结构、V1→V2 升级、重复执行、摘要字段与生命周期约束。`AccountBootstrapIntegrationTest` 已实现 `TC-S2-DATA-005` 至 `007`，并为 `TC-S2-DATA-008` 提供“重复初始化不重新启用停用账号”的数据侧证据；实际登录拒绝和统一用户反馈须在 `AUTH-01`、`AUTH-02` 完成后补齐，补齐前不得据此通过 `ACCOUNT-01-04` Story 验收。
 
 ### 3.2 登录与限流
 

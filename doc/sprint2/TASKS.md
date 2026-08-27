@@ -5,7 +5,7 @@
 | 文档版本 | v1.1 |
 | 上游基线 | Sprint 2 PRD、Features、User Stories、API Contract v1.0；Test Strategy v1.1 |
 | 文档状态 | 已重新拆分；按 Story 依赖和模块验收门执行 |
-| 门禁结果 | TASK-S2-PLAN-01 至 03、TASK-S2-ACCOUNT-01-01 至 02 已完成 |
+| 门禁结果 | TASK-S2-PLAN-01 至 03、TASK-S2-ACCOUNT-01-01 至 03 已完成 |
 
 ## 1. 拆分与执行规则
 
@@ -86,13 +86,17 @@
 
 | 属性 | 内容 |
 | --- | --- |
-| 类型 / 状态 / 复杂度 | 后端、配置、安全 / Ready / M |
+| 类型 / 状态 / 复杂度 | 后端、配置、安全 / Done / M |
 | 主 Story | US-S2-ACCOUNT-01 |
 | 依赖 | ACCOUNT-01-02 |
 
 **工作内容：** 非生产验收环境创建一个收银员和一个管理员账号并关联正确角色；从批准渠道读取初始凭证并生成自适应算法摘要；初始化保持幂等且不覆盖已有调整；生产缺少必要 Secret 时失败关闭；示例配置只记录变量名和安全占位符。
 
-**完成证据：** `TC-S2-DATA-005` 至 `008` 通过；配置、日志和测试输出无实际凭证。
+**完成证据：** `AccountBootstrapIntegrationTest` 完成 `TC-S2-DATA-005` 至 `007`，并完成
+`TC-S2-DATA-008` 的数据侧证据（重复初始化不会重新启用停用账号）；停用账号实际登录失败及统一反馈待
+`AUTH-01`、`AUTH-02` 实现后在 Story 验收 Task 闭环。`BootstrapAccountTest`、
+`AccountBootstrapServiceTest`、`Pbkdf2PasswordHasherTest` 与集成测试共 10 个针对性测试通过；配置、
+日志和测试报告未输出测试凭证；后端 `./mvnw clean verify` 共 32 个测试通过。
 
 #### TASK-S2-ACCOUNT-01-04 验收初始化账号 Story
 
