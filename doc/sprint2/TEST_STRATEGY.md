@@ -2,11 +2,11 @@
 
 | 项目 | 内容 |
 | --- | --- |
-| 文档版本 | v1.1 |
-| 状态 | 已批准，测试用例已规划；实现证据待开发阶段补充 |
+| 文档版本 | v1.4 |
+| 状态 | 已批准；ACCOUNT-01、SEC-01、AUTH-01 实现证据已登记 |
 | 关联任务 | TASK-S2-PLAN-03 |
 | 生效日期 | 2026-08-24 |
-| 最近更新 | 2026-08-26（同步 Sprint 2 Task v1.1） |
+| 最近更新 | 2026-08-27（完成 ACCOUNT-01、SEC-01、AUTH-01 验收） |
 
 ## 1. 测试目标
 
@@ -52,9 +52,11 @@ Sprint 2 测试证明：只有合法、启用的员工能建立登录态；会�
 | TC-S2-DATA-005 | 数据库 | 首次启用账号初始化 | 创建一个 CASHIER 和一个 ADMIN，角色正确 | US-S2-ACCOUNT-01 / ACCOUNT-01-03 |
 | TC-S2-DATA-006 | 数据库 | 重复执行初始化 | 不重复、不覆盖已有密码/状态/展示名/角色 | US-S2-ACCOUNT-01 / ACCOUNT-01-03 |
 | TC-S2-DATA-007 | 配置 | 生产启用初始化但 Secret 缺失 | 应用启动失败，不创建弱默认账号 | US-S2-ACCOUNT-01 / ACCOUNT-01-03 |
-| TC-S2-DATA-008 | 数据库 | 初始化账号停用后登录 | 登录失败，用户反馈不暴露停用状态 | US-S2-ACCOUNT-01、US-S2-AUTH-02 / ACCOUNT-01-03 |
+| TC-S2-DATA-008 | 数据库 | 初始化账号停用后重复初始化 | 保持 `DISABLED`，不恢复密码、状态、展示名或角色 | US-S2-ACCOUNT-01 / ACCOUNT-01-03 |
 
-`TC-S2-DATA-001` 至 `004` 已由 `DatabaseMigrationTest` 实现，覆盖最新空库结构、V1→V2 升级、重复执行、摘要字段与生命周期约束。`AccountBootstrapIntegrationTest` 已实现 `TC-S2-DATA-005` 至 `007`，并为 `TC-S2-DATA-008` 提供“重复初始化不重新启用停用账号”的数据侧证据；实际登录拒绝和统一用户反馈须在 `AUTH-01`、`AUTH-02` 完成后补齐，补齐前不得据此通过 `ACCOUNT-01-04` Story 验收。
+`TC-S2-DATA-001` 至 `004` 已由 `DatabaseMigrationTest` 实现，覆盖最新空库结构、V1→V2 升级、重复执行、摘要字段与生命周期约束。`AccountBootstrapIntegrationTest` 已实现 `TC-S2-DATA-005` 至 `008`。停用账号实际登录拒绝和统一用户反馈不属于初始化模块，继续由接口用例 `TC-S2-AUTH-008` 在 `US-S2-AUTH-02` 验收，避免形成 `ACCOUNT-01 → AUTH-02 → ACCOUNT-01` 循环依赖。
+
+`TC-S2-PASS-001` 至 `005` 已由 `Pbkdf2PasswordHasherTest` 和 `AccountPasswordVerifierTest` 实现；正确与错误密码均使用摘要参数执行 PBKDF2，未知账号使用启动时随机生成的诱饵摘要执行同类校验，损坏或不支持的摘要统一安全失败。
 
 ### 3.2 登录与限流
 
@@ -76,6 +78,8 @@ Sprint 2 测试证明：只有合法、启用的员工能建立登录态；会�
 | TC-S2-RATE-004 | 单元/接口 | 15 分钟限制期结束 | 可重新尝试，无需管理员操作 | US-S2-AUTH-02 / AUTH-02-01 |
 | TC-S2-RATE-005 | 单元/接口 | 不同来源或账号标识 | 限流键相互隔离 | US-S2-AUTH-02 / AUTH-02-01 |
 | TC-S2-RATE-006 | 单元/接口 | 成功登录 | 清除对应失败状态 | US-S2-AUTH-02 / AUTH-02-01 |
+
+`AuthLoginIntegrationTest` 已实现并通过 `TC-S2-AUTH-001` 至 `005`、`009`、`010`：覆盖两角色最小响应、账号去空白、密码原值、字段拒绝、新会话轮换、安全 Cookie 和 CSRF 先行拒绝。认证失败三类统一反馈和限流继续由 `US-S2-AUTH-02` 验收。
 
 ### 3.3 会话与退出
 
@@ -153,6 +157,8 @@ Sprint 2 测试证明：只有合法、启用的员工能建立登录态；会�
 | TC-S2-FE-ROUTE-009 | 不存在路由 | 已登录时显示 404，不误显示 403 | US-S2-AUTHZ-01 / AUTHZ-01-01 |
 | TC-S2-FE-ROUTE-010 | 权限恢复中 | 不短暂显示无权菜单 | US-S2-AUTHZ-02 / AUTHZ-02-01 |
 
+`AuthPage.test.tsx`、`auth-api.test.ts`、`safe-return-path.test.ts` 和请求层测试已实现并通过 `TC-S2-FE-AUTH-001` 至 `006`、`TC-S2-FE-ROUTE-005`，并补充成功回跳及外部、畸形、无权、未知目标拒绝场景。完整未登录路由守卫仍属于 `US-S2-AUTHZ-01`。
+
 ## 5. 安全事件与脱敏测试
 
 | ID | 场景 | 预期 | 关联 Story / Task |
@@ -165,8 +171,8 @@ Sprint 2 测试证明：只有合法、启用的员工能建立登录态；会�
 | TC-S2-AUDIT-006 | 退出 | 记录退出事件，不含 Session/CSRF Token | US-S2-AUDIT-01 / AUDIT-01-01 |
 | TC-S2-AUDIT-007 | 权限拒绝 | 记录 accountId、目标与 traceId，不含内部规则明细 | US-S2-AUDIT-01 / AUDIT-01-01 |
 | TC-S2-AUDIT-008 | CSRF 拒绝 | 记录最小事件，不输出 Header/Cookie 全文 | US-S2-AUDIT-01 / AUDIT-01-01 |
-| TC-S2-AUDIT-009 | 认证异常/响应/测试报告扫描 | 无密码、摘要、Session Cookie、CSRF Token | US-S2-SEC-01、US-S2-AUDIT-01 / AUDIT-01-02 |
-| TC-S2-AUDIT-010 | 注入测试假敏感值 | 自动脱敏检查失败，证明检查有效 | US-S2-AUDIT-01 / AUDIT-01-02 |
+| TC-S2-AUDIT-009 | 认证异常/响应/测试报告扫描 | 无密码、摘要、Session Cookie、CSRF Token | US-S2-SEC-01、US-S2-AUDIT-01 / SEC-01-02、AUDIT-01-02 |
+| TC-S2-AUDIT-010 | 注入测试假敏感值 | 自动脱敏检查失败，证明检查有效 | US-S2-SEC-01、US-S2-AUDIT-01 / SEC-01-02、AUDIT-01-02 |
 
 ## 6. E2E 与人工验收
 
@@ -197,7 +203,7 @@ Task ID 在表中省略统一前缀 `TASK-S2-`。
 
 | User Story | 主要 Task | 测试用例 |
 | --- | --- | --- |
-| US-S2-ACCOUNT-01 | ACCOUNT-01-01 至 04 | DATA-001 至 008、E2E-004 |
+| US-S2-ACCOUNT-01 | ACCOUNT-01-01 至 04 | DATA-001 至 008 |
 | US-S2-SEC-01 | SEC-01-01 至 03 | PASS-001 至 005、AUDIT-009/010 |
 | US-S2-AUTH-01 | AUTH-01-01 至 06 | AUTH-001 至 005、009/010、FE-AUTH-001 至 006、FE-ROUTE-005、E2E-001/003 |
 | US-S2-AUTH-02 | AUTH-02-01 至 04 | PASS-004、AUTH-006 至 008、RATE-001 至 006、FE-AUTH-007 至 009、E2E-004 |

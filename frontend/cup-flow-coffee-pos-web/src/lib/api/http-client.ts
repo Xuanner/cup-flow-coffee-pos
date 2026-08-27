@@ -34,6 +34,7 @@ export async function apiRequest<T>(
   try {
     const response = await fetch(apiUrl(path), {
       ...init,
+      credentials: "same-origin",
       headers: {
         Accept: "application/json",
         ...(init.body ? { "Content-Type": "application/json" } : {}),

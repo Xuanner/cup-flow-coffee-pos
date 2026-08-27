@@ -7,9 +7,9 @@ import { apiRequest } from "./http-client";
 
 describe("apiRequest", () => {
   it("解析成功的 JSON 响应", async () => {
-    vi.spyOn(globalThis, "fetch").mockResolvedValueOnce(
-      apiSuccessResponse({ status: "UP" }),
-    );
+    const fetchSpy = vi
+      .spyOn(globalThis, "fetch")
+      .mockResolvedValueOnce(apiSuccessResponse({ status: "UP" }));
 
     await expect(apiRequest<{ status: string }>("/health")).resolves.toEqual({
       code: "SUCCESS",
@@ -18,6 +18,10 @@ describe("apiRequest", () => {
       timestamp: testTimestamp,
       traceId: testTraceId,
     });
+    expect(fetchSpy).toHaveBeenCalledWith(
+      expect.any(String),
+      expect.objectContaining({ credentials: "same-origin" }),
+    );
   });
 
   it("将断网转换为 network ApiError", async () => {

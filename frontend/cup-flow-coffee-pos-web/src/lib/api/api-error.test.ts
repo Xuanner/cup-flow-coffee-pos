@@ -27,4 +27,14 @@ describe("apiErrorFromResponse", () => {
       apiErrorFromResponse(500, { message: "数据库密码错误" }).message,
     ).toBe("服务暂时不可用，请稍后重试。");
   });
+
+  it.each([
+    [401, "AUTH-401-002", "authenticationFailed"],
+    [403, "AUTH-403-002", "securityValidation"],
+  ] as const)("按稳定错误码映射认证错误", (status, code, category) => {
+    expect(apiErrorFromResponse(status, { code })).toMatchObject({
+      category,
+      code,
+    });
+  });
 });

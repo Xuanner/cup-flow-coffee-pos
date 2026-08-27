@@ -53,3 +53,8 @@ info:
   app:
     name: ${spring.application.name}
     api-version: v1
+
+auth:
+  security:
+    cookie-secure: ${AUTH_COOKIE_SECURE:false}
+    allowed-origins: ${AUTH_ALLOWED_ORIGINS:http://localhost:5173}

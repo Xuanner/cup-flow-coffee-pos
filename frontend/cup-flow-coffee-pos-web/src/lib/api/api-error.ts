@@ -1,5 +1,7 @@
 export type ApiErrorCategory =
   | "validation"
+  | "authenticationFailed"
+  | "securityValidation"
   | "unauthenticated"
   | "forbidden"
   | "conflict"
@@ -11,6 +13,7 @@ export type ApiErrorCategory =
 
 interface ApiErrorOptions {
   category: ApiErrorCategory;
+  code?: string;
   message: string;
   status?: number;
   details?: unknown;
@@ -20,12 +23,14 @@ interface ApiErrorOptions {
 
 export class ApiError extends Error {
   readonly category: ApiErrorCategory;
+  readonly code?: string;
   readonly status?: number;
   readonly details?: unknown;
   readonly retryable: boolean;
 
   constructor({
     category,
+    code,
     cause,
     details,
     message,
@@ -35,6 +40,7 @@ export class ApiError extends Error {
     super(message, { cause });
     this.name = "ApiError";
     this.category = category;
+    this.code = code;
     this.status = status;
     this.details = details;
     this.retryable = retryable;
@@ -52,6 +58,8 @@ const categoryByStatus = (status: number): ApiErrorCategory => {
 
 const defaultMessage: Record<ApiErrorCategory, string> = {
   validation: "提交内容有误，请检查后重试。",
+  authenticationFailed: "账号或密码错误，请重试。",
+  securityValidation: "安全校验失败，请刷新页面后重试。",
   unauthenticated: "登录状态已失效，请重新登录。",
   forbidden: "你没有执行此操作的权限。",
   conflict: "数据已发生变化，请刷新后重试。",
@@ -68,13 +76,26 @@ function responseMessage(body: unknown): string | undefined {
   return typeof message === "string" && message.trim() ? message : undefined;
 }
 
+function responseCode(body: unknown): string | undefined {
+  if (!body || typeof body !== "object") return undefined;
+  const code = Reflect.get(body, "code");
+  return typeof code === "string" && code.trim() ? code : undefined;
+}
+
 export function apiErrorFromResponse(status: number, body: unknown): ApiError {
-  const category = categoryByStatus(status);
+  const code = responseCode(body);
+  const category =
+    code === "AUTH-401-002"
+      ? "authenticationFailed"
+      : code === "AUTH-403-002"
+        ? "securityValidation"
+        : categoryByStatus(status);
   const mayUseResponseMessage =
     category === "validation" || category === "conflict";
 
   return new ApiError({
     category,
+    code,
     details: body,
     message:
       (mayUseResponseMessage ? responseMessage(body) : undefined) ??
