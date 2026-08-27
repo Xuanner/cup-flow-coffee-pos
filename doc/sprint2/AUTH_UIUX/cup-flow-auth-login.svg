@@ -1,0 +1,334 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="5020" viewBox="0 0 1440 5020">
+  <title>Cup Flow Coffee POS — Sprint 2 登录体系完整 UI/UX</title>
+  <desc>Sprint 2 登录 UI 画板，覆盖默认、校验、认证失败、提交、限流、CSRF、服务异常、会话确认、会话失效、返回地址和权限不足。</desc>
+  <defs>
+    <style>
+      text { font-family: "PingFang SC", "Microsoft YaHei", sans-serif; fill: #1D2129; }
+      .h1 { font-size: 30px; font-weight: 700; }
+      .h2 { font-size: 24px; font-weight: 700; }
+      .h3 { font-size: 18px; font-weight: 600; }
+      .title { font-size: 28px; font-weight: 700; }
+      .body-lg { font-size: 16px; }
+      .body { font-size: 14px; }
+      .medium { font-size: 14px; font-weight: 600; }
+      .small { font-size: 12px; fill: #6B7785; }
+      .tiny { font-size: 11px; fill: #6B7785; }
+      .white { fill: #FFFFFF; }
+      .secondary { fill: #4E5969; }
+      .muted { fill: #86909C; }
+      .error { fill: #B42318; }
+      .warning { fill: #8A4B08; }
+      .info { fill: #175CD3; }
+      .success { fill: #067647; }
+      .section { fill: #FFFFFF; stroke: #E5E6EB; stroke-width: 1; }
+      .input { fill: #FFFFFF; stroke: #C9CDD4; stroke-width: 1; }
+      .divider { stroke: #E5E6EB; stroke-width: 1; }
+    </style>
+    <filter id="shadowCard" x="-20%" y="-20%" width="140%" height="160%">
+      <feDropShadow dx="0" dy="8" stdDeviation="18" flood-color="#1D2129" flood-opacity="0.12"/>
+    </filter>
+    <filter id="shadowSoft" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="3" stdDeviation="8" flood-color="#1D2129" flood-opacity="0.08"/>
+    </filter>
+    <linearGradient id="brandPanel" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1D2129"/>
+      <stop offset="1" stop-color="#272E3B"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1440" height="5020" fill="#F7F8FA"/>
+
+  <!-- Cover -->
+  <g id="cf-s2-auth-cover">
+    <rect width="1440" height="152" fill="#1D2129"/>
+    <rect x="64" y="42" width="12" height="64" rx="6" fill="#DD2089"/>
+    <text x="96" y="72" class="h1 white">Cup Flow Coffee POS</text>
+    <text x="96" y="106" class="body" style="fill:#C9CDD4">Sprint 2 · 登录体系完整 UI · SVG handoff</text>
+    <text x="1376" y="70" class="medium" text-anchor="end" style="fill:#FDC2DB">AUTH UI v2.0</text>
+    <text x="1376" y="100" class="small" text-anchor="end" style="fill:#C9CDD4">Requirement baseline v1.0 · 2026-08-26</text>
+  </g>
+
+  <!-- Coverage -->
+  <g id="cf-s2-auth-coverage" transform="translate(64 184)">
+    <rect width="1312" height="220" rx="16" class="section"/>
+    <text x="24" y="42" class="h2">需求覆盖范围</text>
+    <text x="24" y="72" class="body secondary">在 Sprint 1 登录体验基础上，补齐 Sprint 2 API、安全、会话与权限状态。</text>
+    <g transform="translate(24 96)">
+      <rect width="240" height="72" rx="12" fill="#F2F3F5"/><text x="20" y="30" class="medium">登录表单</text><text x="20" y="53" class="small">默认 · 校验 · 显隐 · 提交</text>
+      <rect x="256" width="240" height="72" rx="12" fill="#F2F3F5"/><text x="276" y="30" class="medium">安全失败</text><text x="276" y="53" class="small">401 · 403 CSRF · 429</text>
+      <rect x="512" width="240" height="72" rx="12" fill="#F2F3F5"/><text x="532" y="30" class="medium">可用性失败</text><text x="532" y="53" class="small">网络 · 超时 · 服务异常</text>
+      <rect x="768" width="240" height="72" rx="12" fill="#F2F3F5"/><text x="788" y="30" class="medium">会话状态</text><text x="788" y="53" class="small">启动确认 · 过期 · 停用</text>
+      <rect x="1024" width="240" height="72" rx="12" fill="#FDF2F8"/><text x="1044" y="30" class="medium">访问结果</text><text x="1044" y="53" class="small">安全返回 · 默认页 · 403</text>
+    </g>
+    <text x="24" y="198" class="small">安全原则：统一认证失败反馈，不暴露账号状态；Cookie、会话 Token、CSRF Token 和密码不出现在 UI、URL 或日志中。</text>
+  </g>
+
+  <!-- Desktop default -->
+  <g id="cf-s2-auth-desktop-default">
+    <text x="64" y="462" class="h2">01  Desktop / Default</text>
+    <text x="1376" y="462" class="small" text-anchor="end">1280×800 · Tab：账号 → 密码 → 显隐 → 登录</text>
+    <g transform="translate(80 492)">
+      <rect width="1280" height="800" rx="16" fill="#FFFFFF" stroke="#E5E6EB"/>
+      <path d="M16 0H500V800H16Q0 800 0 784V16Q0 0 16 0Z" fill="url(#brandPanel)"/>
+      <circle cx="82" cy="78" r="22" fill="#DD2089"/>
+      <path d="M72 72H91V82C91 88 86 93 80 93S69 88 69 82V75H72Z" fill="#FFFFFF"/>
+      <path d="M91 76H95C101 76 101 84 95 84H91" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/>
+      <path d="M74 67C74 63 78 62 78 58M84 67C84 63 88 62 88 58" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+      <text x="116" y="87" class="h3 white">Cup Flow</text>
+      <text x="64" y="302" font-size="36" font-weight="700" class="white">每一杯，顺畅开始</text>
+      <text x="64" y="344" class="body-lg" style="fill:#C9CDD4">快速点单、清晰收银、安心交班。</text>
+      <path d="M64 412C132 365 196 482 264 426S394 386 452 446" fill="none" stroke="#DD2089" stroke-width="8" stroke-linecap="round"/>
+      <path d="M64 448C132 401 196 518 264 462S394 422 452 482" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" opacity="0.18"/>
+      <circle cx="410" cy="130" r="104" fill="#DD2089" opacity="0.06"/>
+      <circle cx="128" cy="615" r="64" fill="#FFFFFF" opacity="0.04"/>
+      <text x="64" y="734" class="small" style="fill:#A9AEB8">门店内部系统 · 请勿向他人透露账号或密码</text>
+
+      <g transform="translate(662 96)">
+        <rect width="480" height="608" rx="20" fill="#FFFFFF" filter="url(#shadowCard)"/>
+        <text x="40" y="68" class="title">欢迎回来</text>
+        <text x="40" y="100" class="body secondary">使用门店员工账号登录 Cup Flow Coffee POS</text>
+        <text x="40" y="160" class="medium">员工账号</text>
+        <rect x="40" y="176" width="400" height="48" rx="10" class="input"/>
+        <circle cx="62" cy="200" r="7" fill="none" stroke="#6B7785" stroke-width="1.6"/>
+        <path d="M50 215C51 207 57 204 62 204S73 207 74 215" fill="none" stroke="#6B7785" stroke-width="1.6"/>
+        <text x="88" y="206" class="body muted">请输入员工账号</text>
+        <text x="40" y="268" class="medium">密码</text>
+        <rect x="40" y="284" width="400" height="48" rx="10" class="input"/>
+        <rect x="55" y="302" width="15" height="13" rx="3" fill="none" stroke="#6B7785" stroke-width="1.6"/>
+        <path d="M58 302V298C58 292 67 292 67 298V302" fill="none" stroke="#6B7785" stroke-width="1.6"/>
+        <text x="88" y="314" class="body muted">请输入密码</text>
+        <path d="M398 308C407 298 417 298 426 308C417 318 407 318 398 308Z" fill="none" stroke="#4E5969" stroke-width="1.5"/><circle cx="412" cy="308" r="3" fill="#4E5969"/>
+        <path d="M396 320L428 296" stroke="#FFFFFF" stroke-width="4"/><path d="M398 319L426 297" stroke="#4E5969" stroke-width="1.5"/>
+        <text x="440" y="354" class="tiny" text-anchor="end">显示密码 · aria-pressed=false</text>
+        <rect x="40" y="378" width="400" height="48" rx="10" fill="#1D2129"/>
+        <text x="240" y="408" class="medium white" text-anchor="middle">登录</text>
+        <line x1="40" y1="464" x2="440" y2="464" class="divider"/>
+        <circle cx="50" cy="510" r="9" fill="#DBEAFE"/><text x="50" y="514" font-size="11" font-weight="700" class="info" text-anchor="middle">i</text>
+        <text x="70" y="515" class="small">需要账号帮助？请联系门店管理员。</text>
+        <text x="240" y="570" class="tiny" text-anchor="middle">不提供注册、忘记密码或记住登录</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Core form states -->
+  <g id="cf-s2-auth-form-states">
+    <text x="64" y="1370" class="h2">02  表单与提交状态</text>
+    <text x="1376" y="1370" class="small" text-anchor="end">账号去首尾空白 · 密码保持原值 · 控件高度 48</text>
+
+    <g transform="translate(64 1406)">
+      <rect width="416" height="610" rx="16" class="section"/>
+      <rect width="416" height="72" rx="16" fill="#1D2129"/><rect y="56" width="416" height="16" fill="#1D2129"/>
+      <text x="24" y="32" class="medium white">Validation / 400</text><text x="24" y="54" class="tiny" style="fill:#C9CDD4">客户端先拦截；服务端同样校验</text>
+      <g transform="translate(28 102)">
+        <text y="18" class="medium">员工账号</text><rect y="32" width="360" height="48" rx="10" fill="#FFFFFF" stroke="#DC2626" stroke-width="1.5"/><text x="16" y="62" class="body muted">请输入员工账号</text><text y="104" class="small error">请输入员工账号</text>
+        <text y="158" class="medium">密码</text><rect y="172" width="360" height="48" rx="10" fill="#FFFFFF" stroke="#DC2626" stroke-width="1.5"/><text x="16" y="202" class="body muted">请输入密码</text><text y="244" class="small error">请输入密码</text>
+        <rect y="286" width="360" height="48" rx="10" fill="#1D2129"/><text x="180" y="316" class="medium white" text-anchor="middle">登录</text>
+        <rect y="370" width="360" height="112" rx="10" fill="#F2F3F5"/>
+        <text x="16" y="398" class="medium">交互规则</text><text x="16" y="424" class="small">焦点移动到首个错误字段</text><text x="16" y="448" class="small">空值或超长不计入失败次数</text><text x="16" y="472" class="small">aria-invalid 与 aria-describedby 关联</text>
+      </g>
+    </g>
+
+    <g transform="translate(512 1406)">
+      <rect width="416" height="610" rx="16" class="section"/>
+      <rect width="416" height="72" rx="16" fill="#1D2129"/><rect y="56" width="416" height="16" fill="#1D2129"/>
+      <text x="24" y="32" class="medium white">Authentication failed / 401</text><text x="24" y="54" class="tiny" style="fill:#C9CDD4">未知账号、密码错误、停用统一反馈</text>
+      <g transform="translate(28 102)">
+        <rect width="360" height="92" rx="10" fill="#FEE4E2"/>
+        <circle cx="24" cy="26" r="10" fill="#D92D20"/><text x="24" y="30" font-size="12" font-weight="700" class="white" text-anchor="middle">!</text>
+        <text x="44" y="30" class="medium error">无法登录</text><text x="16" y="58" class="small" style="fill:#7A271A">账号或密码错误，或账号不可用。</text><text x="16" y="78" class="small" style="fill:#7A271A">请检查后重试，或联系门店管理员。</text>
+        <text y="138" class="medium">员工账号</text><rect y="152" width="360" height="48" rx="10" class="input"/><text x="16" y="182" class="body">CF-018</text>
+        <text y="242" class="medium">密码</text><rect y="256" width="360" height="48" rx="10" stroke="#1D2129" stroke-width="2" fill="#FFFFFF"/><text x="16" y="286" class="body muted">请输入密码</text>
+        <rect y="338" width="360" height="48" rx="10" fill="#1D2129"/><text x="180" y="368" class="medium white" text-anchor="middle">重新登录</text>
+        <rect y="420" width="360" height="70" rx="10" fill="#F2F3F5"/><text x="16" y="448" class="medium">恢复行为</text><text x="16" y="472" class="small">保留账号，清空密码，焦点返回密码字段</text>
+      </g>
+    </g>
+
+    <g transform="translate(960 1406)">
+      <rect width="416" height="610" rx="16" class="section"/>
+      <rect width="416" height="72" rx="16" fill="#1D2129"/><rect y="56" width="416" height="16" fill="#1D2129"/>
+      <text x="24" y="32" class="medium white">Submitting</text><text x="24" y="54" class="tiny" style="fill:#C9CDD4">防止同一表单重复提交</text>
+      <g transform="translate(28 118)">
+        <text y="18" class="medium muted">员工账号</text><rect y="32" width="360" height="48" rx="10" fill="#F2F3F5" stroke="#E5E6EB"/><text x="16" y="62" class="body muted">CF-018</text>
+        <text y="132" class="medium muted">密码</text><rect y="146" width="360" height="48" rx="10" fill="#F2F3F5" stroke="#E5E6EB"/><text x="16" y="178" font-size="18" letter-spacing="4" class="muted">••••••••</text>
+        <rect y="238" width="360" height="48" rx="10" fill="#1D2129"/>
+        <circle cx="126" cy="262" r="8" fill="none" stroke="#86909C" stroke-width="2"/><path d="M126 254A8 8 0 0 1 134 262" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+        <text x="188" y="268" class="medium white" text-anchor="middle">登录中…</text>
+        <rect y="328" width="360" height="126" rx="10" fill="#F2F3F5"/><text x="16" y="356" class="medium">交互规则</text><text x="16" y="382" class="small">输入框和显隐按钮暂不可操作</text><text x="16" y="406" class="small">按钮保持宽度并设置 aria-busy=true</text><text x="16" y="430" class="small">响应后恢复操作或进入授权页面</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Exceptional states -->
+  <g id="cf-s2-auth-exception-states">
+    <text x="64" y="2100" class="h2">03  安全与可用性异常</text>
+    <text x="1376" y="2100" class="small" text-anchor="end">不同错误分类使用不同恢复动作；不得把网络错误显示成凭证错误</text>
+
+    <g transform="translate(64 2136)">
+      <rect width="416" height="610" rx="16" class="section"/>
+      <rect width="416" height="72" rx="16" fill="#8A4B08"/><rect y="56" width="416" height="16" fill="#8A4B08"/>
+      <text x="24" y="32" class="medium white">Rate limited / 429</text><text x="24" y="54" class="tiny" style="fill:#FEEFC7">第 5 次失败起限制 15 分钟</text>
+      <g transform="translate(28 110)">
+        <rect width="360" height="120" rx="10" fill="#FEF0C7"/>
+        <circle cx="24" cy="28" r="10" fill="#DC6803"/><text x="24" y="32" font-size="12" font-weight="700" class="white" text-anchor="middle">!</text>
+        <text x="44" y="32" class="medium warning">尝试次数过多</text><text x="16" y="64" class="small" style="fill:#7A2E0E">请稍后再试，无需联系管理员解锁。</text><text x="16" y="90" class="small" style="fill:#7A2E0E">可重试时间以服务器 Retry-After 为准。</text>
+        <text y="174" class="medium">员工账号</text><rect y="188" width="360" height="48" rx="10" fill="#F2F3F5" stroke="#E5E6EB"/><text x="16" y="218" class="body muted">CF-018</text>
+        <rect y="278" width="360" height="48" rx="10" fill="#C9CDD4"/><text x="180" y="308" class="medium white" text-anchor="middle">14:32 后可重试</text>
+        <rect y="366" width="360" height="100" rx="10" fill="#F2F3F5"/><text x="16" y="394" class="medium">隐私规则</text><text x="16" y="420" class="small">不显示剩余失败次数</text><text x="16" y="444" class="small">不说明账号是否存在或已停用</text>
+      </g>
+    </g>
+
+    <g transform="translate(512 2136)">
+      <rect width="416" height="610" rx="16" class="section"/>
+      <rect width="416" height="72" rx="16" fill="#175CD3"/><rect y="56" width="416" height="16" fill="#175CD3"/>
+      <text x="24" y="32" class="medium white">Security validation / 403</text><text x="24" y="54" class="tiny" style="fill:#D1E9FF">一次 Token 恢复仍失败后显示</text>
+      <g transform="translate(28 110)">
+        <rect width="360" height="132" rx="10" fill="#D1E9FF"/>
+        <circle cx="24" cy="28" r="10" fill="#1570EF"/><text x="24" y="32" font-size="12" font-weight="700" class="white" text-anchor="middle">i</text>
+        <text x="44" y="32" class="medium info">请求安全校验失败</text><text x="16" y="64" class="small" style="fill:#194185">页面安全状态可能已更新。</text><text x="16" y="88" class="small" style="fill:#194185">请刷新页面后重新操作。</text><text x="16" y="112" class="tiny" style="fill:#194185">traceId：01J…A72</text>
+        <rect y="176" width="360" height="48" rx="10" fill="#1D2129"/><text x="180" y="206" class="medium white" text-anchor="middle">刷新页面</text>
+        <rect y="260" width="360" height="168" rx="10" fill="#F2F3F5"/>
+        <text x="16" y="288" class="medium">恢复边界</text><text x="16" y="314" class="small">首次 403 可重新获取 Token 并重试一次</text><text x="16" y="338" class="small">第二次失败停止自动重试</text><text x="16" y="362" class="small">403 不清除有效登录态</text><text x="16" y="386" class="small">CSRF Token 不出现在页面或日志</text>
+      </g>
+    </g>
+
+    <g transform="translate(960 2136)">
+      <rect width="416" height="610" rx="16" class="section"/>
+      <rect width="416" height="72" rx="16" fill="#344054"/><rect y="56" width="416" height="16" fill="#344054"/>
+      <text x="24" y="32" class="medium white">Network or server failure</text><text x="24" y="54" class="tiny" style="fill:#EAECF0">断网、超时或 COMMON-500-001</text>
+      <g transform="translate(28 110)">
+        <rect width="360" height="132" rx="10" fill="#F2F4F7"/>
+        <circle cx="24" cy="28" r="10" fill="#667085"/><text x="24" y="32" font-size="12" font-weight="700" class="white" text-anchor="middle">!</text>
+        <text x="44" y="32" class="medium">暂时无法连接服务</text><text x="16" y="64" class="small">请检查网络后重试，账号输入已保留。</text><text x="16" y="88" class="small">服务异常时可提供 traceId 协助排查。</text><text x="16" y="112" class="tiny">traceId：仅服务端返回时显示</text>
+        <text y="178" class="medium">员工账号</text><rect y="192" width="360" height="48" rx="10" class="input"/><text x="16" y="222" class="body">CF-018</text>
+        <rect y="282" width="360" height="48" rx="10" fill="#1D2129"/><text x="180" y="312" class="medium white" text-anchor="middle">重新尝试</text>
+        <rect y="366" width="360" height="100" rx="10" fill="#F2F3F5"/><text x="16" y="394" class="medium">区别处理</text><text x="16" y="420" class="small">不显示“账号或密码错误”</text><text x="16" y="444" class="small">不自动进入登录过期流程</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Global auth states -->
+  <g id="cf-s2-auth-global-states">
+    <text x="64" y="2830" class="h2">04  全局认证状态</text>
+    <text x="1376" y="2830" class="small" text-anchor="end">应用启动先确认 /auth/me；运行中并发 401 只触发一次失效流程</text>
+
+    <g transform="translate(64 2866)">
+      <rect width="640" height="590" rx="16" class="section"/>
+      <text x="24" y="42" class="h3">Session / Checking</text><text x="24" y="68" class="small">冷启动、刷新或新标签页：身份未知期间不渲染业务壳层。</text>
+      <rect x="24" y="94" width="592" height="450" rx="14" fill="#FFFFFF" stroke="#E5E6EB"/>
+      <rect x="24" y="94" width="592" height="64" rx="14" fill="#1D2129"/><rect x="24" y="144" width="592" height="14" fill="#1D2129"/>
+      <circle cx="64" cy="126" r="14" fill="#DD2089"/><text x="88" y="132" class="medium white">Cup Flow</text>
+      <circle cx="320" cy="292" r="24" fill="none" stroke="#D0D5DD" stroke-width="4"/><path d="M320 268A24 24 0 0 1 344 292" fill="none" stroke="#1D2129" stroke-width="4" stroke-linecap="round"/>
+      <text x="320" y="346" class="medium" text-anchor="middle">正在确认登录状态…</text>
+      <text x="320" y="374" class="small" text-anchor="middle">请稍候，不展示菜单或业务内容</text>
+      <rect x="144" y="416" width="352" height="14" rx="7" fill="#F2F4F7"/><rect x="196" y="446" width="248" height="14" rx="7" fill="#F2F4F7"/>
+      <text x="24" y="574" class="tiny">网络失败 → 可重试状态；401 冷启动 → 静默进入登录页；200 → 恢复 CurrentUser。</text>
+    </g>
+
+    <g transform="translate(736 2866)">
+      <rect width="640" height="590" rx="16" class="section"/>
+      <text x="24" y="42" class="h3">Session / Expired or disabled</text><text x="24" y="68" class="small">运行中收到 AUTH-401-001，合并并发响应后只展示一次提示。</text>
+      <g transform="translate(80 94)">
+        <rect width="480" height="450" rx="18" fill="#FFFFFF" filter="url(#shadowSoft)"/>
+        <text x="32" y="52" class="h3">请重新登录</text>
+        <rect x="32" y="76" width="416" height="118" rx="10" fill="#D1E9FF"/>
+        <circle cx="56" cy="104" r="10" fill="#1570EF"/><text x="56" y="108" font-size="12" font-weight="700" class="white" text-anchor="middle">i</text>
+        <text x="76" y="108" class="medium info">登录已过期，请重新登录</text>
+        <text x="48" y="140" class="small" style="fill:#194185">为保护账号安全，当前会话已失效。</text>
+        <text x="48" y="166" class="small" style="fill:#194185">未提交内容不承诺保留，请重新确认业务状态。</text>
+        <text x="32" y="238" class="medium">员工账号</text><rect x="32" y="252" width="416" height="48" rx="10" class="input"/><text x="48" y="282" class="body muted">请输入员工账号</text>
+        <rect x="32" y="336" width="416" height="48" rx="10" fill="#1D2129"/><text x="240" y="366" class="medium white" text-anchor="middle">重新登录</text>
+        <text x="240" y="416" class="tiny" text-anchor="middle">有权原目标可恢复，否则进入角色默认页</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Access outcomes -->
+  <g id="cf-s2-auth-access-outcomes">
+    <text x="64" y="3540" class="h2">05  登录后去向与权限不足</text>
+    <text x="1376" y="3540" class="small" text-anchor="end">服务端角色为权威；前端菜单和路由只负责体验</text>
+    <rect x="64" y="3576" width="1312" height="650" rx="16" class="section"/>
+
+    <g transform="translate(96 3612)">
+      <rect width="384" height="264" rx="14" fill="#F7F8FA" stroke="#E5E6EB"/>
+      <circle cx="40" cy="42" r="18" fill="#067647"/><text x="40" y="47" class="medium white" text-anchor="middle">1</text>
+      <text x="72" y="38" class="h3">恢复安全原目标</text><text x="72" y="62" class="small">站内、存在且当前角色有权</text>
+      <line x1="24" y1="88" x2="360" y2="88" class="divider"/>
+      <text x="24" y="126" class="medium">示例</text><text x="88" y="126" class="body secondary">/orders/20260826001</text>
+      <text x="24" y="164" class="small">拒绝 //、协议、主机、反斜杠、控制字符</text>
+      <rect x="24" y="196" width="336" height="44" rx="9" fill="#1D2129"/><text x="192" y="224" class="medium white" text-anchor="middle">继续原操作</text>
+    </g>
+
+    <g transform="translate(528 3612)">
+      <rect width="384" height="264" rx="14" fill="#F7F8FA" stroke="#E5E6EB"/>
+      <circle cx="40" cy="42" r="18" fill="#175CD3"/><text x="40" y="47" class="medium white" text-anchor="middle">2</text>
+      <text x="72" y="38" class="h3">使用角色默认页</text><text x="72" y="62" class="small">目标无效、不存在或无权限</text>
+      <line x1="24" y1="88" x2="360" y2="88" class="divider"/>
+      <text x="24" y="130" class="medium">CASHIER</text><rect x="126" y="108" width="110" height="34" rx="8" fill="#EAECF0"/><text x="181" y="130" class="small" text-anchor="middle">/pos</text>
+      <text x="24" y="174" class="medium">ADMIN</text><rect x="126" y="152" width="110" height="34" rx="8" fill="#EAECF0"/><text x="181" y="174" class="small" text-anchor="middle">/dashboard</text>
+      <text x="24" y="224" class="small">已登录访问 /login 时同样进入默认有权页</text>
+    </g>
+
+    <g transform="translate(960 3612)">
+      <rect width="384" height="540" rx="14" fill="#FFFFFF" stroke="#E5E6EB" filter="url(#shadowSoft)"/>
+      <rect width="384" height="64" rx="14" fill="#1D2129"/><rect y="50" width="384" height="14" fill="#1D2129"/>
+      <circle cx="34" cy="32" r="12" fill="#DD2089"/><text x="56" y="37" class="medium white">Cup Flow</text>
+      <circle cx="192" cy="164" r="54" fill="#FEE4E2"/><text x="192" y="178" font-size="42" font-weight="700" class="error" text-anchor="middle">403</text>
+      <text x="192" y="254" class="title" text-anchor="middle">当前账号无权访问</text>
+      <text x="192" y="288" class="body secondary" text-anchor="middle">该页面不在你的角色权限范围内</text>
+      <rect x="56" y="332" width="272" height="48" rx="10" fill="#1D2129"/><text x="192" y="362" class="medium white" text-anchor="middle">返回我的工作台</text>
+      <text x="192" y="418" class="small" text-anchor="middle">CASHIER 返回 /pos</text>
+      <text x="192" y="444" class="small" text-anchor="middle">ADMIN 返回 /dashboard</text>
+      <text x="192" y="500" class="tiny" text-anchor="middle">403 不清除有效登录态 · 404 独立处理</text>
+    </g>
+
+    <g transform="translate(96 3924)">
+      <rect width="816" height="228" rx="14" fill="#F7F8FA" stroke="#E5E6EB"/>
+      <text x="24" y="38" class="h3">导航与权限可见性</text>
+      <line x1="24" y1="58" x2="792" y2="58" class="divider"/>
+      <text x="24" y="94" class="medium">CASHIER</text><text x="134" y="94" class="body secondary">显示 POS、订单；隐藏商品、经营看板</text>
+      <text x="24" y="134" class="medium">ADMIN</text><text x="134" y="134" class="body secondary">显示 POS、订单、商品、经营看板</text>
+      <text x="24" y="174" class="medium">未知权限</text><text x="134" y="174" class="body secondary">按未授权处理，不使用陈旧客户端角色放行</text>
+      <text x="24" y="204" class="small">直接构造 URL 或 API 请求仍由后端会话和角色策略独立校验。</text>
+    </g>
+  </g>
+
+  <!-- Responsive and handoff -->
+  <g id="cf-s2-auth-responsive-handoff">
+    <text x="64" y="4310" class="h2">06  Mobile 与开发交接</text>
+    <text x="1376" y="4310" class="small" text-anchor="end">Mobile 360–767 单栏 · 触控目标 ≥ 44 · 错误不只依赖颜色</text>
+    <rect x="64" y="4346" width="1312" height="570" rx="16" class="section"/>
+
+    <g transform="translate(96 4374)">
+      <rect x="24" width="292" height="500" rx="28" fill="#FFFFFF" stroke="#C9CDD4" stroke-width="2"/>
+      <rect x="114" y="12" width="112" height="16" rx="8" fill="#1D2129"/>
+      <circle cx="58" cy="62" r="14" fill="#DD2089"/><text x="82" y="68" class="medium">Cup Flow</text>
+      <text x="56" y="130" font-size="22" font-weight="700">欢迎回来</text><text x="56" y="158" class="small">登录门店员工账号</text>
+      <text x="56" y="206" class="small">员工账号</text><rect x="56" y="218" width="228" height="48" rx="10" class="input"/><text x="72" y="248" class="small">请输入员工账号</text>
+      <text x="56" y="302" class="small">密码</text><rect x="56" y="314" width="228" height="48" rx="10" class="input"/><text x="72" y="344" class="small">请输入密码</text>
+      <rect x="56" y="394" width="228" height="48" rx="10" fill="#1D2129"/><text x="170" y="424" class="medium white" text-anchor="middle">登录</text>
+      <text x="170" y="474" class="tiny" text-anchor="middle">需要帮助？联系门店管理员</text>
+    </g>
+
+    <g transform="translate(448 4390)">
+      <text class="medium" y="20">状态</text><text x="180" class="medium" y="20">关键反馈与恢复动作</text><text x="610" class="medium" y="20">可访问性与安全</text>
+      <line y1="38" x2="800" y2="38" class="divider"/>
+      <text y="72" class="body">Validation</text><text x="180" y="72" class="body secondary">字段级错误，首错聚焦</text><text x="610" y="72" class="small">aria-invalid / describedby</text>
+      <line y1="94" x2="800" y2="94" class="divider"/>
+      <text y="128" class="body">Auth failed</text><text x="180" y="128" class="body secondary">保留账号、清空密码</text><text x="610" y="128" class="small">role=alert，统一文案</text>
+      <line y1="150" x2="800" y2="150" class="divider"/>
+      <text y="184" class="body">Submitting</text><text x="180" y="184" class="body secondary">禁用表单，阻止重复提交</text><text x="610" y="184" class="small">aria-busy=true</text>
+      <line y1="206" x2="800" y2="206" class="divider"/>
+      <text y="240" class="body">Rate limited</text><text x="180" y="240" class="body secondary">按 Retry-After 暂停提交</text><text x="610" y="240" class="small">不显示失败次数</text>
+      <line y1="262" x2="800" y2="262" class="divider"/>
+      <text y="296" class="body">CSRF failed</text><text x="180" y="296" class="body secondary">一次恢复后提示刷新页面</text><text x="610" y="296" class="small">禁止无限自动重试</text>
+      <line y1="318" x2="800" y2="318" class="divider"/>
+      <text y="352" class="body">Service error</text><text x="180" y="352" class="body secondary">保留账号，提供重试</text><text x="610" y="352" class="small">与凭证错误区分</text>
+      <line y1="374" x2="800" y2="374" class="divider"/>
+      <text y="408" class="body">Session expired</text><text x="180" y="408" class="body secondary">清除身份，一次提示</text><text x="610" y="408" class="small">并发 401 合并处理</text>
+      <line y1="430" x2="800" y2="430" class="divider"/>
+      <text y="464" class="body">Forbidden</text><text x="180" y="464" class="body secondary">403 页面，返回默认页</text><text x="610" y="464" class="small">不清除登录态</text>
+    </g>
+  </g>
+
+  <text x="720" y="4980" class="tiny" text-anchor="middle">Cup Flow Coffee POS · Sprint 2 Auth UI · Import SVG to Figma and replace static controls with design-system components</text>
+</svg>

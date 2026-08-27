@@ -16,6 +16,9 @@
 | [Sprint 2 User Stories](./sprint2/USER_STORIES.md) | 登录体系用户故事、验收标准、依赖与需求覆盖矩阵 |
 | [Sprint 2 Tasks](./sprint2/TASKS.md) | 已批准开发 Task、依赖批次、追踪矩阵和 Ready/Done 标准 |
 | [Sprint 2 API Contract](./sprint2/API_CONTRACT.md) | 登录、当前身份、退出、Cookie、CSRF 与错误码契约 |
+| [Sprint 2 Auth Flow](./sprint2/AUTH_FLOW.md) | 登录、会话恢复、角色授权、退出与会话生命周期流程图 |
+| [Sprint 2 Auth Sequence](./sprint2/AUTH_SEQUENCE.md) | 登录、CSRF、限流、会话、授权与退出的参与方交互时序图 |
+| [Sprint 2 Auth UI/UX](./sprint2/AUTH_UIUX/README.md) | 完整登录 UI 画板、状态覆盖审查与 Figma 交接说明 |
 | [Sprint 2 Test Strategy](./sprint2/TEST_STRATEGY.md) | 测试分层、稳定用例编号及 Story—Task—Test 追踪 |
 
 ## 第一阶段范围
