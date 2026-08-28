@@ -1,9 +1,11 @@
 package com.cupflow.pos.auth.api;
 
+import com.cupflow.pos.auth.application.CurrentSessionResult;
+import com.cupflow.pos.auth.application.CurrentSessionService;
 import com.cupflow.pos.auth.application.LoginResult;
 import com.cupflow.pos.auth.application.LoginService;
-import com.cupflow.pos.auth.infrastructure.configuration.AuthSecurityProperties;
 import com.cupflow.pos.auth.infrastructure.security.CsrfTokenService;
+import com.cupflow.pos.auth.infrastructure.security.SessionCookieFactory;
 import com.cupflow.pos.shared.api.ApiResponse;
 import com.cupflow.pos.shared.error.ApiException;
 import com.cupflow.pos.shared.error.ErrorCode;
@@ -24,17 +26,40 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/auth")
 public class AuthController {
 
-    public static final String SESSION_COOKIE = "CUP_FLOW_SESSION";
+    public static final String SESSION_COOKIE = SessionCookieFactory.SESSION_COOKIE;
 
     private final LoginService loginService;
+    private final CurrentSessionService currentSessionService;
     private final CsrfTokenService csrfTokenService;
-    private final AuthSecurityProperties securityProperties;
+    private final SessionCookieFactory sessionCookieFactory;
 
     public AuthController(
-            LoginService loginService, CsrfTokenService csrfTokenService, AuthSecurityProperties securityProperties) {
+            LoginService loginService,
+            CurrentSessionService currentSessionService,
+            CsrfTokenService csrfTokenService,
+            SessionCookieFactory sessionCookieFactory) {
         this.loginService = loginService;
+        this.currentSessionService = currentSessionService;
         this.csrfTokenService = csrfTokenService;
-        this.securityProperties = securityProperties;
+        this.sessionCookieFactory = sessionCookieFactory;
+    }
+
+    @GetMapping("/me")
+    ResponseEntity<ApiResponse<Object>> me(
+            @CookieValue(name = SESSION_COOKIE, required = false) String rawSessionToken) {
+        if (rawSessionToken == null || rawSessionToken.isBlank()) {
+            throw new ApiException(ErrorCode.UNAUTHENTICATED);
+        }
+        CurrentSessionResult result = currentSessionService.resolve(rawSessionToken);
+        if (result instanceof CurrentSessionResult.Invalid) {
+            ErrorCode errorCode = ErrorCode.UNAUTHENTICATED;
+            return ResponseEntity.status(errorCode.status())
+                    .header(HttpHeaders.SET_COOKIE, sessionCookieFactory.clear().toString())
+                    .body(ApiResponse.failure(
+                            errorCode.code(), errorCode.message(), null, TraceContext.currentTraceId()));
+        }
+        CurrentSessionResult.Authenticated authenticated = (CurrentSessionResult.Authenticated) result;
+        return ResponseEntity.ok(ApiResponse.success(authenticated.currentUser(), TraceContext.currentTraceId()));
     }
 
     @GetMapping("/csrf")
@@ -62,12 +87,7 @@ public class AuthController {
             throw new ApiException(ErrorCode.AUTHENTICATION_FAILED);
         }
         LoginResult.Success success = (LoginResult.Success) result;
-        ResponseCookie cookie = ResponseCookie.from(SESSION_COOKIE, success.sessionToken())
-                .httpOnly(true)
-                .secure(securityProperties.isCookieSecure())
-                .sameSite("Lax")
-                .path("/")
-                .build();
+        ResponseCookie cookie = sessionCookieFactory.issue(success.sessionToken());
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, cookie.toString())
                 .body(ApiResponse.success(success.currentUser(), TraceContext.currentTraceId()));

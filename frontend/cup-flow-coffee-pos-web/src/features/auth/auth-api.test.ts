@@ -3,9 +3,29 @@ import {
   testTimestamp,
   testTraceId,
 } from "../../test/api-response-fixture";
-import { login } from "./auth-api";
+import { getCurrentUser, login } from "./auth-api";
 
 describe("auth api", () => {
+  it("使用同源 Cookie 查询并解析当前身份", async () => {
+    const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValueOnce(
+      apiSuccessResponse({
+        id: "01KSESSIONUSER",
+        displayName: "值班员工",
+        roles: ["CASHIER"],
+        defaultPath: "/pos",
+      }),
+    );
+
+    await expect(getCurrentUser()).resolves.toMatchObject({
+      id: "01KSESSIONUSER",
+      roles: ["CASHIER"],
+    });
+    expect(fetchSpy).toHaveBeenCalledWith(
+      expect.stringContaining("/auth/me"),
+      expect.objectContaining({ credentials: "same-origin" }),
+    );
+  });
+
   it("先获取 CSRF，再原样提交密码并解析最小用户模型", async () => {
     const fetchSpy = vi
       .spyOn(globalThis, "fetch")

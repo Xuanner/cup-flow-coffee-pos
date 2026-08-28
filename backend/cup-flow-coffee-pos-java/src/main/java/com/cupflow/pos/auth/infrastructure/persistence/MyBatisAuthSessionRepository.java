@@ -3,6 +3,8 @@ package com.cupflow.pos.auth.infrastructure.persistence;
 import com.cupflow.pos.auth.domain.AuthSession;
 import com.cupflow.pos.auth.domain.AuthSessionRepository;
 import java.time.Instant;
+import java.util.Optional;
+import java.util.UUID;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -27,6 +29,27 @@ public class MyBatisAuthSessionRepository implements AuthSessionRepository {
         if (inserted != 1) {
             throw new IllegalStateException("Authentication session creation failed");
         }
+    }
+
+    @Override
+    public Optional<AuthSession> findActiveByTokenHash(String tokenHash) {
+        AuthSessionPersistenceMapper.SessionRow row = mapper.findActiveByTokenHash(tokenHash);
+        if (row == null) {
+            return Optional.empty();
+        }
+        return Optional.of(new AuthSession(
+                UUID.fromString(row.id()),
+                UUID.fromString(row.accountId()),
+                row.tokenHash(),
+                row.createdAt(),
+                row.lastActivityAt(),
+                row.idleExpiresAt(),
+                row.absoluteExpiresAt()));
+    }
+
+    @Override
+    public boolean refreshActivity(String tokenHash, Instant acceptedAt, Instant idleExpiresAt) {
+        return mapper.refreshActivity(tokenHash, acceptedAt, idleExpiresAt) == 1;
     }
 
     @Override

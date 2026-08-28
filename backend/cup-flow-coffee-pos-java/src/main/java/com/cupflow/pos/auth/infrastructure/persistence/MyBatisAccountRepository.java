@@ -23,7 +23,15 @@ public class MyBatisAccountRepository implements AccountRepository {
 
     @Override
     public Optional<Account> findByUsername(AccountUsername username) {
-        AccountPersistenceMapper.AccountRow row = mapper.findByUsername(username.value());
+        return toAccount(mapper.findByUsername(username.value()));
+    }
+
+    @Override
+    public Optional<Account> findById(UUID accountId) {
+        return toAccount(mapper.findById(accountId.toString()));
+    }
+
+    private Optional<Account> toAccount(AccountPersistenceMapper.AccountRow row) {
         if (row == null) {
             return Optional.empty();
         }

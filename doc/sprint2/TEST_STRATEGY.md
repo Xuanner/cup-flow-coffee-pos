@@ -2,11 +2,11 @@
 
 | 项目 | 内容 |
 | --- | --- |
-| 文档版本 | v1.5 |
-| 状态 | 已批准；ACCOUNT-01、SEC-01、AUTH-01、AUTH-02 实现证据已登记 |
+| 文档版本 | v1.6 |
+| 状态 | 已批准；ACCOUNT-01、SEC-01、AUTH-01、AUTH-02、SESSION-01 实现证据已登记 |
 | 关联任务 | TASK-S2-PLAN-03 |
 | 生效日期 | 2026-08-24 |
-| 最近更新 | 2026-08-27（完成 ACCOUNT-01、SEC-01、AUTH-01、AUTH-02 验收） |
+| 最近更新 | 2026-08-28（完成 SESSION-01 验收） |
 
 ## 1. 测试目标
 
@@ -104,6 +104,8 @@ Sprint 2 测试证明：只有合法、启用的员工能建立登录态；会�
 | TC-S2-SESS-015 | 接口 | 恶意 Origin/跨站请求 | 403、AUTH-403-002 | US-S2-SESSION-01 / SESSION-01-02 |
 | TC-S2-SESS-016 | 单元/数据库 | 会话失效满 7 天批量清理 | 只删除达到保留期的失效记录；清理失败不使会话重新有效 | US-S2-SESSION-02 / SESSION-02-01 |
 
+`AuthLoginIntegrationTest` 已实现并通过 `TC-S2-SESS-001` 至 `003`、`014`、`015`：有效会话返回最小身份并原子刷新活动时间；缺失或伪造 Cookie 返回统一 401 且不创建会话，伪造 Cookie 同时被清除；合法 Origin 与 CSRF 可执行登录，恶意 Origin 在认证前被拒绝。`MyBatisAuthSessionRepositoryTest` 补充验证摘要查询、撤销不可重放及乱序刷新不回退；`SessionCookieFactoryTest` 和 `AuthSecurityPropertiesTest` 固化 Cookie 环境属性与显式 Origin 规则。
+
 ### 3.4 后端权限矩阵
 
 | ID | 场景 | 预期 | 关联 Story / Task |
@@ -137,6 +139,8 @@ Sprint 2 测试证明：只有合法、启用的员工能建立登录态；会�
 | TC-S2-FE-AUTH-010 | 浏览器存储与 URL | 不包含 Session/CSRF Token | US-S2-SESSION-01 / SESSION-01-03 |
 
 `AuthPage.test.tsx`、请求层和错误映射测试已实现并通过 `TC-S2-FE-AUTH-007` 至 `009`：认证失败保留账号、清空密码并回焦；429 按 `Retry-After` 暂停并恢复；网络、超时和 500 使用相互独立且可重试的提示。
+
+`App.test.tsx` 与 `auth-api.test.ts` 已实现并通过 `TC-S2-FE-AUTH-010`、`TC-S2-FE-SESS-001` 至 `003`：启动时通过同源 Cookie 查询当前身份，确认期间只显示应用级加载；有效会话恢复内存用户和原路径/查询参数；无会话进入登录页且不显示运行中过期提示；恢复过程不写 localStorage、sessionStorage 或 URL 凭证。
 
 ### 4.2 会话、路由与菜单
 

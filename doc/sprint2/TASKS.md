@@ -2,10 +2,10 @@
 
 | 项目 | 内容 |
 | --- | --- |
-| 文档版本 | v1.5 |
-| 上游基线 | Sprint 2 PRD、Features、API Contract v1.0；User Stories v1.1；Test Strategy v1.5 |
+| 文档版本 | v1.6 |
+| 上游基线 | Sprint 2 PRD、Features、API Contract v1.0；User Stories v1.1；Test Strategy v1.6 |
 | 文档状态 | 已重新拆分；按 Story 依赖和模块验收门执行 |
-| 门禁结果 | TASK-S2-PLAN-01 至 03、TASK-S2-ACCOUNT-01-01 至 04、TASK-S2-SEC-01-01 至 03、TASK-S2-AUTH-01-01 至 06、TASK-S2-AUTH-02-01 至 04 已完成 |
+| 门禁结果 | TASK-S2-PLAN-01 至 03、TASK-S2-ACCOUNT-01-01 至 04、TASK-S2-SEC-01-01 至 03、TASK-S2-AUTH-01-01 至 06、TASK-S2-AUTH-02-01 至 04、TASK-S2-SESSION-01-01 至 04 已完成 |
 
 ## 1. 拆分与执行规则
 
@@ -296,48 +296,52 @@
 
 | 属性 | 内容 |
 | --- | --- |
-| 类型 / 状态 / 复杂度 | 后端、数据库、API / Ready / L |
+| 类型 / 状态 / 复杂度 | 后端、数据库、API / Done / L |
 | 主 Story | US-S2-SESSION-01 |
 | 依赖 | AUTH-02-04、ACCOUNT-01-01 |
 
 **工作内容：** 实现会话创建、按摘要读取、刷新和撤销；安全解析 Cookie；校验会话与账号状态；当前身份端点只返回最小用户信息；无效会话返回 401 且不创建会话。
 
-**完成证据：** `TC-S2-SESS-001` 至 `003` 及 Repository 并发/约束测试通过。
+**完成证据：** `AuthLoginIntegrationTest` 已通过 `TC-S2-SESS-001` 至 `003`，覆盖有效、缺失和伪造 Cookie、最小身份响应、无会话副作用及无效 Cookie 清理；`MyBatisAuthSessionRepositoryTest` 验证按摘要读取、撤销后不可读取/刷新以及乱序并发刷新不回退活动时间。后端全量 66 项测试通过。
 
 #### TASK-S2-SESSION-01-02 配置 Cookie 会话与 CSRF 防护
 
 | 属性 | 内容 |
 | --- | --- |
-| 类型 / 状态 / 复杂度 | 前后端安全契约 / Blocked / L |
+| 类型 / 状态 / 复杂度 | 前后端安全契约 / Done / L |
 | 主 Story | US-S2-SESSION-01 |
 | 支持后续 | US-S2-SESSION-03、US-S2-AUTHZ-03 |
 | 依赖 | SESSION-01-01、PLAN-02 |
 
 **工作内容：** 配置 Origin、凭证携带、CSRF Token 获取与提交；状态变更执行冻结策略；公开端点保持最小白名单；禁止通配来源与凭证组合。
 
-**完成证据：** `TC-S2-SESS-014`、`015` 和登录 CSRF 测试通过；Cookie 属性人工复核通过。
+**完成证据：** `AuthLoginIntegrationTest` 已通过 `TC-S2-SESS-014`、`015` 及登录 CSRF 测试；`SessionCookieFactoryTest` 验证 Host-only、`HttpOnly`、`SameSite=Lax`、`Path=/`、生产 `Secure`、本地 HTTP 例外、会话 Cookie 无持久化期限及安全清除；`AuthSecurityPropertiesTest` 验证拒绝通配和非显式 Origin。
 
 #### TASK-S2-SESSION-01-03 实现认证 Provider 与启动恢复
 
 | 属性 | 内容 |
 | --- | --- |
-| 类型 / 状态 / 复杂度 | 前端状态、路由 / Blocked / L |
+| 类型 / 状态 / 复杂度 | 前端状态、路由 / Done / L |
 | 主 Story | US-S2-SESSION-01 |
 | 依赖 | SESSION-01-01、SESSION-01-02、AUTH-01-03 |
 
 **工作内容：** 实现当前身份 API 和内存认证状态；应用启动先确认会话；期间显示应用级加载，不渲染业务 Shell 或菜单；刷新和新标签页恢复有权目标。
 
-**完成证据：** `TC-S2-FE-AUTH-010`、`TC-S2-FE-SESS-001` 至 `003` 通过。
+**完成证据：** `AuthProvider`、启动会话边界、当前身份请求及内存认证状态已实现；`App.test.tsx` 和 `auth-api.test.ts` 已通过 `TC-S2-FE-AUTH-010`、`TC-S2-FE-SESS-001` 至 `003`，验证加载期不闪现 Shell、有效会话恢复原地址、无会话进入登录页且无过期误报，以及浏览器存储和 URL 无凭证。前端全量 62 项测试及生产构建通过。
 
 #### TASK-S2-SESSION-01-04 验收会话恢复 Story
 
 | 属性 | 内容 |
 | --- | --- |
-| 类型 / 状态 / 复杂度 | Story 验收 / Blocked / S |
+| 类型 / 状态 / 复杂度 | Story 验收 / Done / S |
 | 主 Story | US-S2-SESSION-01 |
 | 依赖 | SESSION-01-01 至 03 |
 
 **验收内容：** 登记 Cookie、CSRF、当前身份、刷新、新标签页、加载态、无会话 401 和浏览器存储检查，逐条验收 US-S2-SESSION-01。
+
+**完成证据：** [`SESSION_01_ACCEPTANCE.md`](SESSION_01_ACCEPTANCE.md) 已登记全部验收标准、自动化证据及安全边界；后端 66 项、前端 62 项测试通过，前后端全量门禁成功，无阻断缺陷。
+
+**Story 出口：** SESSION-01-04 `Done`，会话恢复能力可独立验收，并解锁 `TASK-S2-SESSION-02-01`。
 
 ### 6.2 US-S2-SESSION-02 会话过期或账号停用后重新登录
 
@@ -347,7 +351,7 @@
 
 | 属性 | 内容 |
 | --- | --- |
-| 类型 / 状态 / 复杂度 | 后端、安全 / Blocked / M |
+| 类型 / 状态 / 复杂度 | 后端、安全 / Ready / M |
 | 主 Story | US-S2-SESSION-02 |
 | 依赖 | SESSION-01-04 |
 

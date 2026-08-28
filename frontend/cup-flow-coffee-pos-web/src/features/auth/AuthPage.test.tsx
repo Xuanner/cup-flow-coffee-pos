@@ -3,6 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { createMemoryRouter, RouterProvider } from "react-router";
 
 import { ApiError } from "../../lib/api/api-error";
+import type { CurrentUser } from "./auth-model";
 import { AuthPage } from "./AuthPage";
 import { useAuthStore } from "./auth-store";
 
@@ -13,14 +14,14 @@ const cashier = {
   id: "01KTESTCASHIER",
   displayName: "收银员",
   roles: ["CASHIER"],
-  defaultPath: "/pos" as const,
-};
+  defaultPath: "/pos",
+} satisfies CurrentUser;
 const admin = {
   id: "01KTESTADMIN",
   displayName: "管理员",
   roles: ["ADMIN"],
-  defaultPath: "/dashboard" as const,
-};
+  defaultPath: "/dashboard",
+} satisfies CurrentUser;
 
 function renderLogin(state?: { from?: string }) {
   const router = createMemoryRouter(

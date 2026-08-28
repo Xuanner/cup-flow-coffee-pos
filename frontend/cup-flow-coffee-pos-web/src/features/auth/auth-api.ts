@@ -35,6 +35,15 @@ export async function login(
   return user.data;
 }
 
+export async function getCurrentUser(
+  signal?: AbortSignal,
+): Promise<CurrentUser> {
+  const response = await apiRequest<unknown>("/auth/me", { signal });
+  const user = currentUserSchema.safeParse(response.data);
+  if (!user.success) throw invalidAuthResponse(user.error.flatten());
+  return user.data;
+}
+
 function invalidAuthResponse(details: unknown): ApiError {
   return new ApiError({
     category: "server",

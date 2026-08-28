@@ -1,7 +1,14 @@
+import type { CurrentUser } from "./auth-model";
 import { safeReturnPath } from "./safe-return-path";
 
-const cashier = { roles: ["CASHIER"], defaultPath: "/pos" as const };
-const admin = { roles: ["ADMIN"], defaultPath: "/dashboard" as const };
+const cashier = {
+  roles: ["CASHIER"],
+  defaultPath: "/pos",
+} satisfies Pick<CurrentUser, "roles" | "defaultPath">;
+const admin = {
+  roles: ["ADMIN"],
+  defaultPath: "/dashboard",
+} satisfies Pick<CurrentUser, "roles" | "defaultPath">;
 
 describe("safeReturnPath", () => {
   it("允许当前角色可访问的站内已知路径", () => {

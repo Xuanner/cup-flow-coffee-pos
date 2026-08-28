@@ -19,6 +19,7 @@ import com.cupflow.pos.auth.domain.SessionTokenIssuer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.Cookie;
+import java.time.Instant;
 import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -264,6 +265,99 @@ class AuthLoginIntegrationTest {
         login("login-cashier", "test-only-wrong-login", null, sourceAddress, null)
                 .andExpect(status().isUnauthorized())
                 .andExpect(jsonPath("$.code").value("AUTH-401-002"));
+    }
+
+    @Test
+    @DisplayName("TC-S2-SESS-001 有效 Cookie 查询当前身份并刷新活动时间")
+    void returnsCurrentUserForAValidSessionWithoutExposingCredentials() throws Exception {
+        MvcResult login = login("login-cashier", "test-only-cashier-login", null)
+                .andExpect(status().isOk())
+                .andReturn();
+        String rawToken = cookieValue(login);
+        String tokenHash = tokenIssuer.hash(rawToken);
+        Instant activityBefore = jdbcClient
+                .sql("SELECT last_activity_at FROM auth_sessions WHERE token_hash = :tokenHash")
+                .param("tokenHash", tokenHash)
+                .query(Instant.class)
+                .single();
+
+        MvcResult result = mockMvc.perform(
+                        get("/api/v1/auth/me").cookie(new Cookie(AuthController.SESSION_COOKIE, rawToken)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value("SUCCESS"))
+                .andExpect(jsonPath("$.data.displayName").value("登录收银员"))
+                .andExpect(jsonPath("$.data.roles[0]").value("CASHIER"))
+                .andExpect(jsonPath("$.data.defaultPath").value("/pos"))
+                .andExpect(jsonPath("$.data.username").doesNotExist())
+                .andExpect(jsonPath("$.data.passwordHash").doesNotExist())
+                .andReturn();
+
+        Instant activityAfter = jdbcClient
+                .sql("SELECT last_activity_at FROM auth_sessions WHERE token_hash = :tokenHash")
+                .param("tokenHash", tokenHash)
+                .query(Instant.class)
+                .single();
+        assertThat(activityAfter).isAfterOrEqualTo(activityBefore);
+        assertThat(result.getResponse().getContentAsString())
+                .doesNotContain(rawToken, tokenHash, "sessionToken", "passwordHash", "login-cashier");
+    }
+
+    @Test
+    @DisplayName("TC-S2-SESS-002 无 Cookie 查询当前身份返回 401 且不创建会话")
+    void rejectsMissingSessionWithoutCreatingOne() throws Exception {
+        long before = sessionCount();
+
+        mockMvc.perform(get("/api/v1/auth/me"))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.code").value("AUTH-401-001"))
+                .andExpect(jsonPath("$.traceId").isNotEmpty())
+                .andExpect(header().doesNotExist("Set-Cookie"));
+
+        assertThat(sessionCount()).isEqualTo(before);
+    }
+
+    @Test
+    @DisplayName("TC-S2-SESS-003 伪造 Cookie 返回 401、清除 Cookie 且不泄露原因")
+    void rejectsAndClearsAForgedSessionWithoutCreatingOne() throws Exception {
+        long before = sessionCount();
+        String forgedToken = "A".repeat(43);
+
+        MvcResult result = mockMvc.perform(
+                        get("/api/v1/auth/me").cookie(new Cookie(AuthController.SESSION_COOKIE, forgedToken)))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.code").value("AUTH-401-001"))
+                .andExpect(jsonPath("$.message").value("登录状态已失效，请重新登录"))
+                .andExpect(cookie().maxAge(AuthController.SESSION_COOKIE, 0))
+                .andExpect(cookie().httpOnly(AuthController.SESSION_COOKIE, true))
+                .andExpect(cookie().path(AuthController.SESSION_COOKIE, "/"))
+                .andReturn();
+
+        assertThat(result.getResponse().getHeader("Set-Cookie"))
+                .contains("SameSite=Lax", "Max-Age=0")
+                .doesNotContain(forgedToken);
+        assertThat(result.getResponse().getContentAsString())
+                .doesNotContain(forgedToken, "tokenHash", "sessionToken", "Cookie", "Exception");
+        assertThat(sessionCount()).isEqualTo(before);
+    }
+
+    @Test
+    @DisplayName("TC-S2-SESS-014 至 015 合法 Origin 通过且恶意 Origin 被 CSRF 防护拒绝")
+    void enforcesOriginAlongsideCsrfForStateChangingRequests() throws Exception {
+        login("login-cashier", "test-only-cashier-login", null).andExpect(status().isOk());
+        long before = sessionCount();
+        String csrfToken = csrfToken();
+
+        mockMvc.perform(post("/api/v1/auth/login")
+                        .header("Origin", "https://evil.example")
+                        .header("X-XSRF-TOKEN", csrfToken)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"username":"login-cashier","password":"test-only-cashier-login"}
+                                """))
+                .andExpect(status().isForbidden())
+                .andExpect(jsonPath("$.code").value("AUTH-403-002"));
+
+        assertThat(sessionCount()).isEqualTo(before);
     }
 
     private org.springframework.test.web.servlet.ResultActions login(

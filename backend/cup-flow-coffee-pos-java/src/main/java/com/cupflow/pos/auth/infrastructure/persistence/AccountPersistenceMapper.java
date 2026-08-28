@@ -17,6 +17,13 @@ interface AccountPersistenceMapper {
     AccountRow findByUsername(String username);
 
     @Select("""
+            SELECT id::text AS id, username, password_hash, display_name, status
+            FROM accounts
+            WHERE id = CAST(#{accountId} AS UUID)
+            """)
+    AccountRow findById(String accountId);
+
+    @Select("""
             SELECT r.code
             FROM account_roles ar
             JOIN roles r ON r.id = ar.role_id
