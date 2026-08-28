@@ -1,8 +1,14 @@
 package com.cupflow.pos.shared.api;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import java.time.Instant;
 
-public record ApiResponse<T>(String code, String message, T data, String traceId, Instant timestamp) {
+public record ApiResponse<T>(
+        String code,
+        String message,
+        @JsonInclude(JsonInclude.Include.ALWAYS) T data,
+        String traceId,
+        Instant timestamp) {
 
     public static <T> ApiResponse<T> success(T data, String traceId) {
         return new ApiResponse<>("SUCCESS", "操作成功", data, traceId, Instant.now());

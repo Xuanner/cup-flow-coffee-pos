@@ -6,10 +6,15 @@ import {
   ReceiptText,
   Settings,
   ShoppingCart,
+  LogOut,
   X,
 } from "lucide-react";
+import { useState } from "react";
 import { NavLink, Outlet } from "react-router";
 
+import { logout } from "../../features/auth/auth-api";
+import { useAuthStore } from "../../features/auth/auth-store";
+import { ApiError } from "../../lib/api/api-error";
 import { useAppUiStore } from "../../state/app-ui-store";
 import { Button } from "../ui/Button";
 
@@ -24,6 +29,28 @@ const navigation = [
 export function AppShell() {
   const { closeNavigation, isNavigationOpen, toggleNavigation } =
     useAppUiStore();
+  const currentUser = useAuthStore((state) => state.currentUser);
+  const clearCurrentUser = useAuthStore((state) => state.clearCurrentUser);
+  const [loggingOut, setLoggingOut] = useState(false);
+  const [logoutError, setLogoutError] = useState("");
+
+  async function handleLogout() {
+    if (loggingOut) return;
+    setLoggingOut(true);
+    setLogoutError("");
+    try {
+      await logout();
+    } catch (error) {
+      setLogoutError(
+        error instanceof ApiError
+          ? error.message
+          : "暂时无法退出，请检查网络后重试。",
+      );
+      setLoggingOut(false);
+      return;
+    }
+    clearCurrentUser();
+  }
 
   return (
     <div className="min-h-screen bg-canvas text-primary">
@@ -84,8 +111,31 @@ export function AppShell() {
             </NavLink>
           ))}
         </nav>
-        <div className="border-t border-subtle-border p-4 text-xs text-tertiary">
-          Sprint 1 · 前端工程骨架
+        <div className="border-t border-subtle-border p-4">
+          <p className="truncate text-sm font-medium text-primary">
+            {currentUser?.displayName}
+          </p>
+          <p className="mt-1 text-xs text-tertiary">
+            {currentUser?.roles
+              .map((role) => (role === "ADMIN" ? "管理员" : "收银员"))
+              .join("、")}
+          </p>
+          {logoutError ? (
+            <p className="mt-3 text-xs text-error" role="alert">
+              {logoutError}
+            </p>
+          ) : null}
+          <Button
+            className="mt-3 w-full"
+            loading={loggingOut}
+            loadingLabel="正在退出"
+            onClick={handleLogout}
+            size="compact"
+            variant="secondary"
+          >
+            <LogOut aria-hidden="true" className="size-icon-sm" />
+            退出登录
+          </Button>
         </div>
       </aside>
 

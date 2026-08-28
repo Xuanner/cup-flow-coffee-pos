@@ -3,7 +3,7 @@ import {
   testTimestamp,
   testTraceId,
 } from "../../test/api-response-fixture";
-import { getCurrentUser, login } from "./auth-api";
+import { getCurrentUser, login, logout } from "./auth-api";
 
 describe("auth api", () => {
   it("使用同源 Cookie 查询并解析当前身份", async () => {
@@ -96,5 +96,41 @@ describe("auth api", () => {
     await expect(
       login({ username: "cashier", password: "secret" }),
     ).rejects.toMatchObject({ category: "server" });
+  });
+
+  it("TC-S2-FE-SESS-007 退出先获取 CSRF 并使用同源 Cookie 发送 POST", async () => {
+    const fetchSpy = vi
+      .spyOn(globalThis, "fetch")
+      .mockResolvedValueOnce(
+        apiSuccessResponse({
+          headerName: "X-XSRF-TOKEN",
+          token: "logout-csrf-test-token",
+        }),
+      )
+      .mockResolvedValueOnce(
+        new Response(
+          JSON.stringify({
+            code: "SUCCESS",
+            message: "操作成功",
+            timestamp: testTimestamp,
+            traceId: testTraceId,
+          }),
+          { headers: { "Content-Type": "application/json" }, status: 200 },
+        ),
+      );
+
+    await expect(logout()).resolves.toBeUndefined();
+
+    expect(fetchSpy).toHaveBeenNthCalledWith(
+      2,
+      expect.stringContaining("/auth/logout"),
+      expect.objectContaining({
+        credentials: "same-origin",
+        headers: expect.objectContaining({
+          "X-XSRF-TOKEN": "logout-csrf-test-token",
+        }),
+        method: "POST",
+      }),
+    );
   });
 });

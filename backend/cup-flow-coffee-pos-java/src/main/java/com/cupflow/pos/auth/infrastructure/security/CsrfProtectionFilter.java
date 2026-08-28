@@ -31,7 +31,11 @@ public class CsrfProtectionFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
-        return !"POST".equals(request.getMethod()) || !"/api/v1/auth/login".equals(request.getRequestURI());
+        if (!"POST".equals(request.getMethod())) {
+            return true;
+        }
+        String path = request.getRequestURI();
+        return !"/api/v1/auth/login".equals(path) && !"/api/v1/auth/logout".equals(path);
     }
 
     @Override

@@ -17,6 +17,7 @@ interface FieldErrors {
 export function AuthPage() {
   const currentUser = useAuthStore((state) => state.currentUser);
   const setCurrentUser = useAuthStore((state) => state.setCurrentUser);
+  const sessionExpired = useAuthStore((state) => state.sessionExpired);
   const initiallyAuthenticated = useRef(Boolean(currentUser));
   const location = useLocation();
   const navigate = useNavigate();
@@ -98,6 +99,15 @@ export function AuthPage() {
         <p className="mt-3 text-sm leading-6 text-secondary">
           使用门店员工账号进入收银与管理工作台。
         </p>
+        {sessionExpired ? (
+          <div
+            className="mt-6 rounded-control border border-warning-border bg-warning-bg p-3 text-sm text-primary"
+            role="alert"
+          >
+            <p className="font-medium">登录已过期，请重新登录。</p>
+            <p className="mt-1 text-secondary">未提交的内容可能不会保留。</p>
+          </div>
+        ) : null}
 
         <form
           className="mt-8 grid gap-cf-md"

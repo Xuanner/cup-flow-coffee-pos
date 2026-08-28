@@ -4,7 +4,7 @@ import { ApiError } from "./api-error";
 
 const apiResponseSchema = z.object({
   code: z.string().min(1),
-  data: z.unknown(),
+  data: z.unknown().optional(),
   message: z.string(),
   timestamp: z.string().min(1),
   traceId: z.string().min(1),
@@ -38,5 +38,8 @@ export function parseApiResponse<T>(payload: unknown): ApiResponse<T> {
     });
   }
 
-  return result.data as ApiResponse<T>;
+  return {
+    ...result.data,
+    data: result.data.data ?? null,
+  } as ApiResponse<T>;
 }

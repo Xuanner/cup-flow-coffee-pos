@@ -2,10 +2,10 @@
 
 | 项目 | 内容 |
 | --- | --- |
-| 文档版本 | v1.6 |
-| 上游基线 | Sprint 2 PRD、Features、API Contract v1.0；User Stories v1.1；Test Strategy v1.6 |
+| 文档版本 | v1.7 |
+| 上游基线 | Sprint 2 PRD、Features、API Contract v1.0；User Stories v1.1；Test Strategy v1.7 |
 | 文档状态 | 已重新拆分；按 Story 依赖和模块验收门执行 |
-| 门禁结果 | TASK-S2-PLAN-01 至 03、TASK-S2-ACCOUNT-01-01 至 04、TASK-S2-SEC-01-01 至 03、TASK-S2-AUTH-01-01 至 06、TASK-S2-AUTH-02-01 至 04、TASK-S2-SESSION-01-01 至 04 已完成 |
+| 门禁结果 | TASK-S2-PLAN-01 至 03、TASK-S2-ACCOUNT-01-01 至 04、TASK-S2-SEC-01-01 至 03、TASK-S2-AUTH-01-01 至 06、TASK-S2-AUTH-02-01 至 04、TASK-S2-SESSION-01-01 至 04、TASK-S2-SESSION-02-01 至 03、TASK-S2-SESSION-03-01 至 03 已完成 |
 
 ## 1. 拆分与执行规则
 
@@ -351,35 +351,37 @@
 
 | 属性 | 内容 |
 | --- | --- |
-| 类型 / 状态 / 复杂度 | 后端、安全 / Ready / M |
+| 类型 / 状态 / 复杂度 | 后端、安全 / Done / M |
 | 主 Story | US-S2-SESSION-02 |
 | 依赖 | SESSION-01-04 |
 
 **工作内容：** 用可控时钟校验空闲和绝对时限；停用、撤销和过期统一返回 401 且不访问业务数据；撤销并清 Cookie；删除失效满 7 天的会话，清理失败不改变即时判断。
 
-**完成证据：** `TC-S2-SESS-004` 至 `008`、`016` 通过。
+**完成证据：** `CurrentSessionServiceTest` 使用固定时钟通过 `TC-S2-SESS-004` 至 `008`，覆盖空闲与绝对边界前/到达边界、停用账号及撤销原因；`AuthLoginIntegrationTest` 验证失效统一 `401 / AUTH-401-001`、清 Cookie 和响应脱敏；`MyBatisAuthSessionRepositoryTest`、`SessionCleanupServiceTest` 通过 `TC-S2-SESS-016`，只清理失效满 7 天记录且清理失败不影响即时校验。
 
 #### TASK-S2-SESSION-02-02 实现前端单次过期流程
 
 | 属性 | 内容 |
 | --- | --- |
-| 类型 / 状态 / 复杂度 | 前端状态、路由 / Blocked / M |
+| 类型 / 状态 / 复杂度 | 前端状态、路由 / Done / M |
 | 主 Story | US-S2-SESSION-02 |
 | 依赖 | SESSION-02-01、SESSION-01-03 |
 
 **工作内容：** 并发 401 只执行一次清理、跳转和过期提示；安全保存并重新校验原目标；网络/服务异常不误报凭证错误；明确不承诺保存未提交草稿。
 
-**完成证据：** `TC-S2-FE-SESS-004` 至 `006` 通过。
+**完成证据：** 请求层全局处理仅响应 `AUTH-401-001`；认证 Store 对并发失效只执行一次状态转换，路由保存原站内地址并显示单一过期提示及未提交内容说明。`App.test.tsx` 已通过 `TC-S2-FE-SESS-004` 至 `006`，覆盖并发 401、单次清理/提示、安全返回地址、网络异常独立提示和重试恢复。
 
 #### TASK-S2-SESSION-02-03 验收会话失效 Story
 
 | 属性 | 内容 |
 | --- | --- |
-| 类型 / 状态 / 复杂度 | Story 验收 / Blocked / S |
+| 类型 / 状态 / 复杂度 | Story 验收 / Done / S |
 | 主 Story | US-S2-SESSION-02 |
 | 依赖 | SESSION-02-01、SESSION-02-02 |
 
 **验收内容：** 登记两类过期、停用、无业务访问、并发 401、单次提示、安全返回及异常恢复证据，逐条验收 US-S2-SESSION-02。
+
+**完成证据：** [`SESSION_02_ACCEPTANCE.md`](SESSION_02_ACCEPTANCE.md) 已登记全部验收标准；后端 75 项、前端 67 项测试及生产构建通过，无阻断缺陷。
 
 ### 6.3 US-S2-SESSION-03 员工主动退出
 
@@ -389,37 +391,39 @@
 
 | 属性 | 内容 |
 | --- | --- |
-| 类型 / 状态 / 复杂度 | 后端 API、安全 / Blocked / M |
+| 类型 / 状态 / 复杂度 | 后端 API、安全 / Done / M |
 | 主 Story | US-S2-SESSION-03 |
 | 依赖 | SESSION-02-03、SESSION-01-02 |
 
 **工作内容：** 使用受 CSRF 防护的非 GET 端点撤销会话并清 Cookie；重复退出幂等；旧 Cookie 不可重放；响应和日志不含会话标识。
 
-**完成证据：** `TC-S2-SESS-009` 至 `013` 通过。
+**完成证据：** `LogoutService` 与 `POST /api/v1/auth/logout` 已实现；CSRF/Origin 过滤覆盖登录与退出。`AuthLoginIntegrationTest` 已通过 `TC-S2-SESS-009` 至 `013`，验证撤销当前会话、清 Cookie、错误 CSRF 不撤销、重复退出幂等、旧 Cookie 不可重放、并发会话互不影响及响应脱敏。
 
 #### TASK-S2-SESSION-03-02 实现全局账号区与退出体验
 
 | 属性 | 内容 |
 | --- | --- |
-| 类型 / 状态 / 复杂度 | 前端 UI / Blocked / M |
+| 类型 / 状态 / 复杂度 | 前端 UI / Done / M |
 | 主 Story | US-S2-SESSION-03 |
 | 依赖 | SESSION-03-01、SESSION-01-03 |
 
 **工作内容：** 展示显示名称、角色和可访问退出入口；成功后清理身份并进入登录页；失败时保留状态、提示并允许重试；防重复点击。
 
-**完成证据：** `TC-S2-FE-SESS-007`、`008` 及浏览器后退/刷新测试通过。
+**完成证据：** 全局账号区展示显示名称、中文角色名称和退出入口；退出请求先获取 CSRF，成功后清理内存身份并替换到登录页，失败保留身份、显示可重试提示且提交期间防重复。`App.test.tsx` 与 `auth-api.test.ts` 已通过 `TC-S2-FE-SESS-007`、`008` 及后退保护测试。
 
 #### TASK-S2-SESSION-03-03 验收主动退出 Story
 
 | 属性 | 内容 |
 | --- | --- |
-| 类型 / 状态 / 复杂度 | Story 验收 / Blocked / S |
+| 类型 / 状态 / 复杂度 | Story 验收 / Done / S |
 | 主 Story | US-S2-SESSION-03 |
 | 依赖 | SESSION-03-01、SESSION-03-02 |
 
 **验收内容：** 登记账号区、CSRF、服务端撤销、后退/刷新/重放、幂等和失败重试证据，逐条验收 US-S2-SESSION-03。
 
-**模块出口：** SESSION-01-04、SESSION-02-03、SESSION-03-03 均 `Done` 后，M3 可独立交付与验收。
+**完成证据：** [`SESSION_03_ACCEPTANCE.md`](SESSION_03_ACCEPTANCE.md) 已登记全部验收标准；后端 75 项、前端 67 项测试及生产构建通过，无阻断缺陷。
+
+**模块出口：** SESSION-01-04、SESSION-02-03、SESSION-03-03 均为 `Done`，M3 可独立交付与验收，并解锁 `TASK-S2-AUTHZ-01-01`。
 
 ## 7. M4 角色化访问控制
 
@@ -431,7 +435,7 @@
 
 | 属性 | 内容 |
 | --- | --- |
-| 类型 / 状态 / 复杂度 | 前端路由 / Blocked / L |
+| 类型 / 状态 / 复杂度 | 前端路由 / Ready / L |
 | 主 Story | US-S2-AUTHZ-01 |
 | 依赖 | SESSION-03-03、AUTH-01-05 |
 

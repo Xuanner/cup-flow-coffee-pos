@@ -2,11 +2,11 @@
 
 | 项目 | 内容 |
 | --- | --- |
-| 文档版本 | v1.6 |
-| 状态 | 已批准；ACCOUNT-01、SEC-01、AUTH-01、AUTH-02、SESSION-01 实现证据已登记 |
+| 文档版本 | v1.7 |
+| 状态 | 已批准；ACCOUNT-01、SEC-01、AUTH-01、AUTH-02、SESSION-01、SESSION-02、SESSION-03 实现证据已登记 |
 | 关联任务 | TASK-S2-PLAN-03 |
 | 生效日期 | 2026-08-24 |
-| 最近更新 | 2026-08-28（完成 SESSION-01 验收） |
+| 最近更新 | 2026-08-28（完成 SESSION-01、SESSION-02、SESSION-03 验收） |
 
 ## 1. 测试目标
 
@@ -106,6 +106,10 @@ Sprint 2 测试证明：只有合法、启用的员工能建立登录态；会�
 
 `AuthLoginIntegrationTest` 已实现并通过 `TC-S2-SESS-001` 至 `003`、`014`、`015`：有效会话返回最小身份并原子刷新活动时间；缺失或伪造 Cookie 返回统一 401 且不创建会话，伪造 Cookie 同时被清除；合法 Origin 与 CSRF 可执行登录，恶意 Origin 在认证前被拒绝。`MyBatisAuthSessionRepositoryTest` 补充验证摘要查询、撤销不可重放及乱序刷新不回退；`SessionCookieFactoryTest` 和 `AuthSecurityPropertiesTest` 固化 Cookie 环境属性与显式 Origin 规则。
 
+`CurrentSessionServiceTest` 与 `AuthLoginIntegrationTest` 已实现并通过 `TC-S2-SESS-004` 至 `008`：固定时钟精确验证空闲 30 分钟和绝对 8 小时边界，过期与停用路径即时撤销、清 Cookie 并使用统一 401。`MyBatisAuthSessionRepositoryTest` 与 `SessionCleanupServiceTest` 已通过 `TC-S2-SESS-016`，物理清理仅删除保留期已满的失效行，清理失败不传播到请求期判断。
+
+`AuthLoginIntegrationTest` 已实现并通过 `TC-S2-SESS-009` 至 `013`：退出使用受 Origin/CSRF 防护的 POST，只撤销当前会话并清 Cookie；错误 CSRF 不误撤销；重复退出幂等；旧 Cookie 不可重放；同账号另一并发会话保持可用；响应不包含原始或摘要会话标识。
+
 ### 3.4 后端权限矩阵
 
 | ID | 场景 | 预期 | 关联 Story / Task |
@@ -141,6 +145,10 @@ Sprint 2 测试证明：只有合法、启用的员工能建立登录态；会�
 `AuthPage.test.tsx`、请求层和错误映射测试已实现并通过 `TC-S2-FE-AUTH-007` 至 `009`：认证失败保留账号、清空密码并回焦；429 按 `Retry-After` 暂停并恢复；网络、超时和 500 使用相互独立且可重试的提示。
 
 `App.test.tsx` 与 `auth-api.test.ts` 已实现并通过 `TC-S2-FE-AUTH-010`、`TC-S2-FE-SESS-001` 至 `003`：启动时通过同源 Cookie 查询当前身份，确认期间只显示应用级加载；有效会话恢复内存用户和原路径/查询参数；无会话进入登录页且不显示运行中过期提示；恢复过程不写 localStorage、sessionStorage 或 URL 凭证。
+
+`App.test.tsx` 已实现并通过 `TC-S2-FE-SESS-004` 至 `006`：并发 `AUTH-401-001` 只产生一次认证状态转换和一份过期提示，清理内存身份并保存原站内目标；页面明确提示未提交内容可能丢失；当前身份网络失败使用独立可重试状态，不显示密码错误。
+
+`App.test.tsx` 与 `auth-api.test.ts` 已实现并通过 `TC-S2-FE-SESS-007`、`008`：账号区展示员工与角色；退出使用 CSRF POST；成功后清理身份、替换到登录页且后退不渲染业务内容；失败保留身份并允许重试，处理中防止重复请求。
 
 ### 4.2 会话、路由与菜单
 

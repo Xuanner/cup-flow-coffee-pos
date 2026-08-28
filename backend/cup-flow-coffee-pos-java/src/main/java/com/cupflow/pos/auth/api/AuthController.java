@@ -4,6 +4,7 @@ import com.cupflow.pos.auth.application.CurrentSessionResult;
 import com.cupflow.pos.auth.application.CurrentSessionService;
 import com.cupflow.pos.auth.application.LoginResult;
 import com.cupflow.pos.auth.application.LoginService;
+import com.cupflow.pos.auth.application.LogoutService;
 import com.cupflow.pos.auth.infrastructure.security.CsrfTokenService;
 import com.cupflow.pos.auth.infrastructure.security.SessionCookieFactory;
 import com.cupflow.pos.shared.api.ApiResponse;
@@ -29,16 +30,19 @@ public class AuthController {
     public static final String SESSION_COOKIE = SessionCookieFactory.SESSION_COOKIE;
 
     private final LoginService loginService;
+    private final LogoutService logoutService;
     private final CurrentSessionService currentSessionService;
     private final CsrfTokenService csrfTokenService;
     private final SessionCookieFactory sessionCookieFactory;
 
     public AuthController(
             LoginService loginService,
+            LogoutService logoutService,
             CurrentSessionService currentSessionService,
             CsrfTokenService csrfTokenService,
             SessionCookieFactory sessionCookieFactory) {
         this.loginService = loginService;
+        this.logoutService = logoutService;
         this.currentSessionService = currentSessionService;
         this.csrfTokenService = csrfTokenService;
         this.sessionCookieFactory = sessionCookieFactory;
@@ -67,6 +71,15 @@ public class AuthController {
         return ApiResponse.success(
                 new CsrfTokenResponse(CsrfTokenService.HEADER_NAME, csrfTokenService.issue()),
                 TraceContext.currentTraceId());
+    }
+
+    @PostMapping("/logout")
+    ResponseEntity<ApiResponse<Object>> logout(
+            @CookieValue(name = SESSION_COOKIE, required = false) String rawSessionToken) {
+        logoutService.logout(rawSessionToken);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, sessionCookieFactory.clear().toString())
+                .body(ApiResponse.success(null, TraceContext.currentTraceId()));
     }
 
     @PostMapping("/login")

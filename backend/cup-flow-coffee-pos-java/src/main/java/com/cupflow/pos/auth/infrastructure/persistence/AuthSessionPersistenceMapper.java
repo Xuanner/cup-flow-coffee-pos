@@ -1,6 +1,7 @@
 package com.cupflow.pos.auth.infrastructure.persistence;
 
 import java.time.Instant;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -71,6 +72,16 @@ interface AuthSessionPersistenceMapper {
             @Param("tokenHash") String tokenHash,
             @Param("revokedAt") Instant revokedAt,
             @Param("reason") String reason);
+
+    @Delete("""
+            DELETE FROM auth_sessions
+            WHERE (revoked_at IS NOT NULL AND revoked_at <= #{cutoff})
+               OR (
+                    revoked_at IS NULL
+                    AND LEAST(idle_expires_at, absolute_expires_at) <= #{cutoff}
+               )
+            """)
+    int deleteInvalidBefore(Instant cutoff);
 
     record SessionRow(
             String id,

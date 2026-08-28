@@ -1,8 +1,20 @@
 import { environment } from "../../app/env";
-import { apiErrorFromCaughtValue, apiErrorFromResponse } from "./api-error";
+import {
+  ApiError,
+  apiErrorFromCaughtValue,
+  apiErrorFromResponse,
+} from "./api-error";
 import { type ApiResponse, parseApiResponse } from "./api-response";
 
 const DEFAULT_TIMEOUT_MS = 10_000;
+let unauthenticatedHandler: (() => void) | null = null;
+
+export function registerUnauthenticatedHandler(handler: () => void) {
+  unauthenticatedHandler = handler;
+  return () => {
+    if (unauthenticatedHandler === handler) unauthenticatedHandler = null;
+  };
+}
 
 function apiUrl(path: string): string {
   const baseUrl = environment.VITE_API_BASE_URL;
@@ -54,10 +66,14 @@ export async function apiRequest<T>(
 
     return parseApiResponse<T>(body);
   } catch (error) {
-    throw apiErrorFromCaughtValue(error, {
+    const apiError = apiErrorFromCaughtValue(error, {
       externallyAborted: init.signal?.aborted ?? false,
       timedOut: timeoutController.signal.aborted,
     });
+    if (apiError instanceof ApiError && apiError.code === "AUTH-401-001") {
+      unauthenticatedHandler?.();
+    }
+    throw apiError;
   } finally {
     window.clearTimeout(timeoutId);
   }

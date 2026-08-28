@@ -44,6 +44,18 @@ export async function getCurrentUser(
   return user.data;
 }
 
+export async function logout(signal?: AbortSignal): Promise<void> {
+  const csrfResponse = await apiRequest<unknown>("/auth/csrf", { signal });
+  const csrf = csrfResponseSchema.safeParse(csrfResponse.data);
+  if (!csrf.success) throw invalidAuthResponse(csrf.error.flatten());
+
+  await apiRequest<null>("/auth/logout", {
+    headers: { [csrf.data.headerName]: csrf.data.token },
+    method: "POST",
+    signal,
+  });
+}
+
 function invalidAuthResponse(details: unknown): ApiError {
   return new ApiError({
     category: "server",

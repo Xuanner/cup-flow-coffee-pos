@@ -56,4 +56,9 @@ public class MyBatisAuthSessionRepository implements AuthSessionRepository {
     public void revokeByTokenHash(String tokenHash, Instant revokedAt, String reason) {
         mapper.revokeByTokenHash(tokenHash, revokedAt, reason);
     }
+
+    @Override
+    public int deleteInvalidBefore(Instant cutoff) {
+        return mapper.deleteInvalidBefore(cutoff);
+    }
 }

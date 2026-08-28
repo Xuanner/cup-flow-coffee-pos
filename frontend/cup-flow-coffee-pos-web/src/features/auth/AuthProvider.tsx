@@ -7,6 +7,7 @@ import {
 } from "react";
 
 import { ApiError } from "../../lib/api/api-error";
+import { registerUnauthenticatedHandler } from "../../lib/api/http-client";
 import { getCurrentUser } from "./auth-api";
 import { AuthContext } from "./auth-provider-context";
 import { useAuthStore } from "./auth-store";
@@ -15,8 +16,14 @@ export function AuthProvider({ children }: PropsWithChildren) {
   const beginSessionCheck = useAuthStore((state) => state.beginSessionCheck);
   const clearCurrentUser = useAuthStore((state) => state.clearCurrentUser);
   const failSessionCheck = useAuthStore((state) => state.failSessionCheck);
+  const expireSession = useAuthStore((state) => state.expireSession);
   const setCurrentUser = useAuthStore((state) => state.setCurrentUser);
   const [attempt, setAttempt] = useState(0);
+
+  useEffect(
+    () => registerUnauthenticatedHandler(expireSession),
+    [expireSession],
+  );
 
   useEffect(() => {
     const controller = new AbortController();

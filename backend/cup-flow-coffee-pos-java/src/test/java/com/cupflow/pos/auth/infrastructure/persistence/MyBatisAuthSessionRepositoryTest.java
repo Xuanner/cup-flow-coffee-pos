@@ -80,6 +80,36 @@ class MyBatisAuthSessionRepositoryTest {
                 .isFalse();
     }
 
+    @Test
+    @DisplayName("TC-S2-SESS-016 只删除失效满 7 天的撤销或过期会话")
+    void deletesOnlyInvalidSessionsBeyondRetention() {
+        UUID accountId = createAccount();
+        Instant cutoff = Instant.parse("2026-08-21T00:00:00Z");
+        insertSession(accountId, "c".repeat(64), cutoff.minusSeconds(3600), cutoff.minusSeconds(1800));
+        insertSession(accountId, "d".repeat(64), cutoff.minusSeconds(60), cutoff.plusSeconds(60));
+        insertSession(accountId, "e".repeat(64), cutoff.plusSeconds(3600), cutoff.plusSeconds(5400));
+        insertSession(accountId, "f".repeat(64), cutoff.minusSeconds(3600), cutoff.minusSeconds(1));
+        sessionRepository.revokeByTokenHash("c".repeat(64), cutoff.minusSeconds(1), "LOGOUT");
+        sessionRepository.revokeByTokenHash("d".repeat(64), cutoff.plusSeconds(1), "LOGOUT");
+
+        assertThat(sessionRepository.deleteInvalidBefore(cutoff)).isEqualTo(2);
+        assertThat(sessionRepository.findActiveByTokenHash("c".repeat(64))).isEmpty();
+        assertThat(sessionRepository.findActiveByTokenHash("d".repeat(64))).isEmpty();
+        assertThat(sessionRepository.findActiveByTokenHash("e".repeat(64))).isPresent();
+        assertThat(sessionRepository.findActiveByTokenHash("f".repeat(64))).isEmpty();
+    }
+
+    private void insertSession(UUID accountId, String tokenHash, Instant createdAt, Instant idleExpiresAt) {
+        sessionRepository.insert(new AuthSession(
+                UUID.randomUUID(),
+                accountId,
+                tokenHash,
+                createdAt,
+                createdAt,
+                idleExpiresAt,
+                createdAt.plusSeconds(28_800)));
+    }
+
     private UUID createAccount() {
         UUID accountId = UUID.randomUUID();
         Account account = Account.newAccount(

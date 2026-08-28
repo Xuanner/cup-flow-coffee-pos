@@ -1,6 +1,7 @@
 package com.cupflow.pos.auth.api;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.nullValue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.cookie;
@@ -360,6 +361,87 @@ class AuthLoginIntegrationTest {
         assertThat(sessionCount()).isEqualTo(before);
     }
 
+    @Test
+    @DisplayName("TC-S2-SESS-005/007 空闲或绝对过期返回 401、撤销并清 Cookie")
+    void rejectsAndRevokesIdleAndAbsoluteExpiredSessions() throws Exception {
+        String idleToken = cookieValue(login("login-cashier", "test-only-cashier-login", null)
+                .andExpect(status().isOk())
+                .andReturn());
+        expireSession(idleToken, false);
+        assertInvalidSession(idleToken);
+        assertThat(revocationReason(idleToken)).isEqualTo("IDLE_TIMEOUT");
+
+        String absoluteToken = cookieValue(login("login-cashier", "test-only-cashier-login", null)
+                .andExpect(status().isOk())
+                .andReturn());
+        expireSession(absoluteToken, true);
+        assertInvalidSession(absoluteToken);
+        assertThat(revocationReason(absoluteToken)).isEqualTo("ABSOLUTE_TIMEOUT");
+    }
+
+    @Test
+    @DisplayName("TC-S2-SESS-008 登录后账号停用使当前会话失效且不暴露状态")
+    void disabledAccountInvalidatesExistingSession() throws Exception {
+        String username = "session-disabled-" + UUID.randomUUID();
+        String password = "test-only-session-disabled";
+        Account account = Account.newAccount(
+                UUID.randomUUID(),
+                new AccountUsername(username),
+                passwordHasher.hash(password),
+                "会话停用测试账号",
+                AccountStatus.ACTIVE);
+        accountRepository.insertIfAbsent(account);
+        accountRepository.assignRoleIfAbsent(account.id(), RoleCode.CASHIER);
+        String rawToken = cookieValue(
+                login(username, password, null).andExpect(status().isOk()).andReturn());
+        jdbcClient
+                .sql("UPDATE accounts SET status = 'DISABLED', updated_at = clock_timestamp() WHERE id = :id")
+                .param("id", account.id())
+                .update();
+
+        MvcResult result = assertInvalidSession(rawToken);
+
+        assertThat(revocationReason(rawToken)).isEqualTo("ACCOUNT_DISABLED");
+        assertThat(result.getResponse().getContentAsString())
+                .doesNotContain(username, "DISABLED", rawToken, tokenIssuer.hash(rawToken));
+    }
+
+    @Test
+    @DisplayName("TC-S2-SESS-009 至 013 退出撤销当前会话、幂等且不影响并发会话")
+    void logoutIsCsrfProtectedIdempotentAndScopedToCurrentSession() throws Exception {
+        String firstToken = cookieValue(login("login-cashier", "test-only-cashier-login", null)
+                .andExpect(status().isOk())
+                .andReturn());
+        String secondToken = cookieValue(login("login-cashier", "test-only-cashier-login", null)
+                .andExpect(status().isOk())
+                .andReturn());
+
+        mockMvc.perform(post("/api/v1/auth/logout")
+                        .header("Origin", ORIGIN)
+                        .header("X-XSRF-TOKEN", "invalid-test-token")
+                        .cookie(new Cookie(AuthController.SESSION_COOKIE, secondToken)))
+                .andExpect(status().isForbidden())
+                .andExpect(jsonPath("$.code").value("AUTH-403-002"))
+                .andExpect(header().doesNotExist("Set-Cookie"));
+        mockMvc.perform(get("/api/v1/auth/me").cookie(new Cookie(AuthController.SESSION_COOKIE, secondToken)))
+                .andExpect(status().isOk());
+
+        MvcResult logout = logout(firstToken)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value("SUCCESS"))
+                .andExpect(jsonPath("$.data").value(nullValue()))
+                .andExpect(cookie().maxAge(AuthController.SESSION_COOKIE, 0))
+                .andReturn();
+        assertThat(revocationReason(firstToken)).isEqualTo("LOGOUT");
+        assertThat(logout.getResponse().getContentAsString())
+                .doesNotContain(firstToken, tokenIssuer.hash(firstToken), "sessionToken", "Cookie");
+
+        assertInvalidSession(firstToken);
+        logout(firstToken).andExpect(status().isOk()).andExpect(cookie().maxAge(AuthController.SESSION_COOKIE, 0));
+        mockMvc.perform(get("/api/v1/auth/me").cookie(new Cookie(AuthController.SESSION_COOKIE, secondToken)))
+                .andExpect(status().isOk());
+    }
+
     private org.springframework.test.web.servlet.ResultActions login(
             String username, String password, String previousSessionToken) throws Exception {
         return login(username, password, previousSessionToken, "127.0.0.1", null);
@@ -397,6 +479,51 @@ class AuthLoginIntegrationTest {
                 .andReturn();
         assertThat(result.getResponse().getContentAsString())
                 .doesNotContain(username, password, "passwordHash", "sessionToken", "CUP_FLOW_SESSION", "Exception");
+    }
+
+    private org.springframework.test.web.servlet.ResultActions logout(String rawSessionToken) throws Exception {
+        return mockMvc.perform(post("/api/v1/auth/logout")
+                        .header("Origin", ORIGIN)
+                        .header("X-XSRF-TOKEN", csrfToken())
+                        .cookie(new Cookie(AuthController.SESSION_COOKIE, rawSessionToken)))
+                .andExpect(header().exists("X-Request-Id"));
+    }
+
+    private MvcResult assertInvalidSession(String rawToken) throws Exception {
+        return mockMvc.perform(get("/api/v1/auth/me").cookie(new Cookie(AuthController.SESSION_COOKIE, rawToken)))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.code").value("AUTH-401-001"))
+                .andExpect(cookie().maxAge(AuthController.SESSION_COOKIE, 0))
+                .andReturn();
+    }
+
+    private void expireSession(String rawToken, boolean absolute) {
+        String sql = absolute ? """
+                  UPDATE auth_sessions
+                  SET created_at = clock_timestamp() - INTERVAL '9 hours',
+                      last_activity_at = clock_timestamp() - INTERVAL '2 hours',
+                      idle_expires_at = clock_timestamp() - INTERVAL '1 hour',
+                      absolute_expires_at = clock_timestamp() - INTERVAL '1 hour',
+                      updated_at = clock_timestamp()
+                  WHERE token_hash = :tokenHash
+                  """ : """
+                  UPDATE auth_sessions
+                  SET created_at = clock_timestamp() - INTERVAL '1 hour',
+                      last_activity_at = clock_timestamp() - INTERVAL '31 minutes',
+                      idle_expires_at = clock_timestamp() - INTERVAL '1 minute',
+                      absolute_expires_at = clock_timestamp() + INTERVAL '7 hours',
+                      updated_at = clock_timestamp()
+                  WHERE token_hash = :tokenHash
+                  """;
+        jdbcClient.sql(sql).param("tokenHash", tokenIssuer.hash(rawToken)).update();
+    }
+
+    private String revocationReason(String rawToken) {
+        return jdbcClient
+                .sql("SELECT revocation_reason FROM auth_sessions WHERE token_hash = :tokenHash")
+                .param("tokenHash", tokenIssuer.hash(rawToken))
+                .query(String.class)
+                .single();
     }
 
     private String csrfToken() throws Exception {

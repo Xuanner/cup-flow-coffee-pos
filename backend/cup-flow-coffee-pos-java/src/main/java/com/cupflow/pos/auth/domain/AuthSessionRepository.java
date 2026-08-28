@@ -12,4 +12,6 @@ public interface AuthSessionRepository {
     boolean refreshActivity(String tokenHash, Instant acceptedAt, Instant idleExpiresAt);
 
     void revokeByTokenHash(String tokenHash, Instant revokedAt, String reason);
+
+    int deleteInvalidBefore(Instant cutoff);
 }
