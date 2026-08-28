@@ -2,10 +2,10 @@
 
 | 项目 | 内容 |
 | --- | --- |
-| 文档版本 | v1.4 |
-| 上游基线 | Sprint 2 PRD、Features、API Contract v1.0；User Stories v1.1；Test Strategy v1.4 |
+| 文档版本 | v1.5 |
+| 上游基线 | Sprint 2 PRD、Features、API Contract v1.0；User Stories v1.1；Test Strategy v1.5 |
 | 文档状态 | 已重新拆分；按 Story 依赖和模块验收门执行 |
-| 门禁结果 | TASK-S2-PLAN-01 至 03、TASK-S2-ACCOUNT-01-01 至 04、TASK-S2-SEC-01-01 至 03、TASK-S2-AUTH-01-01 至 06 已完成 |
+| 门禁结果 | TASK-S2-PLAN-01 至 03、TASK-S2-ACCOUNT-01-01 至 04、TASK-S2-SEC-01-01 至 03、TASK-S2-AUTH-01-01 至 06、TASK-S2-AUTH-02-01 至 04 已完成 |
 
 ## 1. 拆分与执行规则
 
@@ -240,47 +240,49 @@
 
 | 属性 | 内容 |
 | --- | --- |
-| 类型 / 状态 / 复杂度 | 后端、安全 / Ready / L |
+| 类型 / 状态 / 复杂度 | 后端、安全 / Done / L |
 | 主 Story | US-S2-AUTH-02 |
 | 依赖 | AUTH-01-06 |
 
 **工作内容：** 三类认证失败使用相同状态、业务码和提示；按批准组合限流；成功清理失败状态；限制到期自动恢复；429 返回稳定业务码和 `Retry-After`，不暴露账号存在性。
 
-**完成证据：** `TC-S2-AUTH-006` 至 `008`、`TC-S2-RATE-001` 至 `006` 通过。
+**完成证据：** `LoginAttemptLimiter` 按直接来源 IP 与规范化账号组合执行 5 次/15 分钟策略，不信任客户端转发头；`TC-S2-AUTH-006` 至 `008`、`TC-S2-RATE-001` 至 `006` 全部通过。
 
 #### TASK-S2-AUTH-02-02 实现前端登录失败恢复体验
 
 | 属性 | 内容 |
 | --- | --- |
-| 类型 / 状态 / 复杂度 | 前端 UI / Blocked / M |
+| 类型 / 状态 / 复杂度 | 前端 UI / Done / M |
 | 主 Story | US-S2-AUTH-02 |
 | 依赖 | AUTH-02-01、AUTH-01-04 |
 
 **工作内容：** 认证失败保留账号、清空并聚焦密码；429 显示稍后重试；网络、超时和服务异常使用独立提示；恢复后允许重试。
 
-**完成证据：** `TC-S2-FE-AUTH-007` 至 `009` 通过。
+**完成证据：** `TC-S2-FE-AUTH-007` 至 `009` 通过；认证失败保留账号、清空并聚焦密码，429 按 `Retry-After` 禁用后自动恢复，网络、超时和服务异常使用独立提示。
 
 #### TASK-S2-AUTH-02-03 验证错误契约与脱敏边界
 
 | 属性 | 内容 |
 | --- | --- |
-| 类型 / 状态 / 复杂度 | 后端接口、安全测试 / Blocked / S |
+| 类型 / 状态 / 复杂度 | 后端接口、安全测试 / Done / S |
 | 主 Story | US-S2-AUTH-02 |
 | 依赖 | AUTH-02-01 |
 
 **工作内容：** 断言认证失败、429 和系统错误保持统一结构及 `traceId`；响应和日志不含堆栈、密码、摘要、Cookie 或会话标识。
 
-**完成证据：** 错误响应契约测试和敏感字段负向断言通过。
+**完成证据：** `AuthLoginIntegrationTest` 验证 401/429 统一结构、业务码、`traceId`、`Retry-After` 和敏感字段负断言；`GlobalExceptionHandlerTest` 验证 500 响应及日志不含异常载荷或堆栈。
 
 #### TASK-S2-AUTH-02-04 验收安全登录失败 Story
 
 | 属性 | 内容 |
 | --- | --- |
-| 类型 / 状态 / 复杂度 | Story 验收 / Blocked / S |
+| 类型 / 状态 / 复杂度 | Story 验收 / Done / S |
 | 主 Story | US-S2-AUTH-02 |
 | 依赖 | AUTH-02-01 至 03 |
 
 **验收内容：** 登记统一失败、前端恢复、限流到期、网络/服务异常和错误脱敏证据，逐条验收 US-S2-AUTH-02。
+
+**完成证据：** [`AUTH_02_ACCEPTANCE.md`](AUTH_02_ACCEPTANCE.md) 已登记全部验收标准；后端 56 个、前端 57 个测试通过，前后端全量门禁成功，无阻断缺陷。
 
 **模块出口：** SEC-01-03、AUTH-01-06、AUTH-02-04 均 `Done` 后，M2 可独立交付与验收。
 
@@ -294,7 +296,7 @@
 
 | 属性 | 内容 |
 | --- | --- |
-| 类型 / 状态 / 复杂度 | 后端、数据库、API / Blocked / L |
+| 类型 / 状态 / 复杂度 | 后端、数据库、API / Ready / L |
 | 主 Story | US-S2-SESSION-01 |
 | 依赖 | AUTH-02-04、ACCOUNT-01-01 |
 

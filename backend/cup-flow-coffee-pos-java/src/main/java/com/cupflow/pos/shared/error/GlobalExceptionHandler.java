@@ -45,7 +45,10 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     ResponseEntity<ApiResponse<Object>> handleUnexpected(Exception exception) {
         String traceId = TraceContext.currentTraceId();
-        log.error("Unhandled request failure, traceId={}", traceId, exception);
+        log.error(
+                "Unhandled request failure, traceId={}, type={}",
+                traceId,
+                exception.getClass().getSimpleName());
         ErrorCode errorCode = ErrorCode.INTERNAL_ERROR;
         return ResponseEntity.status(errorCode.status())
                 .body(ApiResponse.failure(errorCode.code(), errorCode.message(), null, traceId));

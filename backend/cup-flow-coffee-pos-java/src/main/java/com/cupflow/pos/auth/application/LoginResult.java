@@ -10,4 +10,12 @@ public sealed interface LoginResult {
     }
 
     record Failure() implements LoginResult {}
+
+    record RateLimited(long retryAfterSeconds) implements LoginResult {
+        public RateLimited {
+            if (retryAfterSeconds < 1) {
+                throw new IllegalArgumentException("retryAfterSeconds must be positive");
+            }
+        }
+    }
 }

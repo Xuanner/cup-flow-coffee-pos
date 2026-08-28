@@ -10,6 +10,7 @@ public enum ErrorCode {
     SECURITY_VALIDATION_FAILED("AUTH-403-002", "请求安全校验失败，请刷新后重试", HttpStatus.FORBIDDEN),
     RESOURCE_NOT_FOUND("COMMON-404-001", "请求的资源不存在", HttpStatus.NOT_FOUND),
     STATE_CONFLICT("COMMON-409-001", "数据状态已变化，请刷新后重试", HttpStatus.CONFLICT),
+    AUTHENTICATION_RATE_LIMITED("AUTH-429-001", "尝试次数过多，请稍后再试", HttpStatus.TOO_MANY_REQUESTS),
     INTERNAL_ERROR("COMMON-500-001", "服务暂时不可用，请稍后重试", HttpStatus.INTERNAL_SERVER_ERROR);
 
     private final String code;

@@ -12,6 +12,7 @@ import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Optional;
+import java.util.OptionalLong;
 import java.util.UUID;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +27,7 @@ public class LoginService {
     private final AccountPasswordVerifier passwordVerifier;
     private final AuthSessionRepository sessionRepository;
     private final SessionTokenIssuer tokenIssuer;
+    private final LoginAttemptLimiter attemptLimiter;
     private final Clock clock;
 
     public LoginService(
@@ -33,25 +35,37 @@ public class LoginService {
             AccountPasswordVerifier passwordVerifier,
             AuthSessionRepository sessionRepository,
             SessionTokenIssuer tokenIssuer,
+            LoginAttemptLimiter attemptLimiter,
             Clock clock) {
         this.accountRepository = accountRepository;
         this.passwordVerifier = passwordVerifier;
         this.sessionRepository = sessionRepository;
         this.tokenIssuer = tokenIssuer;
+        this.attemptLimiter = attemptLimiter;
         this.clock = clock;
     }
 
     @Transactional
-    public LoginResult login(String username, String password, String previousSessionToken) {
+    public LoginResult login(String username, String password, String previousSessionToken, String sourceAddress) {
         AccountUsername normalizedUsername = new AccountUsername(username);
+        OptionalLong activeLimit = attemptLimiter.retryAfter(sourceAddress, normalizedUsername);
+        if (activeLimit.isPresent()) {
+            return new LoginResult.RateLimited(activeLimit.getAsLong());
+        }
         Optional<Account> candidate = accountRepository.findByUsername(normalizedUsername);
         boolean passwordMatches = passwordVerifier.verify(password, candidate);
         if (candidate.isEmpty()
                 || !passwordMatches
                 || candidate.orElseThrow().status() != AccountStatus.ACTIVE
                 || candidate.orElseThrow().roles().isEmpty()) {
+            OptionalLong newLimit = attemptLimiter.recordFailure(sourceAddress, normalizedUsername);
+            if (newLimit.isPresent()) {
+                return new LoginResult.RateLimited(newLimit.getAsLong());
+            }
             return new LoginResult.Failure();
         }
+
+        attemptLimiter.clear(sourceAddress, normalizedUsername);
 
         Instant now = clock.instant();
         if (previousSessionToken != null && !previousSessionToken.isBlank()) {

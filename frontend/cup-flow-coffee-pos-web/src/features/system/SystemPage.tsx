@@ -15,6 +15,7 @@ const categoryLabel = {
   validation: "请求参数错误",
   authenticationFailed: "账号或密码错误",
   securityValidation: "安全校验失败",
+  rateLimited: "请求过于频繁",
   unauthenticated: "登录状态失效",
   forbidden: "没有访问权限",
   conflict: "数据状态冲突",

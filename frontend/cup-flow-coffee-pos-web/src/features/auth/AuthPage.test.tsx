@@ -157,14 +157,65 @@ describe("AuthPage", () => {
     rejectLogin?.(
       new ApiError({
         category: "authenticationFailed",
-        message: "账号或密码错误，请重试。",
+        message: "账号或密码错误，或账号不可用。",
       }),
     );
     await waitFor(() =>
       expect(screen.getByRole("alert")).toHaveTextContent(
-        "账号或密码错误，请重试。",
+        "账号或密码错误，或账号不可用。",
       ),
     );
+    expect(screen.getByLabelText("账号")).toHaveValue("cashier");
+    expect(screen.getByLabelText("密码")).toHaveValue("");
     expect(screen.getByLabelText("密码")).toHaveFocus();
+  });
+
+  it("收到 429 后按 Retry-After 暂停提交，到期后允许重试", async () => {
+    const user = userEvent.setup();
+    loginMock.mockRejectedValueOnce(
+      new ApiError({
+        category: "rateLimited",
+        message: "尝试次数过多，请稍后再试。",
+        retryAfterSeconds: 1,
+        retryable: true,
+      }),
+    );
+    renderLogin();
+    await user.type(screen.getByLabelText("账号"), "cashier");
+    await user.type(screen.getByLabelText("密码"), "secret");
+    await user.click(screen.getByRole("button", { name: "登录" }));
+
+    expect(screen.getByRole("alert")).toHaveTextContent(
+      "尝试次数过多，请稍后再试。",
+    );
+    expect(
+      screen.getByRole("button", { name: "请稍后再试（1s）" }),
+    ).toBeDisabled();
+    expect(screen.getByText("1 秒后可重新尝试。")).toBeVisible();
+
+    await waitFor(
+      () => expect(screen.getByRole("button", { name: "登录" })).toBeEnabled(),
+      { timeout: 2000 },
+    );
+  });
+
+  it.each([
+    ["network", "无法连接到服务，请检查网络后重试。"],
+    ["timeout", "请求超时，请确认当前状态后重试。"],
+    ["server", "服务暂时不可用，请稍后重试。"],
+  ] as const)("将 %s 与凭证错误区分并允许恢复", async (category, message) => {
+    const user = userEvent.setup();
+    loginMock.mockRejectedValueOnce(
+      new ApiError({ category, message, retryable: true }),
+    );
+    renderLogin();
+    await user.type(screen.getByLabelText("账号"), "cashier");
+    await user.type(screen.getByLabelText("密码"), "secret");
+    await user.click(screen.getByRole("button", { name: "登录" }));
+
+    expect(screen.getByRole("alert")).toHaveTextContent(message);
+    expect(screen.getByRole("button", { name: "登录" })).toBeEnabled();
+    expect(screen.getByLabelText("账号")).toHaveValue("cashier");
+    expect(screen.getByLabelText("密码")).toHaveValue("");
   });
 });

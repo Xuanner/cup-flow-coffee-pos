@@ -54,4 +54,33 @@ describe("apiRequest", () => {
     await vi.advanceTimersByTimeAsync(50);
     await assertion;
   });
+
+  it("保留 429 的稳定错误码和 Retry-After", async () => {
+    vi.spyOn(globalThis, "fetch").mockResolvedValueOnce(
+      new Response(
+        JSON.stringify({
+          code: "AUTH-429-001",
+          data: null,
+          message: "尝试次数过多，请稍后再试",
+          timestamp: "2026-08-27T08:00:00Z",
+          traceId: "rate-limit-test-001",
+        }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "Retry-After": "120",
+          },
+          status: 429,
+        },
+      ),
+    );
+
+    await expect(apiRequest("/auth/login")).rejects.toMatchObject({
+      category: "rateLimited",
+      code: "AUTH-429-001",
+      retryAfterSeconds: 120,
+      retryable: true,
+      status: 429,
+    });
+  });
 });

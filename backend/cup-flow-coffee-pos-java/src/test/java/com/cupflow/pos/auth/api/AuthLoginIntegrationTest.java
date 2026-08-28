@@ -192,17 +192,117 @@ class AuthLoginIntegrationTest {
         assertThat(sessionCount()).isEqualTo(before);
     }
 
+    @Test
+    @DisplayName("TC-S2-AUTH-006 至 008 不存在、错误密码和停用账号使用统一失败响应")
+    void returnsTheSameFailureForUnknownWrongPasswordAndDisabledAccount() throws Exception {
+        String disabledUsername = "disabled-login-" + UUID.randomUUID();
+        Account disabled = Account.newAccount(
+                UUID.randomUUID(),
+                new AccountUsername(disabledUsername),
+                passwordHasher.hash("test-only-disabled-login"),
+                "停用登录测试账号",
+                AccountStatus.DISABLED);
+        accountRepository.insertIfAbsent(disabled);
+        accountRepository.assignRoleIfAbsent(disabled.id(), RoleCode.CASHIER);
+        long before = sessionCount();
+
+        assertUnifiedAuthenticationFailure("unknown-" + UUID.randomUUID(), "test-only-unknown-login", "192.0.2.21");
+        assertUnifiedAuthenticationFailure("login-cashier", "test-only-wrong-login", "192.0.2.22");
+        assertUnifiedAuthenticationFailure(disabledUsername, "test-only-disabled-login", "192.0.2.23");
+
+        assertThat(sessionCount()).isEqualTo(before);
+    }
+
+    @Test
+    @DisplayName("TC-S2-RATE-001 至 003 第 5 次失败返回 429 且限制期间不延长")
+    void rateLimitsTheFifthFailureWithoutTrustingForwardedFor() throws Exception {
+        String username = "rate-limit-" + UUID.randomUUID();
+        String sourceAddress = "192.0.2.30";
+        long before = sessionCount();
+
+        for (int attempt = 1; attempt <= 4; attempt++) {
+            login(username, "test-only-rate-limit", null, sourceAddress, "198.51.100." + attempt)
+                    .andExpect(status().isUnauthorized())
+                    .andExpect(jsonPath("$.code").value("AUTH-401-002"));
+        }
+
+        MvcResult limited = login(username, "test-only-rate-limit", null, sourceAddress, "198.51.100.5")
+                .andExpect(status().isTooManyRequests())
+                .andExpect(header().string("Retry-After", "900"))
+                .andExpect(jsonPath("$.code").value("AUTH-429-001"))
+                .andExpect(jsonPath("$.message").value("尝试次数过多，请稍后再试"))
+                .andExpect(jsonPath("$.traceId").isNotEmpty())
+                .andExpect(jsonPath("$.timestamp").isNotEmpty())
+                .andReturn();
+        login(username, "test-only-rate-limit", null, sourceAddress, "203.0.113.99")
+                .andExpect(status().isTooManyRequests())
+                .andExpect(header().string("Retry-After", "900"));
+
+        assertThat(limited.getResponse().getContentAsString())
+                .doesNotContain(
+                        "test-only-rate-limit",
+                        "password",
+                        "passwordHash",
+                        "sessionToken",
+                        "CUP_FLOW_SESSION",
+                        "Exception");
+        assertThat(sessionCount()).isEqualTo(before);
+    }
+
+    @Test
+    @DisplayName("TC-S2-RATE-006 成功登录清除来源与账号组合的失败状态")
+    void successfulLoginClearsPreviousFailures() throws Exception {
+        String sourceAddress = "192.0.2.31";
+        for (int attempt = 1; attempt <= 4; attempt++) {
+            login("login-cashier", "test-only-wrong-login", null, sourceAddress, null)
+                    .andExpect(status().isUnauthorized());
+        }
+
+        login("login-cashier", "test-only-cashier-login", null, sourceAddress, null)
+                .andExpect(status().isOk());
+
+        login("login-cashier", "test-only-wrong-login", null, sourceAddress, null)
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.code").value("AUTH-401-002"));
+    }
+
     private org.springframework.test.web.servlet.ResultActions login(
             String username, String password, String previousSessionToken) throws Exception {
+        return login(username, password, previousSessionToken, "127.0.0.1", null);
+    }
+
+    private org.springframework.test.web.servlet.ResultActions login(
+            String username, String password, String previousSessionToken, String sourceAddress, String forwardedFor)
+            throws Exception {
         var builder = post("/api/v1/auth/login")
+                .with(request -> {
+                    request.setRemoteAddr(sourceAddress);
+                    return request;
+                })
                 .header("Origin", ORIGIN)
                 .header("X-XSRF-TOKEN", csrfToken())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(new LoginRequest(username, password)));
+        if (forwardedFor != null) {
+            builder.header("X-Forwarded-For", forwardedFor);
+        }
         if (previousSessionToken != null) {
             builder.cookie(new Cookie(AuthController.SESSION_COOKIE, previousSessionToken));
         }
         return mockMvc.perform(builder).andExpect(header().exists("X-Request-Id"));
+    }
+
+    private void assertUnifiedAuthenticationFailure(String username, String password, String sourceAddress)
+            throws Exception {
+        MvcResult result = login(username, password, null, sourceAddress, null)
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.code").value("AUTH-401-002"))
+                .andExpect(jsonPath("$.message").value("账号或密码错误，或账号不可用"))
+                .andExpect(jsonPath("$.traceId").isNotEmpty())
+                .andExpect(jsonPath("$.timestamp").isNotEmpty())
+                .andReturn();
+        assertThat(result.getResponse().getContentAsString())
+                .doesNotContain(username, password, "passwordHash", "sessionToken", "CUP_FLOW_SESSION", "Exception");
     }
 
     private String csrfToken() throws Exception {

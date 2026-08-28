@@ -45,7 +45,11 @@ export async function apiRequest<T>(
     const body = await responseBody(response);
 
     if (!response.ok) {
-      throw apiErrorFromResponse(response.status, body);
+      throw apiErrorFromResponse(
+        response.status,
+        body,
+        response.headers.get("Retry-After"),
+      );
     }
 
     return parseApiResponse<T>(body);

@@ -28,6 +28,7 @@ export function AuthPage() {
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
   const [submitError, setSubmitError] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [rateLimitSeconds, setRateLimitSeconds] = useState(0);
 
   useEffect(() => {
     if (initiallyAuthenticated.current && currentUser) {
@@ -35,9 +36,17 @@ export function AuthPage() {
     }
   }, [currentUser, navigate]);
 
+  useEffect(() => {
+    if (rateLimitSeconds <= 0) return;
+    const timer = window.setInterval(() => {
+      setRateLimitSeconds((seconds) => Math.max(0, seconds - 1));
+    }, 1000);
+    return () => window.clearInterval(timer);
+  }, [rateLimitSeconds]);
+
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (submitting) return;
+    if (submitting || rateLimitSeconds > 0) return;
 
     const errors: FieldErrors = {};
     if (!username.trim()) errors.username = "请输入账号。";
@@ -59,9 +68,17 @@ export function AuthPage() {
       setCurrentUser(user);
       navigate(safeReturnPath(location.state?.from, user), { replace: true });
     } catch (error) {
+      setPassword("");
       setSubmitError(
         error instanceof ApiError ? error.message : "登录失败，请稍后重试。",
       );
+      if (
+        error instanceof ApiError &&
+        error.category === "rateLimited" &&
+        error.retryAfterSeconds
+      ) {
+        setRateLimitSeconds(error.retryAfterSeconds);
+      }
       passwordRef.current?.focus();
     } finally {
       setSubmitting(false);
@@ -128,13 +145,21 @@ export function AuthPage() {
               {submitError}
             </p>
           ) : null}
+          {rateLimitSeconds > 0 ? (
+            <p aria-live="polite" className="text-sm text-secondary">
+              {rateLimitSeconds} 秒后可重新尝试。
+            </p>
+          ) : null}
           <Button
             className="mt-cf-xs w-full"
+            disabled={rateLimitSeconds > 0}
             loading={submitting}
             loadingLabel="正在登录"
             type="submit"
           >
-            登录
+            {rateLimitSeconds > 0
+              ? `请稍后再试（${rateLimitSeconds}s）`
+              : "登录"}
           </Button>
         </form>
       </section>

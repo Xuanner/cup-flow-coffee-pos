@@ -8,6 +8,7 @@ import com.cupflow.pos.shared.api.ApiResponse;
 import com.cupflow.pos.shared.error.ApiException;
 import com.cupflow.pos.shared.error.ErrorCode;
 import com.cupflow.pos.shared.logging.TraceContext;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
@@ -46,8 +47,17 @@ public class AuthController {
     @PostMapping("/login")
     ResponseEntity<ApiResponse<Object>> login(
             @Valid @RequestBody LoginRequest request,
-            @CookieValue(name = SESSION_COOKIE, required = false) String previousSessionToken) {
-        LoginResult result = loginService.login(request.username(), request.password(), previousSessionToken);
+            @CookieValue(name = SESSION_COOKIE, required = false) String previousSessionToken,
+            HttpServletRequest httpRequest) {
+        LoginResult result = loginService.login(
+                request.username(), request.password(), previousSessionToken, httpRequest.getRemoteAddr());
+        if (result instanceof LoginResult.RateLimited rateLimited) {
+            ErrorCode errorCode = ErrorCode.AUTHENTICATION_RATE_LIMITED;
+            return ResponseEntity.status(errorCode.status())
+                    .header(HttpHeaders.RETRY_AFTER, Long.toString(rateLimited.retryAfterSeconds()))
+                    .body(ApiResponse.failure(
+                            errorCode.code(), errorCode.message(), null, TraceContext.currentTraceId()));
+        }
         if (result instanceof LoginResult.Failure) {
             throw new ApiException(ErrorCode.AUTHENTICATION_FAILED);
         }
