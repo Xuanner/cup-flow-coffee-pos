@@ -2,10 +2,10 @@
 
 | 项目 | 内容 |
 | --- | --- |
-| 文档版本 | v1.7 |
-| 上游基线 | Sprint 2 PRD、Features、API Contract v1.0；User Stories v1.1；Test Strategy v1.7 |
+| 文档版本 | v1.8 |
+| 上游基线 | Sprint 2 PRD、Features、API Contract v1.0；User Stories v1.1；Test Strategy v1.8 |
 | 文档状态 | 已重新拆分；按 Story 依赖和模块验收门执行 |
-| 门禁结果 | TASK-S2-PLAN-01 至 03、TASK-S2-ACCOUNT-01-01 至 04、TASK-S2-SEC-01-01 至 03、TASK-S2-AUTH-01-01 至 06、TASK-S2-AUTH-02-01 至 04、TASK-S2-SESSION-01-01 至 04、TASK-S2-SESSION-02-01 至 03、TASK-S2-SESSION-03-01 至 03 已完成 |
+| 门禁结果 | M1 至 M4 的全部 Story 与 Task 已完成；M4 前端 76 项、后端 87 项全量测试通过 |
 
 ## 1. 拆分与执行规则
 
@@ -435,23 +435,25 @@
 
 | 属性 | 内容 |
 | --- | --- |
-| 类型 / 状态 / 复杂度 | 前端路由 / Ready / L |
+| 类型 / 状态 / 复杂度 | 前端路由 / Done / L |
 | 主 Story | US-S2-AUTHZ-01 |
 | 依赖 | SESSION-03-03、AUTH-01-05 |
 
 **工作内容：** 将四个业务模块及子路由置于认证守卫；未登录不渲染受保护内容；复用并完善安全返回地址；保持 401、403、404 语义独立。
 
-**完成证据：** `TC-S2-FE-ROUTE-001` 至 `005`、`009` 通过。
+**完成证据：** 认证边界覆盖四个业务模块及子路由；安全返回地址继续使用已知站内路由和角色白名单；`App.test.tsx`、`AuthPage.test.tsx` 与 `safe-return-path.test.ts` 已通过 `TC-S2-FE-ROUTE-001` 至 `005`、`009`。
 
 #### TASK-S2-AUTHZ-01-02 验收未登录路由保护 Story
 
 | 属性 | 内容 |
 | --- | --- |
-| 类型 / 状态 / 复杂度 | Story 验收 / Blocked / S |
+| 类型 / 状态 / 复杂度 | Story 验收 / Done / S |
 | 主 Story | US-S2-AUTHZ-01 |
 | 依赖 | AUTHZ-01-01 |
 
 **验收内容：** 登记全部受保护路由、内容不闪现、安全目标、默认页与登录后 404 证据，逐条验收 US-S2-AUTHZ-01。
+
+**完成证据：** [`AUTHZ_01_ACCEPTANCE.md`](AUTHZ_01_ACCEPTANCE.md) 已登记全部验收标准；前端 `npm run check` 的 12 个测试文件、76 项测试及生产构建通过。
 
 ### 7.2 US-S2-AUTHZ-02 按角色查看和访问页面
 
@@ -461,23 +463,25 @@
 
 | 属性 | 内容 |
 | --- | --- |
-| 类型 / 状态 / 复杂度 | 前端 UI、路由 / Blocked / M |
+| 类型 / 状态 / 复杂度 | 前端 UI、路由 / Done / M |
 | 主 Story | US-S2-AUTHZ-02 |
 | 依赖 | AUTHZ-01-02 |
 
 **工作内容：** 按权限矩阵过滤导航；管理员继承收银员入口；收银员直达商品或看板显示 403 和返回 `/pos`，不渲染业务内容；权限未知或恢复中按未授权处理。
 
-**完成证据：** `TC-S2-FE-ROUTE-006` 至 `008`、`010` 通过。
+**完成证据：** 导航按服务端恢复的角色过滤，`ADMIN` 继承 `CASHIER` 页面权限；`RoleBoundary` 与 403 页面阻止无权业务内容渲染。`App.test.tsx` 已通过 `TC-S2-FE-ROUTE-006` 至 `008`、`010`。
 
 #### TASK-S2-AUTHZ-02-02 验收角色页面访问 Story
 
 | 属性 | 内容 |
 | --- | --- |
-| 类型 / 状态 / 复杂度 | Story 验收 / Blocked / S |
+| 类型 / 状态 / 复杂度 | Story 验收 / Done / S |
 | 主 Story | US-S2-AUTHZ-02 |
 | 依赖 | AUTHZ-02-01 |
 
 **验收内容：** 登记两角色菜单、四模块直达、403、恢复期间无菜单闪现及页面隐藏不作为后端授权证据的检查结果。
+
+**完成证据：** [`AUTHZ_02_ACCEPTANCE.md`](AUTHZ_02_ACCEPTANCE.md) 已登记全部验收标准；前端 `npm run check` 的 12 个测试文件、76 项测试及生产构建通过。
 
 ### 7.3 US-S2-AUTHZ-03 后端独立执行接口权限
 
@@ -487,49 +491,51 @@
 
 | 属性 | 内容 |
 | --- | --- |
-| 类型 / 状态 / 复杂度 | 后端 / Blocked / M |
+| 类型 / 状态 / 复杂度 | 后端 / Done / M |
 | 主 Story | US-S2-AUTHZ-03 |
 | 依赖 | AUTHZ-02-02、SESSION-01-04 |
 
 **工作内容：** 将有效会话转换为统一当前用户上下文；明确 `ADMIN` 包含 `CASHIER` 及多角色并集；请求结束清理上下文，避免线程污染。
 
-**完成证据：** 测试覆盖两角色、多角色、无会话和并发隔离。
+**完成证据：** `CurrentUserContext` 在请求入口绑定、请求完成清理服务端身份；`RoleAuthorizationTest` 覆盖 `ADMIN` 继承、`CASHIER` 拒绝管理员权限及多角色并集，`CurrentUserContextTest` 覆盖线程并发隔离。
 
 #### TASK-S2-AUTHZ-03-02 配置默认拒绝与角色规则
 
 | 属性 | 内容 |
 | --- | --- |
-| 类型 / 状态 / 复杂度 | 后端、安全 / Blocked / L |
+| 类型 / 状态 / 复杂度 | 后端、安全 / Done / L |
 | 主 Story | US-S2-AUTHZ-03 |
 | 依赖 | AUTHZ-03-01、SESSION-01-02 |
 
 **工作内容：** 业务接口默认要求认证，仅显式白名单公开入口；提供角色声明；401/403 使用稳定业务码，拒绝时不执行应用服务或数据库操作。
 
-**完成证据：** 正反权限矩阵通过；未声明测试端点默认拒绝。
+**完成证据：** 统一鉴权拦截器只放行显式 `@PublicEndpoint`、`@AuthenticatedEndpoint` 或 `@RequiresRole`；无效会话 401、角色不足或未声明端点 403。`AuthorizationIntegrationTest` 的 7 个接口场景覆盖 `TC-S2-AUTHZ-001` 至 `010`，拒绝路径业务探针保持零调用。
 
 #### TASK-S2-AUTHZ-03-03 增加后端权限架构约束
 
 | 属性 | 内容 |
 | --- | --- |
-| 类型 / 状态 / 复杂度 | 后端测试、架构 / Blocked / S |
+| 类型 / 状态 / 复杂度 | 后端测试、架构 / Done / S |
 | 主 Story | US-S2-AUTHZ-03 |
 | 依赖 | AUTHZ-03-02 |
 
 **工作内容：** 更新架构测试和后端约定，防止 Controller 绕过统一入口；新增业务接口必须声明访问规则。
 
-**完成证据：** 故意无权限声明的示例可使测试失败，实际代码通过。
+**完成证据：** `ArchitectureTest.everyControllerEndpointDeclaresItsAccessRule` 扫描生产 Controller；漏标声明的生产端点会使测试失败，当前全部生产端点通过。运行时仍对测试中的未声明端点默认拒绝。
 
 #### TASK-S2-AUTHZ-03-04 验收后端权限 Story
 
 | 属性 | 内容 |
 | --- | --- |
-| 类型 / 状态 / 复杂度 | 后端测试、Story 验收 / Blocked / M |
+| 类型 / 状态 / 复杂度 | 后端测试、Story 验收 / Done / M |
 | 主 Story | US-S2-AUTHZ-03 |
 | 依赖 | AUTHZ-03-01 至 03 |
 
 **验收内容：** 执行 `TC-S2-AUTHZ-001` 至 `010`；覆盖角色矩阵、未声明接口和伪造请求；断言拒绝时无业务读写，响应含 `traceId` 且无敏感上下文。
 
-**模块出口：** AUTHZ-01-02、AUTHZ-02-02、AUTHZ-03-04 均 `Done` 后，M4 可独立交付与验收。
+**完成证据：** [`AUTHZ_03_ACCEPTANCE.md`](AUTHZ_03_ACCEPTANCE.md) 已登记全部验收标准；后端 `./mvnw clean verify` 共 87 项测试通过，含 7 个权限接口场景、4 个角色/上下文单元测试及 3 个架构测试。
+
+**模块出口：** AUTHZ-01-02、AUTHZ-02-02、AUTHZ-03-04 均为 `Done`，M4 可独立交付与验收，并解锁 `TASK-S2-AUDIT-01-01`。
 
 ## 8. M5 安全事件与追踪
 
@@ -541,7 +547,7 @@
 
 | 属性 | 内容 |
 | --- | --- |
-| 类型 / 状态 / 复杂度 | 后端、可观测性 / Blocked / L |
+| 类型 / 状态 / 复杂度 | 后端、可观测性 / Ready / L |
 | 主 Story | US-S2-AUDIT-01 |
 | 依赖 | AUTH-02-04、SESSION-02-03、SESSION-03-03、AUTHZ-03-04 |
 

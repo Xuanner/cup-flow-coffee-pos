@@ -4,7 +4,6 @@ import {
   Menu,
   Package,
   ReceiptText,
-  Settings,
   ShoppingCart,
   LogOut,
   X,
@@ -13,17 +12,30 @@ import { useState } from "react";
 import { NavLink, Outlet } from "react-router";
 
 import { logout } from "../../features/auth/auth-api";
+import {
+  hasRole,
+  type ApplicationRole,
+} from "../../features/auth/authorization";
 import { useAuthStore } from "../../features/auth/auth-store";
 import { ApiError } from "../../lib/api/api-error";
 import { useAppUiStore } from "../../state/app-ui-store";
 import { Button } from "../ui/Button";
 
-const navigation = [
-  { label: "收银台", to: "/pos", icon: ShoppingCart },
-  { label: "订单", to: "/orders", icon: ReceiptText },
-  { label: "商品", to: "/products", icon: Package },
-  { label: "经营看板", to: "/dashboard", icon: BarChart3 },
-  { label: "系统状态", to: "/system", icon: Settings },
+const navigation: Array<{
+  label: string;
+  to: string;
+  icon: typeof ShoppingCart;
+  requiredRole: ApplicationRole;
+}> = [
+  { label: "收银台", to: "/pos", icon: ShoppingCart, requiredRole: "CASHIER" },
+  { label: "订单", to: "/orders", icon: ReceiptText, requiredRole: "CASHIER" },
+  { label: "商品", to: "/products", icon: Package, requiredRole: "ADMIN" },
+  {
+    label: "经营看板",
+    to: "/dashboard",
+    icon: BarChart3,
+    requiredRole: "ADMIN",
+  },
 ];
 
 export function AppShell() {
@@ -93,23 +105,28 @@ export function AppShell() {
           <Brand />
         </div>
         <nav aria-label="主导航" className="flex-1 space-y-1 p-4">
-          {navigation.map(({ icon: Icon, label, to }) => (
-            <NavLink
-              className={({ isActive }) =>
-                `flex min-h-touch items-center gap-3 rounded-control px-3 text-sm font-medium transition-colors ${
-                  isActive
-                    ? "bg-selected text-primary"
-                    : "text-secondary hover:bg-subtle hover:text-primary"
-                }`
-              }
-              key={to}
-              onClick={closeNavigation}
-              to={to}
-            >
-              <Icon aria-hidden="true" size={20} />
-              {label}
-            </NavLink>
-          ))}
+          {navigation
+            .filter(
+              ({ requiredRole }) =>
+                currentUser && hasRole(currentUser, requiredRole),
+            )
+            .map(({ icon: Icon, label, to }) => (
+              <NavLink
+                className={({ isActive }) =>
+                  `flex min-h-touch items-center gap-3 rounded-control px-3 text-sm font-medium transition-colors ${
+                    isActive
+                      ? "bg-selected text-primary"
+                      : "text-secondary hover:bg-subtle hover:text-primary"
+                  }`
+                }
+                key={to}
+                onClick={closeNavigation}
+                to={to}
+              >
+                <Icon aria-hidden="true" size={20} />
+                {label}
+              </NavLink>
+            ))}
         </nav>
         <div className="border-t border-subtle-border p-4">
           <p className="truncate text-sm font-medium text-primary">

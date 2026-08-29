@@ -2,6 +2,7 @@ package com.cupflow.pos.system.api;
 
 import com.cupflow.pos.shared.api.ApiResponse;
 import com.cupflow.pos.shared.logging.TraceContext;
+import com.cupflow.pos.shared.security.PublicEndpoint;
 import com.cupflow.pos.system.application.HealthService;
 import com.cupflow.pos.system.application.SystemHealth;
 import org.springframework.http.CacheControl;
@@ -21,6 +22,7 @@ public class HealthController {
     }
 
     @GetMapping
+    @PublicEndpoint
     ResponseEntity<ApiResponse<SystemHealth>> health() {
         return ResponseEntity.ok()
                 .cacheControl(CacheControl.noStore())

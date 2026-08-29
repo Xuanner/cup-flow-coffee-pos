@@ -1,7 +1,6 @@
 package com.cupflow.pos.auth.api;
 
-import com.cupflow.pos.auth.application.CurrentSessionResult;
-import com.cupflow.pos.auth.application.CurrentSessionService;
+import com.cupflow.pos.auth.application.CurrentUserContext;
 import com.cupflow.pos.auth.application.LoginResult;
 import com.cupflow.pos.auth.application.LoginService;
 import com.cupflow.pos.auth.application.LogoutService;
@@ -11,6 +10,8 @@ import com.cupflow.pos.shared.api.ApiResponse;
 import com.cupflow.pos.shared.error.ApiException;
 import com.cupflow.pos.shared.error.ErrorCode;
 import com.cupflow.pos.shared.logging.TraceContext;
+import com.cupflow.pos.shared.security.AuthenticatedEndpoint;
+import com.cupflow.pos.shared.security.PublicEndpoint;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpHeaders;
@@ -31,42 +32,32 @@ public class AuthController {
 
     private final LoginService loginService;
     private final LogoutService logoutService;
-    private final CurrentSessionService currentSessionService;
+    private final CurrentUserContext currentUserContext;
     private final CsrfTokenService csrfTokenService;
     private final SessionCookieFactory sessionCookieFactory;
 
     public AuthController(
             LoginService loginService,
             LogoutService logoutService,
-            CurrentSessionService currentSessionService,
+            CurrentUserContext currentUserContext,
             CsrfTokenService csrfTokenService,
             SessionCookieFactory sessionCookieFactory) {
         this.loginService = loginService;
         this.logoutService = logoutService;
-        this.currentSessionService = currentSessionService;
+        this.currentUserContext = currentUserContext;
         this.csrfTokenService = csrfTokenService;
         this.sessionCookieFactory = sessionCookieFactory;
     }
 
     @GetMapping("/me")
-    ResponseEntity<ApiResponse<Object>> me(
-            @CookieValue(name = SESSION_COOKIE, required = false) String rawSessionToken) {
-        if (rawSessionToken == null || rawSessionToken.isBlank()) {
-            throw new ApiException(ErrorCode.UNAUTHENTICATED);
-        }
-        CurrentSessionResult result = currentSessionService.resolve(rawSessionToken);
-        if (result instanceof CurrentSessionResult.Invalid) {
-            ErrorCode errorCode = ErrorCode.UNAUTHENTICATED;
-            return ResponseEntity.status(errorCode.status())
-                    .header(HttpHeaders.SET_COOKIE, sessionCookieFactory.clear().toString())
-                    .body(ApiResponse.failure(
-                            errorCode.code(), errorCode.message(), null, TraceContext.currentTraceId()));
-        }
-        CurrentSessionResult.Authenticated authenticated = (CurrentSessionResult.Authenticated) result;
-        return ResponseEntity.ok(ApiResponse.success(authenticated.currentUser(), TraceContext.currentTraceId()));
+    @AuthenticatedEndpoint
+    ResponseEntity<ApiResponse<Object>> me() {
+        return ResponseEntity.ok(
+                ApiResponse.success(currentUserContext.requireCurrentUser(), TraceContext.currentTraceId()));
     }
 
     @GetMapping("/csrf")
+    @PublicEndpoint
     ApiResponse<CsrfTokenResponse> csrf() {
         return ApiResponse.success(
                 new CsrfTokenResponse(CsrfTokenService.HEADER_NAME, csrfTokenService.issue()),
@@ -74,6 +65,7 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
+    @PublicEndpoint
     ResponseEntity<ApiResponse<Object>> logout(
             @CookieValue(name = SESSION_COOKIE, required = false) String rawSessionToken) {
         logoutService.logout(rawSessionToken);
@@ -83,6 +75,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
+    @PublicEndpoint
     ResponseEntity<ApiResponse<Object>> login(
             @Valid @RequestBody LoginRequest request,
             @CookieValue(name = SESSION_COOKIE, required = false) String previousSessionToken,

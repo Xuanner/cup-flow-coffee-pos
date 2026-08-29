@@ -2,11 +2,11 @@
 
 | 项目 | 内容 |
 | --- | --- |
-| 文档版本 | v1.7 |
-| 状态 | 已批准；ACCOUNT-01、SEC-01、AUTH-01、AUTH-02、SESSION-01、SESSION-02、SESSION-03 实现证据已登记 |
+| 文档版本 | v1.8 |
+| 状态 | 已批准；M1 至 M4 的全部 Story 实现与验收证据已登记 |
 | 关联任务 | TASK-S2-PLAN-03 |
 | 生效日期 | 2026-08-24 |
-| 最近更新 | 2026-08-28（完成 SESSION-01、SESSION-02、SESSION-03 验收） |
+| 最近更新 | 2026-08-28（完成 AUTHZ-01、AUTHZ-02、AUTHZ-03 与 M4 验收） |
 
 ## 1. 测试目标
 
@@ -125,6 +125,8 @@ Sprint 2 测试证明：只有合法、启用的员工能建立登录态；会�
 | TC-S2-AUTHZ-009 | 已登录角色不足 | 403 而非 401，不清除会话 | US-S2-AUTHZ-03 / AUTHZ-03-04 |
 | TC-S2-AUTHZ-010 | 公开 CSRF/登录/健康检查 | 无登录态可按契约访问 | US-S2-AUTHZ-03 / AUTHZ-03-02 |
 
+`AuthorizationIntegrationTest` 已实现并通过 `TC-S2-AUTHZ-001` 至 `010`：服务端从会话恢复角色，验证匿名 401、角色矩阵、`ADMIN` 权限继承、未声明端点默认 403、伪造角色不能提权、无效会话 401 和显式公开入口；拒绝路径的业务探针保持零调用，响应包含 `traceId` 且不包含会话或内部角色规则。`RoleAuthorizationTest` 和 `CurrentUserContextTest` 补充多角色并集及请求线程隔离；`ArchitectureTest` 强制每个生产 Controller 端点声明访问规则。
+
 ## 4. 前端测试用例
 
 ### 4.1 登录表单
@@ -173,7 +175,7 @@ Sprint 2 测试证明：只有合法、启用的员工能建立登录态；会�
 | TC-S2-FE-ROUTE-009 | 不存在路由 | 已登录时显示 404，不误显示 403 | US-S2-AUTHZ-01 / AUTHZ-01-01 |
 | TC-S2-FE-ROUTE-010 | 权限恢复中 | 不短暂显示无权菜单 | US-S2-AUTHZ-02 / AUTHZ-02-01 |
 
-`AuthPage.test.tsx`、`auth-api.test.ts`、`safe-return-path.test.ts` 和请求层测试已实现并通过 `TC-S2-FE-AUTH-001` 至 `006`、`TC-S2-FE-ROUTE-005`，并补充成功回跳及外部、畸形、无权、未知目标拒绝场景。完整未登录路由守卫仍属于 `US-S2-AUTHZ-01`。
+`AuthPage.test.tsx`、`auth-api.test.ts`、`safe-return-path.test.ts` 和请求层测试已实现并通过 `TC-S2-FE-AUTH-001` 至 `006`、`TC-S2-FE-ROUTE-002` 至 `005`。`App.test.tsx` 已实现并通过 `TC-S2-FE-ROUTE-001`、`006` 至 `010`：四个业务模块和子地址均受认证边界保护；两角色菜单及直达权限符合矩阵；无权页面显示 403 且不渲染业务内容；已登录未知地址保持 404；身份恢复期间不渲染业务 Shell 或无权菜单。
 
 ## 5. 安全事件与脱敏测试
 

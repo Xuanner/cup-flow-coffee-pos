@@ -21,6 +21,12 @@ const cashier = {
   roles: ["CASHIER"],
   defaultPath: "/pos" as const,
 };
+const admin = {
+  id: "01KSESSIONADMIN",
+  displayName: "值班管理员",
+  roles: ["ADMIN"],
+  defaultPath: "/dashboard" as const,
+};
 
 beforeEach(() => {
   getCurrentUserMock.mockReset();
@@ -233,5 +239,91 @@ describe("应用骨架", () => {
     expect(
       await screen.findByRole("heading", { name: "员工登录" }),
     ).toBeVisible();
+  });
+
+  it.each([
+    ["/pos", "收银台"],
+    ["/orders/archived", "订单"],
+    ["/products", "商品管理"],
+    ["/dashboard/detail", "经营看板"],
+  ])(
+    "TC-S2-FE-ROUTE-001 未登录直达受保护地址 %s 不渲染业务内容",
+    async (path, protectedHeading) => {
+      getCurrentUserMock.mockRejectedValueOnce(
+        new ApiError({
+          category: "unauthenticated",
+          code: "AUTH-401-001",
+          message: "登录状态已失效，请重新登录。",
+          status: 401,
+        }),
+      );
+      const router = createTestRouter([path]);
+      render(<App router={router} />);
+
+      expect(
+        await screen.findByRole("heading", { name: "员工登录" }),
+      ).toBeVisible();
+      expect(
+        screen.queryByRole("heading", { name: protectedHeading }),
+      ).not.toBeInTheDocument();
+      expect(router.state.location.state).toEqual({ from: path });
+    },
+  );
+
+  it("TC-S2-FE-ROUTE-006 CASHIER 只看到收银台和订单入口", async () => {
+    render(<App router={createTestRouter(["/pos"])} />);
+
+    const navigation = await screen.findByRole("navigation", {
+      name: "主导航",
+    });
+    expect(navigation).toHaveTextContent("收银台");
+    expect(navigation).toHaveTextContent("订单");
+    expect(navigation).not.toHaveTextContent("商品");
+    expect(navigation).not.toHaveTextContent("经营看板");
+  });
+
+  it("TC-S2-FE-ROUTE-007 ADMIN 继承收银员入口并看到四个业务模块", async () => {
+    getCurrentUserMock.mockResolvedValueOnce(admin);
+    render(<App router={createTestRouter(["/dashboard"])} />);
+
+    const navigation = await screen.findByRole("navigation", {
+      name: "主导航",
+    });
+    expect(navigation).toHaveTextContent("收银台");
+    expect(navigation).toHaveTextContent("订单");
+    expect(navigation).toHaveTextContent("商品");
+    expect(navigation).toHaveTextContent("经营看板");
+  });
+
+  it.each([
+    ["/products", "商品管理"],
+    ["/dashboard", "经营看板"],
+  ])(
+    "TC-S2-FE-ROUTE-008 CASHIER 直达 %s 显示 403 且不渲染业务页",
+    async (path, businessHeading) => {
+      render(<App router={createTestRouter([path])} />);
+
+      expect(
+        await screen.findByRole("heading", { name: "403 · 没有访问权限" }),
+      ).toBeVisible();
+      expect(
+        screen.queryByRole("heading", { name: businessHeading }),
+      ).not.toBeInTheDocument();
+      expect(screen.getByRole("link", { name: "返回收银台" })).toHaveAttribute(
+        "href",
+        "/pos",
+      );
+    },
+  );
+
+  it("TC-S2-FE-ROUTE-009 已登录访问不存在路由显示 404 而非 403", async () => {
+    render(<App router={createTestRouter(["/unknown-business-page"])} />);
+
+    expect(
+      await screen.findByRole("heading", { name: "404 · 页面不存在" }),
+    ).toBeVisible();
+    expect(
+      screen.queryByRole("heading", { name: "403 · 没有访问权限" }),
+    ).not.toBeInTheDocument();
   });
 });

@@ -6,6 +6,7 @@ import {
 
 import { AppShell } from "../components/layout/AppShell";
 import { AuthPage } from "../features/auth/AuthPage";
+import { RoleBoundary } from "../features/auth/RoleBoundary";
 import {
   ProtectedSessionRoute,
   SessionGate,
@@ -15,6 +16,7 @@ import { OrdersPage } from "../features/orders/OrdersPage";
 import { PosPage } from "../features/pos/PosPage";
 import { ProductsPage } from "../features/products/ProductsPage";
 import { ComponentsPage } from "../features/system/ComponentsPage";
+import { ForbiddenPage } from "../features/system/ForbiddenPage";
 import { NotFoundPage } from "../features/system/NotFoundPage";
 import { SystemPage } from "../features/system/SystemPage";
 
@@ -31,10 +33,21 @@ export const appRoutes = [
             Component: AppShell,
             children: [
               { index: true, element: <Navigate to="/pos" replace /> },
-              { path: "pos", Component: PosPage },
-              { path: "orders", Component: OrdersPage },
-              { path: "products", Component: ProductsPage },
-              { path: "dashboard", Component: DashboardPage },
+              {
+                element: <RoleBoundary requiredRole="CASHIER" />,
+                children: [
+                  { path: "pos", Component: PosPage },
+                  { path: "orders", Component: OrdersPage },
+                ],
+              },
+              {
+                element: <RoleBoundary requiredRole="ADMIN" />,
+                children: [
+                  { path: "products", Component: ProductsPage },
+                  { path: "dashboard", Component: DashboardPage },
+                ],
+              },
+              { path: "forbidden", Component: ForbiddenPage },
               { path: "system", Component: SystemPage },
               { path: "system/components", Component: ComponentsPage },
               { path: "*", Component: NotFoundPage },
