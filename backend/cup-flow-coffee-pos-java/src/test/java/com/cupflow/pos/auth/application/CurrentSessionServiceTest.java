@@ -15,6 +15,7 @@ import com.cupflow.pos.auth.domain.AuthSessionRepository;
 import com.cupflow.pos.auth.domain.PasswordHash;
 import com.cupflow.pos.auth.domain.RoleCode;
 import com.cupflow.pos.auth.domain.SessionTokenIssuer;
+import com.cupflow.pos.shared.logging.SecurityEventRecorder;
 import java.time.Clock;
 import java.time.Instant;
 import java.time.ZoneOffset;
@@ -34,10 +35,11 @@ class CurrentSessionServiceTest {
     private final AuthSessionRepository sessionRepository = mock(AuthSessionRepository.class);
     private final AccountRepository accountRepository = mock(AccountRepository.class);
     private final SessionTokenIssuer tokenIssuer = mock(SessionTokenIssuer.class);
+    private final SecurityEventRecorder securityEventRecorder = mock(SecurityEventRecorder.class);
     private final Clock clock = Clock.fixed(NOW, ZoneOffset.UTC);
     private final UUID accountId = UUID.randomUUID();
     private final CurrentSessionService service =
-            new CurrentSessionService(sessionRepository, accountRepository, tokenIssuer, clock);
+            new CurrentSessionService(sessionRepository, accountRepository, tokenIssuer, securityEventRecorder, clock);
 
     @BeforeEach
     void configureToken() {

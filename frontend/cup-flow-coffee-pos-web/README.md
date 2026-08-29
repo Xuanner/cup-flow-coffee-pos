@@ -1,6 +1,6 @@
 # Cup Flow Coffee POS Web
 
-Sprint 1 前端基础交付。工程位于全栈仓库的 `frontend/cup-flow-coffee-pos-web/`，包含可运行骨架、统一请求与状态基础，以及设计系统通用组件；暂不包含真实业务功能。
+工程位于全栈仓库的 `frontend/cup-flow-coffee-pos-web/`，包含统一请求层、设计系统组件，以及 Sprint 2 的登录、会话恢复、主动退出和角色化页面访问控制。POS、订单、商品与看板当前为受保护的模块入口，具体业务能力将在后续 Sprint 实现。
 
 ## 环境基线
 
@@ -39,6 +39,18 @@ VITE_API_BASE_URL=/api/v1
 ```
 
 只允许将非敏感的前端配置暴露为 `VITE_*`。生产地址、Token 和凭证不得提交仓库。
+
+## 登录、会话与角色
+
+- 应用启动先通过 HttpOnly Cookie 请求 `/auth/me`；确认完成前只显示加载页，不渲染业务菜单。
+- 登录和退出由 `auth-api.ts` 自动先获取 CSRF Token，再发起携带 Cookie 的同源请求。
+- 身份只保存在 Zustand 内存状态；localStorage、sessionStorage 和 URL 不保存 Session 或 CSRF Token。
+- `CASHIER` 可访问 `/pos`、`/orders`；`ADMIN` 继承这些入口并可访问 `/products`、`/dashboard`。
+- 角色不足显示独立 403；已登录访问不存在地址显示 404；未登录目标经安全站内白名单验证后回跳。
+- 运行中收到 401 会清理身份、保存安全返回目标并只显示一次过期提示；网络错误不会伪装成密码错误。
+
+页面和菜单过滤只用于体验，不能替代后端授权。新增受保护页面时应在路由中声明角色边界，并同时为
+对应后端接口添加明确的访问声明。
 
 ## 目录边界
 

@@ -41,4 +41,4 @@ Test Files: 12 passed；Tests: 62 passed
 ## 后续交付门
 
 - `TASK-S2-SESSION-02-01` 现为 `Ready`，负责空闲/绝对过期、账号停用和失效会话清理。
-- `US-S2-SESSION-03` 与 `US-S2-AUTHZ-01` 的硬依赖已满足，但仍按 Sprint 2 顺序执行门等待 `SESSION-02-03`。
+- 后续 `US-S2-SESSION-02`、`US-S2-SESSION-03` 与 M4/M5 均已按 Sprint 2 顺序门完成验收。

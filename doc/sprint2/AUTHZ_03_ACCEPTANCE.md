@@ -39,4 +39,4 @@ ArchitectureTest: 3 passed
 
 - `TASK-S2-AUTHZ-03-01` 至 `04` 均为 `Done`。
 - `AUTHZ-01-02`、`AUTHZ-02-02`、`AUTHZ-03-04` 均为 `Done`，M4 达到独立交付门。
-- `TASK-S2-AUDIT-01-01` 已解锁为 `Ready`。
+- `TASK-S2-AUDIT-01-01` 至 `05` 已完成并通过验收，当前状态均为 `Done`。

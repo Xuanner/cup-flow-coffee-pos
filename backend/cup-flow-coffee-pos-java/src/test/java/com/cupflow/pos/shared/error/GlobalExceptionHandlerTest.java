@@ -26,7 +26,7 @@ class GlobalExceptionHandlerTest {
 
     @Test
     @DisplayName("TASK-S2-AUTH-02-03 系统错误保持统一结构且响应与日志脱敏")
-    void returnsSafeUnexpectedErrorWithoutLoggingTheExceptionPayloadOrStack() {
+    void returnsSafeUnexpectedErrorAndKeepsASanitizedServerStack() {
         MDC.put(TraceContext.MDC_KEY, TRACE_ID);
         Logger logger = (Logger) LoggerFactory.getLogger(GlobalExceptionHandler.class);
         ListAppender<ILoggingEvent> appender = new ListAppender<>();
@@ -49,7 +49,10 @@ class GlobalExceptionHandlerTest {
                 assertThat(event.getFormattedMessage())
                         .contains(TRACE_ID, "IllegalStateException")
                         .doesNotContain(TEST_SECRET);
-                assertThat(event.getThrowableProxy()).isNull();
+                assertThat(event.getThrowableProxy()).isNotNull();
+                assertThat(event.getThrowableProxy().getMessage())
+                        .isEqualTo("IllegalStateException")
+                        .doesNotContain(TEST_SECRET);
             });
         } finally {
             logger.detachAppender(appender);

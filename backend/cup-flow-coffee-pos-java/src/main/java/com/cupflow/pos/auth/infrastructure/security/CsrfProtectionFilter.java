@@ -2,6 +2,9 @@ package com.cupflow.pos.auth.infrastructure.security;
 
 import com.cupflow.pos.auth.infrastructure.configuration.AuthSecurityProperties;
 import com.cupflow.pos.shared.error.ErrorCode;
+import com.cupflow.pos.shared.logging.SecurityEventOutcome;
+import com.cupflow.pos.shared.logging.SecurityEventRecorder;
+import com.cupflow.pos.shared.logging.SecurityEventType;
 import com.cupflow.pos.shared.logging.TraceContext;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -22,11 +25,16 @@ import org.springframework.web.filter.OncePerRequestFilter;
 public class CsrfProtectionFilter extends OncePerRequestFilter {
 
     private final CsrfTokenService tokenService;
+    private final SecurityEventRecorder securityEventRecorder;
     private final Set<String> allowedOrigins;
 
-    public CsrfProtectionFilter(CsrfTokenService tokenService, AuthSecurityProperties properties) {
+    public CsrfProtectionFilter(
+            CsrfTokenService tokenService,
+            AuthSecurityProperties properties,
+            SecurityEventRecorder securityEventRecorder) {
         this.tokenService = tokenService;
         this.allowedOrigins = new HashSet<>(properties.getAllowedOrigins());
+        this.securityEventRecorder = securityEventRecorder;
     }
 
     @Override
@@ -44,6 +52,12 @@ public class CsrfProtectionFilter extends OncePerRequestFilter {
         String origin = request.getHeader("Origin");
         boolean originAllowed = origin == null || allowedOrigins.contains(origin) || sameOrigin(request, origin);
         if (!originAllowed || !tokenService.isValid(request.getHeader(CsrfTokenService.HEADER_NAME))) {
+            securityEventRecorder.record(
+                    SecurityEventType.CSRF_REJECTED,
+                    SecurityEventOutcome.DENIED,
+                    null,
+                    request.getRequestURI(),
+                    "VALIDATION_FAILED");
             ErrorCode errorCode = ErrorCode.SECURITY_VALIDATION_FAILED;
             response.setStatus(errorCode.status().value());
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);

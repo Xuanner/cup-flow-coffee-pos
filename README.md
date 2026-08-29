@@ -56,6 +56,9 @@ java -version
 | `DB_USERNAME` | `cup_flow` | 后端 |
 | `DB_PASSWORD` | `cup_flow_local` | 后端，仅本地示例凭证 |
 | `SERVER_PORT` | `8080` | 后端 |
+| `AUTH_COOKIE_SECURE` | `false` | 后端；仅本地 HTTP 使用，HTTPS 环境必须为 `true` |
+| `AUTH_ALLOWED_ORIGINS` | `http://localhost:5173` | 后端；允许携带凭证的显式前端 Origin 列表 |
+| `AUTH_BOOTSTRAP_ENABLED` | `false` | 后端；显式启用最小账号初始化 |
 | `VITE_API_BASE_URL` | `/api/v1` | 前端；开发服务器代理到 `localhost:8080` |
 
 示例分别位于
@@ -64,6 +67,11 @@ java -version
 [`frontend/cup-flow-coffee-pos-web/.env.example`](frontend/cup-flow-coffee-pos-web/.env.example)。
 Spring Boot 不会自动读取 `.env`；需要覆盖默认值时，请由 Shell 或 IDE 注入。前端通常无需创建
 `.env.local`，需要覆盖时再从 `.env.example` 复制。不要提交真实密码、Token、个人地址或本地环境文件。
+
+需要从空库获得可登录账号时，在启动后端的部署环境中同时提供两类账号的 username、password、
+display name，并将 `AUTH_BOOTSTRAP_ENABLED` 设为 `true`。变量清单见后端 `.env.example`；密码必须由
+本地安全输入或部署 Secret 注入，不要写进命令脚本、README、迁移或 Git。初始化幂等保留已有账号的
+密码、状态、展示名和角色，完成后可关闭初始化开关。
 
 ## 首次启动完整环境
 
@@ -107,6 +115,10 @@ curl --fail http://localhost:8080/actuator/health
 ```
 
 业务健康检查应返回 `code: "SUCCESS"`，且 `data.application` 与 `data.database` 均为 `UP`。
+
+认证接口位于 `/api/v1/auth`。浏览器先请求 `/csrf`，登录和退出时把返回 Token 放入
+`X-XSRF-TOKEN`；会话只通过 `CUP_FLOW_SESSION` HttpOnly Cookie 传输。前端已封装该顺序，通常无需
+手工调用接口。
 
 ### 4. 启动前端（终端 B）
 
@@ -191,6 +203,10 @@ docker compose down --volumes
 | Testcontainers 无法连接 Docker | 运行 `docker info`；启动 Docker Desktop/Engine，并确认当前用户可访问 Docker daemon。 |
 | `5432`、`8080` 或 `5173` 端口被占用 | 停止占用进程；后端也可用 `SERVER_PORT` 覆盖，但同时要调整 Vite 代理配置。前端固定使用 `5173`。 |
 | `/system` 显示网络失败 | 先直接访问后端健康检查；确认后端为 `8080` 且前端通过 `npm run dev` 启动，而非直接打开构建文件。 |
+| 登录返回 403 `AUTH-403-002` | 检查请求 Origin 是否在 `AUTH_ALLOWED_ORIGINS`，并确认先获取 `/auth/csrf` 后提交 `X-XSRF-TOKEN`。 |
+| 登录返回 401 `AUTH-401-002` | 账号不存在、密码错误和账号停用均使用同一提示；检查受控初始化配置，不要通过日志判断账号是否存在。 |
+| 页面返回 403 | 当前会话有效但角色不足；`CASHIER` 只访问 POS/订单，`ADMIN` 还可访问商品/看板。 |
+| 需要定位 401/403/429 | 从 API 响应或 `X-Request-Id` 取得 `traceId`，在后端结构化日志中检索；不要粘贴 Cookie 或认证请求体。 |
 | 健康检查显示数据库异常 | 查看后端日志中的 `traceId` 和 `docker compose logs postgres`；不要在问题记录中粘贴密码或 Token。 |
 | Maven/Node 下载依赖失败 | 检查网络、代理和公司镜像配置；恢复后重试 Wrapper 或 `npm ci`，不要手工提交依赖目录。 |
 

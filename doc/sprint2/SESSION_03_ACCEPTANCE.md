@@ -39,4 +39,4 @@ Test Files: 12 passed；Tests: 67 passed
 ## 后续交付门
 
 - `SESSION-01-04`、`SESSION-02-03`、`SESSION-03-03` 均为 `Done`，M3 达到独立交付门。
-- `TASK-S2-AUTHZ-01-01` 已解锁为 `Ready`。
+- M4 与 M5 后续任务均已完成并通过验收，当前状态为 `Done`。

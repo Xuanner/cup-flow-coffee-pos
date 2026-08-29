@@ -8,6 +8,9 @@ import com.cupflow.pos.auth.domain.AuthSession;
 import com.cupflow.pos.auth.domain.AuthSessionRepository;
 import com.cupflow.pos.auth.domain.SessionCredential;
 import com.cupflow.pos.auth.domain.SessionTokenIssuer;
+import com.cupflow.pos.shared.logging.SecurityEventOutcome;
+import com.cupflow.pos.shared.logging.SecurityEventRecorder;
+import com.cupflow.pos.shared.logging.SecurityEventType;
 import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
@@ -28,6 +31,7 @@ public class LoginService {
     private final AuthSessionRepository sessionRepository;
     private final SessionTokenIssuer tokenIssuer;
     private final LoginAttemptLimiter attemptLimiter;
+    private final SecurityEventRecorder securityEventRecorder;
     private final Clock clock;
 
     public LoginService(
@@ -36,12 +40,14 @@ public class LoginService {
             AuthSessionRepository sessionRepository,
             SessionTokenIssuer tokenIssuer,
             LoginAttemptLimiter attemptLimiter,
+            SecurityEventRecorder securityEventRecorder,
             Clock clock) {
         this.accountRepository = accountRepository;
         this.passwordVerifier = passwordVerifier;
         this.sessionRepository = sessionRepository;
         this.tokenIssuer = tokenIssuer;
         this.attemptLimiter = attemptLimiter;
+        this.securityEventRecorder = securityEventRecorder;
         this.clock = clock;
     }
 
@@ -50,6 +56,7 @@ public class LoginService {
         AccountUsername normalizedUsername = new AccountUsername(username);
         OptionalLong activeLimit = attemptLimiter.retryAfter(sourceAddress, normalizedUsername);
         if (activeLimit.isPresent()) {
+            record(SecurityEventType.AUTHENTICATION_RATE_LIMITED, SecurityEventOutcome.DENIED, null);
             return new LoginResult.RateLimited(activeLimit.getAsLong());
         }
         Optional<Account> candidate = accountRepository.findByUsername(normalizedUsername);
@@ -60,8 +67,10 @@ public class LoginService {
                 || candidate.orElseThrow().roles().isEmpty()) {
             OptionalLong newLimit = attemptLimiter.recordFailure(sourceAddress, normalizedUsername);
             if (newLimit.isPresent()) {
+                record(SecurityEventType.AUTHENTICATION_RATE_LIMITED, SecurityEventOutcome.DENIED, null);
                 return new LoginResult.RateLimited(newLimit.getAsLong());
             }
+            record(SecurityEventType.AUTHENTICATION_FAILED, SecurityEventOutcome.DENIED, null);
             return new LoginResult.Failure();
         }
 
@@ -82,6 +91,11 @@ public class LoginService {
                 now,
                 now.plus(IDLE_TIMEOUT),
                 now.plus(ABSOLUTE_TIMEOUT)));
+        record(SecurityEventType.AUTHENTICATION_SUCCEEDED, SecurityEventOutcome.SUCCEEDED, account.id());
         return new LoginResult.Success(CurrentUser.from(account), credential.rawValue());
+    }
+
+    private void record(SecurityEventType eventType, SecurityEventOutcome outcome, UUID accountId) {
+        securityEventRecorder.record(eventType, outcome, accountId, "auth.login", null);
     }
 }

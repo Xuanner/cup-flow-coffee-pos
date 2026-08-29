@@ -8,6 +8,9 @@ import com.cupflow.pos.auth.application.CurrentUserContext;
 import com.cupflow.pos.auth.application.RoleAuthorization;
 import com.cupflow.pos.shared.api.ApiResponse;
 import com.cupflow.pos.shared.error.ErrorCode;
+import com.cupflow.pos.shared.logging.SecurityEventOutcome;
+import com.cupflow.pos.shared.logging.SecurityEventRecorder;
+import com.cupflow.pos.shared.logging.SecurityEventType;
 import com.cupflow.pos.shared.logging.TraceContext;
 import com.cupflow.pos.shared.security.AuthenticatedEndpoint;
 import com.cupflow.pos.shared.security.PublicEndpoint;
@@ -29,6 +32,7 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
     private final CurrentUserContext currentUserContext;
     private final RoleAuthorization roleAuthorization;
     private final SessionCookieFactory sessionCookieFactory;
+    private final SecurityEventRecorder securityEventRecorder;
     private final JsonMapper jsonMapper;
 
     public AuthorizationInterceptor(
@@ -36,11 +40,13 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
             CurrentUserContext currentUserContext,
             RoleAuthorization roleAuthorization,
             SessionCookieFactory sessionCookieFactory,
+            SecurityEventRecorder securityEventRecorder,
             JsonMapper jsonMapper) {
         this.currentSessionService = currentSessionService;
         this.currentUserContext = currentUserContext;
         this.roleAuthorization = roleAuthorization;
         this.sessionCookieFactory = sessionCookieFactory;
+        this.securityEventRecorder = securityEventRecorder;
         this.jsonMapper = jsonMapper;
     }
 
@@ -57,6 +63,12 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
 
         String rawSessionToken = sessionCookie(request);
         if (rawSessionToken == null || rawSessionToken.isBlank()) {
+            securityEventRecorder.record(
+                    SecurityEventType.SESSION_INVALIDATED,
+                    SecurityEventOutcome.DENIED,
+                    null,
+                    request.getRequestURI(),
+                    "MISSING_CREDENTIAL");
             writeFailure(response, ErrorCode.UNAUTHENTICATED, false);
             return false;
         }
@@ -77,6 +89,12 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
         }
 
         currentUserContext.clear();
+        securityEventRecorder.record(
+                SecurityEventType.AUTHORIZATION_DENIED,
+                SecurityEventOutcome.DENIED,
+                currentUser.id(),
+                request.getRequestURI(),
+                null);
         writeFailure(response, ErrorCode.FORBIDDEN, false);
         return false;
     }

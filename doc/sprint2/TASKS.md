@@ -2,10 +2,10 @@
 
 | 项目 | 内容 |
 | --- | --- |
-| 文档版本 | v1.8 |
-| 上游基线 | Sprint 2 PRD、Features、API Contract v1.0；User Stories v1.1；Test Strategy v1.8 |
+| 文档版本 | v1.9 |
+| 上游基线 | Sprint 2 PRD、Features、API Contract v1.0；User Stories v1.1；Test Strategy v1.9 |
 | 文档状态 | 已重新拆分；按 Story 依赖和模块验收门执行 |
-| 门禁结果 | M1 至 M4 的全部 Story 与 Task 已完成；M4 前端 76 项、后端 87 项全量测试通过 |
+| 门禁结果 | M1 至 M5 的 11 条 Must Story 与全部 Task 已完成；前端 76 项、后端 92 项全量测试通过，Sprint 2 可交付 |
 
 ## 1. 拆分与执行规则
 
@@ -547,61 +547,63 @@
 
 | 属性 | 内容 |
 | --- | --- |
-| 类型 / 状态 / 复杂度 | 后端、可观测性 / Ready / L |
+| 类型 / 状态 / 复杂度 | 后端、可观测性 / Done / L |
 | 主 Story | US-S2-AUDIT-01 |
 | 依赖 | AUTH-02-04、SESSION-02-03、SESSION-03-03、AUTHZ-03-04 |
 
 **工作内容：** 统一发布登录成功/失败、退出、过期/失效、停用失效、限流、CSRF 拒绝和权限拒绝事件；记录类型、结果、服务器时间、`traceId` 和最小上下文；仅在确认身份后记录稳定账号 ID。
 
-**完成证据：** `TC-S2-AUDIT-001` 至 `008` 通过，401/403/429 可由 `traceId` 关联日志。
+**完成证据：** `SecurityEventRecorderTest` 与 `SecurityEventIntegrationTest` 已通过 `TC-S2-AUDIT-001` 至 `008`；登录、限流、会话失效、退出、CSRF 和权限拒绝事件均使用稳定结构，401/403/429 可由 `traceId` 关联日志。
 
 #### TASK-S2-AUDIT-01-02 增加全链路敏感信息防泄露检查
 
 | 属性 | 内容 |
 | --- | --- |
-| 类型 / 状态 / 复杂度 | 安全测试 / Blocked / M |
+| 类型 / 状态 / 复杂度 | 安全测试 / Done / M |
 | 主 Story | US-S2-AUDIT-01 |
 | 依赖 | AUDIT-01-01 |
 
 **工作内容：** 检查响应、异常、日志、测试报告和示例配置；禁止密码、摘要、会话 ID、Cookie、完整请求头和认证请求体；预期失败不打印堆栈，未知异常仅在服务端保留必要堆栈。
 
-**完成证据：** `TC-S2-AUDIT-009`、`010` 通过；假敏感值可触发检查失败。
+**完成证据：** `SensitiveValueScannerTest` 与 `ZSensitiveArtifactScanTest` 已通过 `TC-S2-AUDIT-009`、`010`；扫描响应、日志、测试报告和示例配置，且注入假敏感值可触发检查失败。
 
 #### TASK-S2-AUDIT-01-03 执行按模块端到端验收
 
 | 属性 | 内容 |
 | --- | --- |
-| 类型 / 状态 / 复杂度 | E2E、验收 / Blocked / L |
+| 类型 / 状态 / 复杂度 | E2E、验收 / Done / L |
 | 主 Story | US-S2-AUDIT-01 |
 | 依赖 | M1 至 M4 全部 Story 验收门、AUDIT-01-02 |
 
 **工作内容：** 分别执行 M2 登录/失败/限流，M3 恢复/失效/退出，M4 页面与接口权限矩阵，M5 事件与脱敏旅程。
 
-**完成证据：** `TC-S2-E2E-001` 至 `006` 通过，无 P0/P1 缺陷；证据不含凭证。
+**完成证据：** `TC-S2-E2E-001` 至 `006` 已通过自动化回归与人工浏览器验收；执行记录见 [`EVID-S2-AUTH-20260830.md`](EVID-S2-AUTH-20260830.md)，无 P0/P1 缺陷且证据不含凭证。
 
 #### TASK-S2-AUDIT-01-04 更新开发、配置与安全说明
 
 | 属性 | 内容 |
 | --- | --- |
-| 类型 / 状态 / 复杂度 | 文档 / Blocked / M |
+| 类型 / 状态 / 复杂度 | 文档 / Done / M |
 | 主 Story | US-S2-AUDIT-01 |
 | 依赖 | AUDIT-01-01、实现方案稳定 |
 
 **工作内容：** 更新根目录与前后端 README 的变量名、初始化、登录联调、Cookie/CSRF 和排障；更新认证上下文、权限声明、安全事件及敏感字段约定；仅使用安全占位符。
 
-**完成证据：** 非作者按说明从空环境完成登录链路验证。
+**完成证据：** 根目录、前后端 README、后端开发约定及 [`SPRINT3_AUTHORIZATION_GUIDE.md`](SPRINT3_AUTHORIZATION_GUIDE.md) 已更新；已按说明完成本地登录链路验证。
 
 #### TASK-S2-AUDIT-01-05 验收安全事件 Story 与 Sprint 2
 
 | 属性 | 内容 |
 | --- | --- |
-| 类型 / 状态 / 复杂度 | Story、模块、Sprint 验收 / Blocked / M |
+| 类型 / 状态 / 复杂度 | Story、模块、Sprint 验收 / Done / M |
 | 主 Story | US-S2-AUDIT-01 |
 | 依赖 | AUDIT-01-01 至 04、前 10 个 Story 验收门 |
 
 **验收内容：** 逐条验收 US-S2-AUDIT-01；执行前端 `npm run check`、后端 `./mvnw clean verify`、E2E 和人工安全检查；汇总 11 条 Must Story 证据；确认无 P0/P1、真实凭证、未声明公开接口或未跟踪迁移；形成 Sprint 3 鉴权接入说明。
 
-**模块与 Sprint 出口：** AUDIT-01-05 `Done` 后，M5 和 Sprint 2 登录体系整体可交付。
+**完成证据：** [`AUDIT_01_ACCEPTANCE.md`](AUDIT_01_ACCEPTANCE.md) 已登记 Story 验收与 11 条 Must Story 证据；前端 `npm run check` 共 76 项测试通过，后端 `./mvnw clean verify` 共 92 项测试通过，E2E 与人工安全检查通过。
+
+**模块与 Sprint 出口：** AUDIT-01-01 至 05 均为 `Done`，M5 和 Sprint 2 登录体系整体可交付。
 
 ## 9. 模块交付清单
 

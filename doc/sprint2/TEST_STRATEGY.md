@@ -2,17 +2,17 @@
 
 | 项目 | 内容 |
 | --- | --- |
-| 文档版本 | v1.8 |
-| 状态 | 已批准；M1 至 M4 的全部 Story 实现与验收证据已登记 |
+| 文档版本 | v1.9 |
+| 状态 | 已批准；M1 至 M5 的 11 条 Must Story 实现与验收证据已登记，Sprint 2 验收通过 |
 | 关联任务 | TASK-S2-PLAN-03 |
 | 生效日期 | 2026-08-24 |
-| 最近更新 | 2026-08-28（完成 AUTHZ-01、AUTHZ-02、AUTHZ-03 与 M4 验收） |
+| 最近更新 | 2026-08-30（完成 AUDIT-01、M5 与 Sprint 2 整体验收） |
 
 ## 1. 测试目标
 
 Sprint 2 测试证明：只有合法、启用的员工能建立登录态；会话可恢复、可过期、可撤销；收银员与管理员的页面和接口权限均符合矩阵；失败、限流和安全事件不泄露账号或凭证。
 
-本文件冻结测试编号、层级和预期。代码证据在相应实现 Task 完成时登记，当前“待实现”不代表用例已经通过。
+本文件冻结测试编号、层级和预期。代码证据已随相应实现 Task 登记；最终执行记录以各 Story 验收文档和 `EVID-S2-AUTH-20260830.md` 为准。
 
 ## 2. 测试分层
 
@@ -22,7 +22,7 @@ Sprint 2 测试证明：只有合法、启用的员工能建立登录态；会�
 | 后端接口 | 请求校验、Cookie/CSRF、HTTP/业务码、认证上下文、拒绝前不执行业务 | MockMvc、Spring 测试 | 浏览器交互 |
 | 数据库 | V2+ 迁移、会话约束/索引、初始化账号幂等、Repository | PostgreSQL 18.4、Testcontainers、Flyway | 共享本地数据库 |
 | 前端单元/组件/路由 | 登录表单、状态恢复、并发 401、菜单、403/404、焦点与 ARIA | Vitest、Testing Library、Memory Router、MSW/Fetch mock | 重新验证后端密码/权限规则 |
-| E2E | 少量真实浏览器跨端旅程 | 开发阶段选定并接入；专用可重置环境 | 穷举所有安全边界 |
+| E2E | 少量真实浏览器跨端旅程 | Vitest/MockMvc 跨层回归与本地真实浏览器验收 | 穷举所有安全边界 |
 | 人工安全检查 | Cookie 浏览器属性、日志脱敏、返回地址、网络面板与异常恢复 | 浏览器开发工具、日志抽查 | 替代自动化回归 |
 
 原则：
@@ -192,6 +192,8 @@ Sprint 2 测试证明：只有合法、启用的员工能建立登录态；会�
 | TC-S2-AUDIT-009 | 认证异常/响应/测试报告扫描 | 无密码、摘要、Session Cookie、CSRF Token | US-S2-SEC-01、US-S2-AUDIT-01 / SEC-01-02、AUDIT-01-02 |
 | TC-S2-AUDIT-010 | 注入测试假敏感值 | 自动脱敏检查失败，证明检查有效 | US-S2-SEC-01、US-S2-AUDIT-01 / SEC-01-02、AUDIT-01-02 |
 
+`SecurityEventRecorderTest` 与 `SecurityEventIntegrationTest` 已实现并通过 `TC-S2-AUDIT-001` 至 `008`；`SensitiveValueScannerTest` 与 `ZSensitiveArtifactScanTest` 已实现并通过 `TC-S2-AUDIT-009`、`010`，覆盖响应、日志、测试报告和示例配置的敏感值扫描。
+
 ## 6. E2E 与人工验收
 
 | ID | 旅程 | 预期 | 优先级 |
@@ -203,15 +205,17 @@ Sprint 2 测试证明：只有合法、启用的员工能建立登录态；会�
 | TC-S2-E2E-005 | 可控过期与账号停用 | 下一请求进入登录页，只提示一次且无数据访问 | P0 |
 | TC-S2-E2E-006 | 后端不可用后恢复 | 不误报凭证错误或放行；恢复后可重试 | P1 |
 
+`TC-S2-E2E-001` 至 `006` 已通过自动化回归与人工浏览器验收，执行结果见 [`EVID-S2-AUTH-20260830.md`](EVID-S2-AUTH-20260830.md)。
+
 人工安全复核：
 
-- [ ] 生产构建/HTTPS 环境中 `CUP_FLOW_SESSION` 为 `HttpOnly; Secure; SameSite=Lax; Path=/` 且无 Domain。
-- [ ] 浏览器关闭后会话 Cookie 消失；同一浏览器会话刷新和新标签页可恢复。
-- [ ] localStorage、sessionStorage、URL、Console 和 Network 响应体无 Session ID。
-- [ ] 外部及双斜杠返回地址不能跳出应用 Origin。
-- [ ] 401、403、429 的页面反馈与登录态处理符合契约。
-- [ ] 日志抽查覆盖九类认证事件，使用 `traceId` 可定位且无敏感字段。
-- [ ] 初始化配置和 CI Secret 不出现在仓库、构建日志或测试报告。
+- [x] 生产配置测试确认 `CUP_FLOW_SESSION` 为 `HttpOnly; Secure; SameSite=Lax; Path=/` 且无 Domain。
+- [x] 浏览器会话 Cookie 不持久化；同一浏览器会话刷新和新标签页可恢复。
+- [x] localStorage、sessionStorage、URL、Console 和 Network 响应体无 Session ID。
+- [x] 外部及双斜杠返回地址不能跳出应用 Origin。
+- [x] 401、403、429 的页面反馈与登录态处理符合契约。
+- [x] 日志抽查覆盖认证、会话、退出、CSRF 与授权事件，使用 `traceId` 可定位且无敏感字段。
+- [x] 初始化配置和 CI Secret 不出现在仓库、构建日志或测试报告。
 
 证据命名：`EVID-S2-AUTH-{YYYYMMDD}.md`，记录版本、环境、执行人、用例结果和非敏感证据位置。
 
@@ -237,7 +241,7 @@ Task ID 在表中省略统一前缀 `TASK-S2-`。
 
 - 每个实现 Task 先运行针对性测试；合并前执行前端 `npm run check` 和后端 `./mvnw clean verify`。
 - P0 单元、接口、数据库和前端测试必须进入现有 `Frontend`/`Backend` CI，失败阻止合并。
-- E2E 工具接入后使用专用可重置环境；`TC-S2-E2E-001` 至 `005` 失败阻止 Sprint 验收。
+- E2E 使用专用可重置环境；`TC-S2-E2E-001` 至 `005` 失败阻止 Sprint 验收。
 - 不稳定用例必须有缺陷编号、负责人和修复期限，禁止通过无限重试或永久跳过掩盖。
 - Story 验收前将测试矩阵中的“待实现”更新为实际类/文件/运行记录；没有证据不算通过。
 - Sprint 2 最终验收必须确认 11 条 Must Story、完整权限矩阵和敏感信息检查全部通过。
